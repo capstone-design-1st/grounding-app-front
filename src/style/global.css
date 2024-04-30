@@ -6,6 +6,16 @@ body {
   background-color: white;
 }
 
+:root {
+  --main: #1FCBD5;
+  --grey2: #f2f2f2;
+  --grey3 : #E2E2E2
+  --grey4: #9f9f9f;
+  --grey5: #333;
+  --white: #ffffff;
+  --red: #FF3B3B;
+}
+
 /* 전체 페이지를 감싸는 컨테이너 */
 .container {
   display: flex;
