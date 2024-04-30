@@ -1,0 +1,25 @@
+/* 글로벌 스타일 */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+}
+
+/* 전체 페이지를 감싸는 컨테이너 */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 내용 영역 스타일링 */
+.content {
+  width: 330px;
+  height: 720px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 8px;
+}
