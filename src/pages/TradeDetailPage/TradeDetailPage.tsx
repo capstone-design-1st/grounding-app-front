@@ -2,21 +2,55 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.svg";
-import { Header, Tab } from "../../components";
+import smallArrow from "../../assets/icons/small-arrow.svg";
+import { Header, Tab, CandleChart, Button, Accordion } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import "./styles.css";
+import { AccordionItem } from "../../types";
 
 const TradeDetailPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+
+  const items: AccordionItem[] = [
+    {
+      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
+    },
+    {
+      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
+    },
+    {
+      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
+    },
+  ];
 
   const tabs = [
     {
       label: "차트",
       content: (
         <div>
-          <h1>차트 정보</h1>
-          <p>차트에 대한 상세 정보입니다.</p>
+          <div className="chartWrapper">
+            <CandleChart />
+            <div className="goToSpan">
+              일별 · 당일 시세 보기
+              <img src={smallArrow} alt="smallArrow" />{" "}
+            </div>
+          </div>
+          <div className="divideBox"></div>
+          <div className="reputation">
+            <div className="title">종목 평판</div>
+            <Accordion items={items} />
+          </div>
+          <Button
+            text="거래하기"
+            color="white"
+            background={"var(--main)"}
+            padding="15px 0px"
+            onClick={() => navigate("/trade")}
+          />
         </div>
       ),
     },
