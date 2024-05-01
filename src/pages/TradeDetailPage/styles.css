@@ -1,0 +1,58 @@
+/* 기본 컨테이너 스타일 */
+.salesInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* 각 칼럼 스타일 */
+.col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+/* 각 행 스타일 */
+.row {
+  margin-bottom: 5px; /* 행과 행 사이의 여백 */
+}
+
+/* 제목 스타일 */
+.title {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+/* 주소 및 설명 텍스트 스타일 */
+.salesInfo .info {
+  font-size: 13px;
+  color: var(--grey4);
+}
+
+/* 가격 및 변경사항 스타일 */
+.salesInfo .col:last-child .row {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+/* 변경사항 특별 스타일 (예: 상승, 하락) */
+.salesInfo .col:last-child .row:last-child {
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 200;
+  color: var(--red);
+}
+
+.salesInfo .col2 .row {
+  text-align: right;
+}
+
+.location_wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: -13px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 200;
+}

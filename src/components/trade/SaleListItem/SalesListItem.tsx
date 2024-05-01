@@ -7,6 +7,7 @@ type SalesListItemProps = {
   name: string;
   info: string;
   profit: number;
+  onClick: () => void;
 };
 
 const SalesListItem: React.FC<SalesListItemProps> = ({
@@ -14,9 +15,10 @@ const SalesListItem: React.FC<SalesListItemProps> = ({
   name,
   info,
   profit,
+  onClick,
 }) => {
   return (
-    <div className="SalesListItem">
+    <div className="SalesListItem" onClick={onClick}>
       <div className="col icon">
         <img src={building} alt="building" />
       </div>
