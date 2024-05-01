@@ -7,13 +7,14 @@ body {
 }
 
 :root {
-  --main: #1FCBD5;
+  --main: #1fcbd5;
   --grey2: #f2f2f2;
-  --grey3 : #E2E2E2
+  --grey3: #e2e2e2;
   --grey4: #9f9f9f;
   --grey5: #333;
   --white: #ffffff;
-  --red: #FF3B3B;
+  --red: #ff3b3b;
+  --blue: #186ff2;
 }
 
 /* 전체 페이지를 감싸는 컨테이너 */
