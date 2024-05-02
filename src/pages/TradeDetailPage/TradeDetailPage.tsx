@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.svg";
@@ -8,10 +8,13 @@ import locationIcon from "../../assets/icons/location.svg";
 import "./styles.css";
 import { AccordionItem, OrderBookEntry } from "../../types";
 import OrderBook from "../../components/trade/OrderBook/OrderBook";
+import OrderModal from "../../components/trade/OrderModal/OrderModal";
 
 const TradeDetailPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false); // 모달 표시 상태
+  const closeModal = () => setShowModal(false);
 
   const orderBookData: OrderBookEntry[] = [
     // 추가 데이터...
@@ -94,7 +97,7 @@ const TradeDetailPage = () => {
             background={"var(--white)"}
             padding="10px 0px"
             border="1px solid var(--main)"
-            onClick={() => navigate("/trade")}
+            onClick={() => setShowModal(true)}
           />
         </div>
       ),
@@ -134,6 +137,9 @@ const TradeDetailPage = () => {
         <p>서울 구로구 경인로 661</p>
       </div>
       <Tab tabs={tabs} />
+      {showModal && (
+        <OrderModal onClose={() => setShowModal(false)} /> // 모달 닫기 함수 전달
+      )}
     </div>
   );
 };
