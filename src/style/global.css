@@ -8,6 +8,7 @@ body {
 
 :root {
   --main: #1fcbd5;
+  --grey1: #fbfbfb;
   --grey2: #f2f2f2;
   --grey3: #e2e2e2;
   --grey4: #9f9f9f;
@@ -33,4 +34,11 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background: white;
   border-radius: 8px;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
