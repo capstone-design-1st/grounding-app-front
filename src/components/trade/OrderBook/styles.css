@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 100%;
   position: relative;
-  margin-top: 10px;
+  margin: 10px 0px;
 }
 
 .orderEntry {

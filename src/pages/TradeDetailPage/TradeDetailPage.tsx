@@ -88,6 +88,14 @@ const TradeDetailPage = () => {
       content: (
         <div>
           <OrderBook entries={orderBookData} />
+          <Button
+            text="거래하기"
+            color="var(--main)"
+            background={"var(--white)"}
+            padding="10px 0px"
+            border="1px solid var(--main)"
+            onClick={() => navigate("/trade")}
+          />
         </div>
       ),
     },

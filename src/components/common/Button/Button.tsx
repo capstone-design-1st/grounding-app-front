@@ -5,6 +5,8 @@ type ButtonProps = {
   color: string;
   background: string;
   padding: string;
+  border?: string;
+  boxShadow?: string;
   onClick: () => void;
 };
 
@@ -14,6 +16,8 @@ const Button: React.FC<ButtonProps> = ({
   background,
   padding,
   onClick,
+  border,
+  boxShadow,
 }) => {
   return (
     <div>
@@ -23,6 +27,8 @@ const Button: React.FC<ButtonProps> = ({
           textAlign: "center",
           borderRadius: "10px",
           color: color,
+          border: border,
+          boxShadow: boxShadow,
           backgroundColor: background,
           padding: padding,
         }}
