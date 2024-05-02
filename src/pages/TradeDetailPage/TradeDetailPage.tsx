@@ -6,11 +6,31 @@ import smallArrow from "../../assets/icons/small-arrow.svg";
 import { Header, Tab, CandleChart, Button, Accordion } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import "./styles.css";
-import { AccordionItem } from "../../types";
+import { AccordionItem, OrderBookEntry } from "../../types";
+import OrderBook from "../../components/trade/OrderBook/OrderBook";
 
 const TradeDetailPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+
+  const orderBookData: OrderBookEntry[] = [
+    // 추가 데이터...
+
+    { price: 1124, amount: 6, type: "sell" },
+    { price: 1123, amount: 50, type: "sell" },
+    { price: 1122, amount: 10, type: "sell" },
+    { price: 1121, amount: 6, type: "sell" },
+    { price: 1120, amount: 20, type: "sell" },
+    { price: 1119, amount: 10, type: "sell" },
+    { price: 1118, amount: 10, type: "sell" },
+    { price: 1117, amount: 10, type: "buy" },
+    { price: 1116, amount: 6, type: "buy" },
+    { price: 1115, amount: 10, type: "buy" },
+    { price: 1114, amount: 6, type: "buy" },
+    { price: 1113, amount: 36, type: "buy" },
+    { price: 1112, amount: 60, type: "buy" },
+    { price: 1111, amount: 80, type: "buy" },
+  ];
 
   const items: AccordionItem[] = [
     {
@@ -67,8 +87,7 @@ const TradeDetailPage = () => {
       label: "호가",
       content: (
         <div>
-          <h1>호가 정보</h1>
-          <p>현재 호가 정보를 상세하게 보여줍니다.</p>
+          <OrderBook entries={orderBookData} />
         </div>
       ),
     },
