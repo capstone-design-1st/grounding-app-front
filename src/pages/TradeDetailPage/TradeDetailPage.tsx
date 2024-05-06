@@ -63,17 +63,17 @@ const TradeDetailPage = () => {
             </div>
           </div>
           <div className="divideBox"></div>
-          <div className="reputation">
+          <div className="reputation wrap">
             <div className="title">종목 평판</div>
             <Accordion items={items} />
+            <Button
+              text="거래하기"
+              color="white"
+              background={"var(--main)"}
+              padding="15px 0px"
+              onClick={() => navigate("/trade")}
+            />
           </div>
-          <Button
-            text="거래하기"
-            color="white"
-            background={"var(--main)"}
-            padding="15px 0px"
-            onClick={() => navigate("/trade")}
-          />
         </div>
       ),
     },
@@ -120,7 +120,7 @@ const TradeDetailPage = () => {
         }
         rightContent={<img src={heart} alt="Heart Icon" />}
       />
-      <div className="wrap">
+      <div className="tradeWrap">
         <div className="salesInfo">
           <div className="col">
             <div className="row">
@@ -137,11 +137,11 @@ const TradeDetailPage = () => {
           <img src={locationIcon} alt="Location Icon" />
           <p>서울 구로구 경인로 661</p>
         </div>
-        <Tab tabs={tabs} />
-        {showModal && (
-          <OrderModal onClose={() => setShowModal(false)} /> // 모달 닫기 함수 전달
-        )}
       </div>
+      <Tab tabs={tabs} />
+      {showModal && (
+        <OrderModal onClose={() => setShowModal(false)} /> // 모달 닫기 함수 전달
+      )}
     </div>
   );
 };

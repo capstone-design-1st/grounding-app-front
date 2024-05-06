@@ -1,41 +1,37 @@
-/* 기본 컨테이너 스타일 */
+.tradeWrap {
+  padding: 20px 20px 0px 20px;
+}
+
 .salesInfo {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
 }
 
-/* 각 칼럼 스타일 */
 .col {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-/* 각 행 스타일 */
 .row {
-  margin-bottom: 5px; /* 행과 행 사이의 여백 */
+  margin-bottom: 5px;
 }
 
-/* 제목 스타일 */
-.row .title {
+.salesInfo .col .row .title {
   font-size: 18px;
   font-weight: bold;
 }
 
-/* 주소 및 설명 텍스트 스타일 */
 .salesInfo .info {
   font-size: 13px;
   color: var(--grey4);
 }
 
-/* 가격 및 변경사항 스타일 */
 .salesInfo .col:last-child .row {
   font-size: 23px;
   font-weight: bold;
 }
 
-/* 변경사항 특별 스타일 (예: 상승, 하락) */
 .salesInfo .col:last-child .row:last-child {
   font-size: 17px;
   font-style: normal;
@@ -80,12 +76,12 @@
 }
 
 .reputation {
-  margin-top: 20px;
   font-size: 18px;
-  font-style: normal;
   font-weight: 500;
+  gap: 10px;
 }
 
-.title {
-  margin-bottom: 20px;
+.reputation .title {
+  width: 90%;
+  margin-bottom: 10px;
 }
