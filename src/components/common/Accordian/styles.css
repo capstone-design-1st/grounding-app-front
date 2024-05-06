@@ -5,18 +5,18 @@
   font-weight: 500;
 }
 
-.titleWrapper {
+.AccordionTitleWrapper {
   display: flex;
   justify-content: space-between;
 }
 
-.titleWrapper .arrowIcon {
+.AccordionTitleWrapper .arrowIcon {
   transition: transform 0.3s;
   margin-top: -20px;
   transform: rotate(90deg);
 }
 
-.titleWrapper .arrowIcon.rotated {
+.AccordionTitleWrapper .arrowIcon.rotated {
   transform: rotate(-90deg);
 }
 

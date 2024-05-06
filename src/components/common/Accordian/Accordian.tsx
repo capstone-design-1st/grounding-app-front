@@ -18,7 +18,10 @@ const Accordion: FunctionComponent<AccordionProps> = ({ items }) => {
     <div className="accordion">
       {items.map((item, index) => (
         <React.Fragment key={index}>
-          <div className="titleWrapper" onClick={() => onTitleClick(index)}>
+          <div
+            className="AccordionTitleWrapper"
+            onClick={() => onTitleClick(index)}
+          >
             <div className={`title ${index === activeIndex ? "active" : ""}`}>
               {item.title}
             </div>
