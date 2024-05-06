@@ -6,8 +6,9 @@
 }
 
 .tabItem {
+  padding: 15px 10px;
   color: var(--grey4);
-  padding: 10px 20px;
+  font-size: 13px;
   cursor: pointer;
   border: none;
   background: none;
