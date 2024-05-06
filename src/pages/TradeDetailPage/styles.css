@@ -2,6 +2,11 @@
   padding: 20px 20px 0px 20px;
 }
 
+.greyBackground {
+  padding: 20px;
+  background-color: var(--grey1);
+}
+
 .tradeWrap.displayFlex {
   display: flex;
   justify-content: space-between;

@@ -13,12 +13,17 @@ import {
   AssetIntro,
   AssetTable,
   Map,
+  IconText,
+  OrderBook,
+  OrderModal,
+  NewsListItem,
+  DocumentListItem,
 } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
+import newsImg1 from "../../assets/imgs/news1.png";
+import newsImg2 from "../../assets/imgs/news2.png";
 import "./styles.css";
 import { AccordionItem, OrderBookEntry } from "../../types";
-import OrderBook from "../../components/trade/OrderBook/OrderBook";
-import OrderModal from "../../components/trade/OrderModal/OrderModal";
 
 const TradeDetailPage = () => {
   const { name } = useParams();
@@ -43,6 +48,45 @@ const TradeDetailPage = () => {
     { price: 1113, amount: 36, type: "buy" },
     { price: 1112, amount: 60, type: "buy" },
     { price: 1111, amount: 80, type: "buy" },
+  ];
+
+  const documents = [
+    { title: "공모 청약 안내문", url: "https://example.com/document1.pdf" },
+    { title: "증권신고서", url: "https://example.com/document2.pdf" },
+    { title: "투자설명서", url: "https://example.com/document3.pdf" },
+    {
+      title: "부동산관리처분신탁계약서",
+      url: "https://example.com/document4.pdf",
+    },
+    { title: "감정평가보고서(대한)", url: "https://example.com/document5.pdf" },
+    {
+      title: "감정평가보고서(태평양)",
+      url: "https://example.com/document6.pdf",
+    },
+  ];
+
+  const newsItems = [
+    {
+      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      date: "24.04.04",
+      source: "뉴스투데이",
+      image: newsImg1,
+      url: "https://www.naver.com",
+    },
+    {
+      title: "루센트블록 소유, 부동산 상품 ‘신도림 핀포인트타워 2호’ 공모 시작",
+      date: "24.04.04",
+      source: "뉴스투데이",
+      image: newsImg2,
+      url: "https://www.naver.com",
+    },
+    {
+      title: "루센트블록 소유, 부동산 상품 ‘신도림 핀포인트타워 2호’ 공모 시작",
+      date: "24.04.04",
+      source: "뉴스투데이",
+      image: newsImg2,
+      url: "https://www.naver.com",
+    },
   ];
 
   const items: AccordionItem[] = [
@@ -134,6 +178,33 @@ const TradeDetailPage = () => {
           </div>
 
           <div className="divideBox"></div>
+
+          <div className="wrap">
+            <div className="info title">투자 포인트</div>
+            <div>
+              <IconText icon="pin" text="연 6% 고정 배당금 지급" />
+              <IconText
+                icon="profit"
+                text="시세 대비 낮은 공모가, 매각 차익 기대"
+              />
+              <IconText
+                icon="tips"
+                text="신도림역 더블 역세권, 오피스 최적 입지"
+              />
+            </div>
+          </div>
+
+          <div className="divideBox"></div>
+
+          <div className="wrap">
+            <div className="info title">뉴스</div>
+            <NewsListItem items={newsItems} />
+          </div>
+
+          <div className="greyBackground">
+            <div className="info title">투자 관련 문서</div>
+            <DocumentListItem documents={documents} />
+          </div>
         </div>
       ),
     },
