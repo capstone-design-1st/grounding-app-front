@@ -16,6 +16,7 @@ export { default as AssetIntro } from "./trade/AssetIntro/AssetIntro";
 export { default as AssetTable } from "./trade/AssetTable/AssetTable";
 export { default as OrderModal } from "./trade/OrderModal/OrderModal";
 export { default as NewsListItem } from "./trade/NewsListItem/NewsListItem";
+export { default as DocumentListItem } from "./trade/DocumentListItem/DocumentListItem";
 
 /*home*/
 export { default as AssetListItem } from "./home/AssetListItem/AssetListItem";
