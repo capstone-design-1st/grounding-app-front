@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.svg";
@@ -120,26 +120,28 @@ const TradeDetailPage = () => {
         }
         rightContent={<img src={heart} alt="Heart Icon" />}
       />
-      <div className="salesInfo">
-        <div className="col">
-          <div className="row">
-            <div className="title">{name} </div>
+      <div className="wrap">
+        <div className="salesInfo">
+          <div className="col">
+            <div className="row">
+              <div className="title">{name} </div>
+            </div>
+            <div className="row info">서울 더블 역세권 + 6% 고정 배당</div>
           </div>
-          <div className="row info">서울 더블 역세권 + 6% 고정 배당</div>
+          <div className="col col2">
+            <div className="row">4,705원</div>
+            <div className="row">▴10 + 2.7%</div>
+          </div>
         </div>
-        <div className="col col2">
-          <div className="row">4,705원</div>
-          <div className="row">▴10 + 2.7%</div>
+        <div className="locationWrap">
+          <img src={locationIcon} alt="Location Icon" />
+          <p>서울 구로구 경인로 661</p>
         </div>
+        <Tab tabs={tabs} />
+        {showModal && (
+          <OrderModal onClose={() => setShowModal(false)} /> // 모달 닫기 함수 전달
+        )}
       </div>
-      <div className="location_wrap">
-        <img src={locationIcon} alt="Location Icon" />
-        <p>서울 구로구 경인로 661</p>
-      </div>
-      <Tab tabs={tabs} />
-      {showModal && (
-        <OrderModal onClose={() => setShowModal(false)} /> // 모달 닫기 함수 전달
-      )}
     </div>
   );
 };

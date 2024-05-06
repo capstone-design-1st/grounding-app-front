@@ -40,20 +40,22 @@ const TradePage = () => {
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
       ></Header>
-      <h3>거래 중인 건물과 토지를 검색해 보세요</h3>
-      <SearchBar placeholder="성수, 코오롱 타워 " />
+      <div className="wrap">
+        <h3>거래 중인 건물과 토지를 검색해 보세요</h3>
+        <SearchBar placeholder="성수, 코오롱 타워 " />
 
-      <div className="salesList">
-        {saleLists.map((saleList, index) => (
-          <SalesListItem
-            key={index}
-            location={saleList.location}
-            name={saleList.name}
-            info={saleList.info}
-            profit={saleList.profit}
-            onClick={() => navigate(`/trade/${saleList.name}`)}
-          />
-        ))}
+        <div className="salesList">
+          {saleLists.map((saleList, index) => (
+            <SalesListItem
+              key={index}
+              location={saleList.location}
+              name={saleList.name}
+              info={saleList.info}
+              profit={saleList.profit}
+              onClick={() => navigate(`/trade/${saleList.name}`)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage/HomePage";
 import MyPage from "../pages/MyPage/MyPage";
-import TradePage from "../pages/TragePage/TradePage";
+import TradePage from "../pages/TradePage/TradePage";
 import TradeDetailPage from "../pages/TradeDetailPage/TradeDetailPage";
 
 const Router = () => {
