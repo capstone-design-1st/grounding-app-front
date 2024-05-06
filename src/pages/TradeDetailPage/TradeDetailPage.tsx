@@ -89,7 +89,7 @@ const TradeDetailPage = () => {
     {
       label: "호가",
       content: (
-        <div>
+        <div className="sidePadding">
           <OrderBook entries={orderBookData} />
           <Button
             text="거래하기"

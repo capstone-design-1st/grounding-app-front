@@ -2,6 +2,10 @@
   padding: 20px 20px 0px 20px;
 }
 
+.sidePadding {
+  padding: 0px 20px 20px 20px;
+}
+
 .salesInfo {
   display: flex;
   justify-content: space-between;

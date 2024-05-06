@@ -3,7 +3,7 @@
   bottom: 0; /* 아래쪽에 위치 */
   left: 50%; /* 가운데 정렬 */
   transform: translateX(-50%); /* 가운데 정렬 */
-  width: 370px; /* 모달의 너비 */
+  width: 330px; /* 모달의 너비 */
   background-color: white; /* 배경색 */
   z-index: 1000; /* 다른 요소들 위에 표시 */
 }

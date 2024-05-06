@@ -72,7 +72,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
               color="white"
               background={"var(--red)"}
               padding="10px 0px"
-              width="270px"
+              width="240px"
               onClick={() => console.log("매수하기")}
             />
           </div>
@@ -115,7 +115,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
               color="white"
               background={"var(--blue)"}
               padding="10px 0px"
-              width="270px"
+              width="240px"
               onClick={() => console.log("매도하기")}
             />
           </div>
@@ -126,7 +126,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
 
   return (
     <div ref={modalRef} className="modalContainer">
-      <Tab tabs={tabs} />
+      <Tab tabs={tabs} width="50%" />
     </div>
   );
 };
