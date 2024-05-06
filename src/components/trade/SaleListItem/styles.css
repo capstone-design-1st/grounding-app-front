@@ -11,10 +11,6 @@
   cursor: pointer;
 }
 
-.SalesListItem .col:nth-of-type(2) {
-  margin-right: 60px;
-}
-
 .SalesListItem .col {
   display: flex;
   flex-direction: column;
@@ -22,6 +18,7 @@
 }
 
 .SalesListItem .row {
+  width: 100%;
   font-size: 14px;
   color: #333;
 }

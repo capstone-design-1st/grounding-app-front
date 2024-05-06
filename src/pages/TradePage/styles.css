@@ -1,0 +1,9 @@
+.wrap {
+  padding: 20px;
+}
+.salesList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  gap: 10px;
+}

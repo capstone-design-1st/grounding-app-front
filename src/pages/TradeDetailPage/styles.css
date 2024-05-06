@@ -18,7 +18,7 @@
 }
 
 /* 제목 스타일 */
-.title {
+.row .title {
   font-size: 18px;
   font-weight: bold;
 }
@@ -47,7 +47,7 @@
   text-align: right;
 }
 
-.location_wrap {
+.locationWrap {
   display: flex;
   align-items: center;
   gap: 5px;

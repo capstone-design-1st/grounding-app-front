@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.banner {
+  width: 100%;
+}
+
+.titleWrapper {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.assetSection .title,
+.titleWrapper .title {
+  margin: 20px 0 0 0;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.titleWrapper .subTitle {
+  color: #808080;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin-bottom: 17px;
+}
+
+.slider div {
+  padding: 0 20px;
+}
+
+.slider img {
+  width: 330px;
+  height: 268px;
+  object-fit: cover;
+}
+
+.sliderTitle {
+  margin-top: 10px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.sliderSubTitle {
+  margin: 5px 0;
+  color: var(--grey4);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 300;
+}
