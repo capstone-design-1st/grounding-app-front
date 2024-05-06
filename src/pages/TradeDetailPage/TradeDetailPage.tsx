@@ -3,7 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.svg";
 import smallArrow from "../../assets/icons/small-arrow.svg";
-import { Header, Tab, CandleChart, Button, Accordion } from "../../components";
+import defaultImg from "../../assets/imgs/main.png";
+import {
+  Header,
+  Tab,
+  CandleChart,
+  Button,
+  Accordion,
+  AssetIntro,
+} from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import "./styles.css";
 import { AccordionItem, OrderBookEntry } from "../../types";
@@ -81,8 +89,19 @@ const TradeDetailPage = () => {
       label: "종목 정보",
       content: (
         <div>
-          <h1>종목 정보</h1>
-          <p>종목에 대한 세부 정보를 보여줍니다.</p>
+          <AssetIntro
+            image={defaultImg}
+            details={{
+              발행가: "5,000원 / DAS",
+              발행수량: "570,000 DAS",
+              DAS상장일: "22.12.22",
+              배당주기: "1개월",
+            }}
+          />
+          <div className="divideBox"></div>
+          <div className="wrap">
+            <div className="info title">투자 정보</div>
+          </div>
         </div>
       ),
     },
