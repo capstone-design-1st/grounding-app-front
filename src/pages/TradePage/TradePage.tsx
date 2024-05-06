@@ -1,4 +1,4 @@
-import { Header, SearchBar, SalesListItem } from "../../components";
+import { Header, SearchBar, SalesListItem, Navbar } from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
@@ -57,6 +57,8 @@ const TradePage = () => {
           ))}
         </div>
       </div>
+
+      <Navbar selected="store" />
     </div>
   );
 };

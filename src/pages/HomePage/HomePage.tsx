@@ -81,7 +81,7 @@ const HomePage = () => {
         <div className="subTitle">n개의 매물이 투자를 받고 있어요</div>
       </div>
 
-      <Navbar selected="store" />
+      <Navbar selected="home" />
     </div>
   );
 };

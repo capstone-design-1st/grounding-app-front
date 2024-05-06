@@ -1,0 +1,35 @@
+.navbar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 0;
+  border-top: 1px solid #eeeeee;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  margin-bottom: 4px;
+}
+
+.nav-text {
+  font-size: 11px;
+  color: #bababa;
+}
+
+.nav-item.active .nav-text {
+  color: #1fcbd5;
+}
+
+.nav-text.active {
+  color: #1fcbd5;
+}
