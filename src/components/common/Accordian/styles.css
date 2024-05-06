@@ -1,13 +1,18 @@
+.accordion {
+  margin-bottom: 20px;
+}
+
 .accordion .title {
-  width: 80%;
+  width: 90%;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 
 .AccordionTitleWrapper {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .AccordionTitleWrapper .arrowIcon {
