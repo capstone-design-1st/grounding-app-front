@@ -1,0 +1,33 @@
+.documentList {
+  width: 100%;
+}
+
+.documentItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  border: 0.5px solid #d9d9d9;
+  background-color: #fff;
+}
+
+.pdfIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: 14px;
+}
+
+.documentTitle {
+  flex: 1;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.downloadIcon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
