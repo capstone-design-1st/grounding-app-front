@@ -1,0 +1,18 @@
+.iconText {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.text {
+  font-size: 14px;
+  color: #333;
+}
