@@ -1,0 +1,21 @@
+.assetTable {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 40px;
+  row-gap: 10px;
+  border-radius: 4px;
+}
+
+.assetTableLabel {
+  color: var(--grey4);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: -0.24px;
+}
+
+.assetTableValue {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.24px;
+}

@@ -4,11 +4,16 @@ export { default as Tab } from "./common/Tab/Tab";
 export { default as Button } from "./common/Button/Button";
 export { default as Accordion } from "./common/Accordian/Accordian";
 export { default as Navbar } from "./common/Navbar/Navbar";
+export { default as Map } from "./common/Map/Map";
+
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
 export { default as SearchBar } from "./trade/SearchBar/SearchBar";
 export { default as CandleChart } from "./trade/CandleChart/CandleChart";
 export { default as OrderBook } from "./trade/OrderBook/OrderBook";
+export { default as AssetIntro } from "./trade/AssetIntro/AssetIntro";
+export { default as AssetTable } from "./trade/AssetTable/AssetTable";
+
 /*home*/
 export { default as AssetListItem } from "./home/AssetListItem/AssetListItem";
 export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankingItem";

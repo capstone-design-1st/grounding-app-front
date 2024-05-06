@@ -11,6 +11,7 @@ import {
   Button,
   Accordion,
   AssetIntro,
+  AssetTable,
 } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import "./styles.css";
@@ -58,6 +59,20 @@ const TradeDetailPage = () => {
     },
   ];
 
+  const assetDataDetails = {
+    투자대상: "신도림 핀포인트 타워 2호",
+    위치: "서울특별시 구로구 경인로 661",
+    용도지역: "일반상업지역",
+    주용도: "숙박시설",
+    연면적: "본건 : 240.3m² (전유면적 : 1,000.3m²)",
+    대지면적: "본건 : 170.3m²",
+    건물규모: "지하 5층 / 지상 101층",
+    준공일: "2019.11.29",
+    공시지가: "13,770,000원/m²(2022년 1월 기준)",
+    임차인: "주식회사 유진글로벌",
+    임대기간: "2022.10.1 ~ 2025.11.30",
+  };
+
   const tabs = [
     {
       label: "차트",
@@ -101,7 +116,10 @@ const TradeDetailPage = () => {
           <div className="divideBox"></div>
           <div className="wrap">
             <div className="info title">투자 정보</div>
+            <AssetTable data={assetDataDetails} />
           </div>
+
+          <div className="divideBox"></div>
         </div>
       ),
     },
