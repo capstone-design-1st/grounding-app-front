@@ -32,8 +32,7 @@ const TradeDetailPage = () => {
   const closeModal = () => setShowModal(false);
 
   const orderBookData: OrderBookEntry[] = [
-    // 추가 데이터...
-
+    // 추가 데이터..
     { price: 1124, amount: 6, type: "sell" },
     { price: 1123, amount: 50, type: "sell" },
     { price: 1122, amount: 10, type: "sell" },
@@ -125,7 +124,12 @@ const TradeDetailPage = () => {
         <div>
           <div className="chartWrapper">
             <CandleChart />
-            <div className="goToSpan">
+            <div
+              className="goToSpan"
+              onClick={() => {
+                navigate(`/trade/${name}/quote`);
+              }}
+            >
               일별 · 당일 시세 보기
               <img src={smallArrow} alt="smallArrow" />{" "}
             </div>

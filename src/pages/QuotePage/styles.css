@@ -1,0 +1,11 @@
+.tradeHeader {
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.tradeHeader p {
+  margin-left: -30px;
+  font-size: 15px;
+  color: var(--red);
+}
