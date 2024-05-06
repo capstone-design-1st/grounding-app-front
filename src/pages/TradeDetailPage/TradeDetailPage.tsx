@@ -12,6 +12,7 @@ import {
   Accordion,
   AssetIntro,
   AssetTable,
+  Map,
 } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import "./styles.css";
@@ -117,6 +118,19 @@ const TradeDetailPage = () => {
           <div className="wrap">
             <div className="info title">투자 정보</div>
             <AssetTable data={assetDataDetails} />
+          </div>
+
+          <div className="divideBox"></div>
+
+          <div className="tradeWrap displayFlex">
+            <div className="info title">위치 정보</div>
+            <div className="locationWrap">
+              <img src={locationIcon} alt="Location Icon" />
+              <p>서울 구로구 경인로 661</p>
+            </div>
+          </div>
+          <div>
+            <Map address="서울 구로구 경인로 661" />
           </div>
 
           <div className="divideBox"></div>
