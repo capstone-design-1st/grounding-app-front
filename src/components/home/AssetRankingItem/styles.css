@@ -1,0 +1,43 @@
+.assetRankingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.rank {
+  width: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.assetInfo {
+  display: flex;
+  align-items: center;
+}
+
+.assetRankingItem .assetInfo .assetIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  margin-left: -30px;
+  text-align: right;
+}
+
+.assetInfo .assetName {
+  font-size: 14px;
+}
+
+.assetInfo .assetValue {
+  text-align: right;
+}
+
+.assetValue .value {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.assetValue .change {
+  font-size: 12px;
+  color: var(--red);
+}

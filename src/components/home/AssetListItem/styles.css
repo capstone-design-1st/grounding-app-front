@@ -1,24 +1,5 @@
 .assetSection {
-  margin: 24px 16px;
-}
-
-.myAsset .assetHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.overallChange {
-  color: #ff3b3b;
-  font-size: 18px;
-  font-weight: 500;
-  margin-left: -100px;
-}
-
-.viewMore {
-  font-size: 12px;
-  color: #7d7d7d;
+  padding: 0 15px;
 }
 
 .assetTitle {
@@ -30,8 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid #eee;
+  padding: 10px 0;
 }
 
 .assetItem:last-child {
@@ -52,12 +32,11 @@
 
 .assetName {
   font-size: 16px;
-  color: #000;
 }
 
 .assetDetails {
-  font-size: 12px;
-  color: #7d7d7d;
+  font-size: 9px;
+  font-weight: 400;
 }
 
 .assetValue {
@@ -71,7 +50,7 @@
 
 .change {
   font-size: 12px;
-  color: #ff0000;
+  color: var(--red);
 }
 
 .heartIcon {

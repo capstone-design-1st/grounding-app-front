@@ -55,3 +55,22 @@ body {
   font-style: normal;
   font-weight: 300;
 }
+
+.assetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.overallChange {
+  color: var(--red);
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: -100px;
+}
+
+.viewMore {
+  font-size: 12px;
+  cursor: pointer;
+}

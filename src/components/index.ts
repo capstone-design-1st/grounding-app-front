@@ -11,3 +11,4 @@ export { default as CandleChart } from "./trade/CandleChart/CandleChart";
 export { default as OrderBook } from "./trade/OrderBook/OrderBook";
 /*home*/
 export { default as AssetListItem } from "./home/AssetListItem/AssetListItem";
+export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankingItem";

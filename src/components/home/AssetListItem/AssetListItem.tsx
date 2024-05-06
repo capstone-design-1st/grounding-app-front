@@ -13,8 +13,6 @@ interface AssetListItemProps {
   count?: string;
   unitPrice?: string;
   totalChange?: string;
-  heart?: boolean;
-  itemNumber?: number;
 }
 
 const AssetListItem: React.FC<AssetListItemProps> = ({
@@ -23,28 +21,13 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
   assetName,
   value,
   change,
-  totalChange,
   count,
   unitPrice,
-  heart,
-  itemNumber,
 }) => {
   let image = isBuilding ? building : farm;
 
   return (
     <div className={`assetSection ${isMyAsset ? "myAsset" : ""}`}>
-      {isMyAsset ? (
-        <div className="assetHeader">
-          <div className="assetTitle">내 자산</div>
-          <div className="overallChange">{totalChange}</div>
-          <div className="viewMore">자세히 보기</div>
-        </div>
-      ) : (
-        <div className="assetHeader">
-          <div className="assetTitle">내가 찜한 매물</div>
-        </div>
-      )}
-
       <div className="assetItem">
         <div className="assetInfo">
           <img className="assetIcon" src={image} alt={assetName} />
