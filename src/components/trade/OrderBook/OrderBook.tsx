@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./styles.css";
 import { OrderBookEntry } from "../../../types";
 
@@ -6,36 +6,47 @@ interface OrderBookProps {
   entries: OrderBookEntry[];
 }
 
-const OrderBook: React.FC<OrderBookProps> = ({ entries }) => {
-  const maxAmount = 300; // 바의 최대 기준을 1000개로 고정
+const OrderEntry: React.FC<OrderBookEntry> = ({ amount, price, type }) => {
+  const maxAmount = 300;
+  const percentage = (amount / maxAmount) * 100;
+  const leftBarRef = useRef<HTMLDivElement>(null);
+  const rightBarRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (type === "sell" && leftBarRef.current) {
+      leftBarRef.current.style.width = "0%";
+      setTimeout(() => {
+        if (leftBarRef.current) {
+          leftBarRef.current.style.width = `${percentage}%`;
+        }
+      }, 0);
+    } else if (type === "buy" && rightBarRef.current) {
+      rightBarRef.current.style.width = "0%";
+      setTimeout(() => {
+        if (rightBarRef.current) {
+          rightBarRef.current.style.width = `${percentage}%`;
+        }
+      }, 0);
+    }
+  }, [percentage, type]);
+
+  return (
+    <div className={`orderEntry ${type}`}>
+      <span className={`amount ${type === "sell" ? "left" : "right"}`}>
+        {amount}개
+      </span>
+      {type === "sell" && <div ref={leftBarRef} className="bar leftBar" />}
+      <span className="price">{price.toLocaleString()}원</span>
+      {type === "buy" && <div ref={rightBarRef} className="bar rightBar" />}
+    </div>
+  );
+};
+
+const OrderBook: React.FC<OrderBookProps> = ({ entries }) => {
   return (
     <div className="orderBook">
       {entries.map((entry, index) => (
-        <div key={index} className={`orderEntry ${entry.type}`}>
-          <span
-            className={`amount ${entry.type === "sell" ? "left" : "right"}`}
-          >
-            {entry.amount}개
-          </span>
-          {entry.type === "sell" && (
-            <div
-              className="bar leftBar"
-              style={{
-                width: `${(entry.amount / maxAmount) * 100}%`, // 매도 주문 바의 너비 계산
-              }}
-            />
-          )}
-          <span className="price">{entry.price.toLocaleString()}원</span>
-          {entry.type === "buy" && (
-            <div
-              className="bar rightBar"
-              style={{
-                width: `${(entry.amount / maxAmount) * 100}%`, // 매수 주문 바의 너비 계산
-              }}
-            />
-          )}
-        </div>
+        <OrderEntry key={index} {...entry} />
       ))}
     </div>
   );
