@@ -1,0 +1,23 @@
+/* styles.css */
+
+.infoTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.infoTable th,
+.infoTable td {
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.infoTable th {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.infoTable .change {
+  color: #ff0000;
+}

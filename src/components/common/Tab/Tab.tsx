@@ -7,9 +7,10 @@ interface TabProps {
     content: JSX.Element;
   }[];
   width?: string;
+  padding?: string;
 }
 
-const Tab: React.FC<TabProps> = ({ tabs, width }) => {
+const Tab: React.FC<TabProps> = ({ tabs, width, padding }) => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].label);
 
   const handleClick = (label: string) => {
@@ -26,6 +27,7 @@ const Tab: React.FC<TabProps> = ({ tabs, width }) => {
             onClick={() => handleClick(tab.label)}
             style={{
               width: `${100 / tabs.length}%`,
+              padding: padding ? padding : undefined,
               borderBottomColor:
                 tab.label === "매수" && tab.label === activeTab
                   ? "var(--red)"
