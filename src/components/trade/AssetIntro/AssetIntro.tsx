@@ -1,4 +1,5 @@
 import React from "react";
+import TwoTwoRow from "../../common/TwoTwoRow/TwoTwoRow";
 import "./styles.css";
 
 interface AssetIntroProps {
@@ -15,10 +16,7 @@ const AssetIntro: React.FC<AssetIntroProps> = ({ image, details }) => {
       <div className="assetDetails">
         <div className="detailsGrid">
           {Object.entries(details).map(([label, value], index) => (
-            <React.Fragment key={index}>
-              <div className="detailsLabel">{label}</div>
-              <div className="detailsValue">{value}</div>
-            </React.Fragment>
+            <TwoTwoRow key={index} label={label} value={value} />
           ))}
         </div>
       </div>

@@ -12,4 +12,6 @@ export interface OrderBookEntry {
 export interface table2RowsProps {
   label: string;
   value: string;
+  color?: string;
+  weight?: string;
 }

@@ -1,8 +1,8 @@
-import React from "react";
 import { Header, InvestmentSummary, Navbar, Tab } from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
+import MyAssetListItem from "../../components/mypage/MyAssetListItem/MyAssetListItem";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -27,12 +27,28 @@ const MyPage = () => {
             changePercentage="+10.34%"
             items={items}
           />
+          <div className="tradeWrap">
+            <div className="info title">보유한 자산</div>
+          </div>
+          <MyAssetListItem />
+          <MyAssetListItem />
+          <MyAssetListItem />
         </div>
       ),
     },
     {
       label: "입출금",
-      content: <div></div>,
+      content: (
+        <div>
+          <div className="summarySection">
+            <div className="summaryLabel">
+              <div>총 보유 자산</div>
+              <div>1,123,123원</div>
+            </div>
+            <div className="summaryValue">123,123 원</div>
+          </div>
+        </div>
+      ),
     },
     {
       label: "거래 내역",
