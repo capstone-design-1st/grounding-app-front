@@ -1,0 +1,49 @@
+.investmentSummary {
+  padding: 10px 20px;
+  background-color: var(--grey1);
+}
+
+.investmentHeader {
+  margin-bottom: 16px;
+}
+
+.investmentTitle {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.investmentAmount {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.investmentAmount span {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.investmentChange {
+  color: var(--red);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.assetsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assetItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.assetName {
+  font-size: 16px;
+}
+
+.assetDetails {
+  font-size: 14px;
+  color: #888;
+}

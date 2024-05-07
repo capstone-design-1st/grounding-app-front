@@ -8,3 +8,8 @@ export interface OrderBookEntry {
   amount: number;
   type: "buy" | "sell";
 }
+
+export interface table2RowsProps {
+  label: string;
+  value: string;
+}

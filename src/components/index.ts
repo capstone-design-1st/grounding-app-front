@@ -6,6 +6,7 @@ export { default as Accordion } from "./common/Accordian/Accordian";
 export { default as Navbar } from "./common/Navbar/Navbar";
 export { default as Map } from "./common/Map/Map";
 export { default as IconText } from "./common/IconText/IconText";
+export { default as TwoRow } from "./common/TwoRow/TwoRow";
 
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
@@ -22,3 +23,6 @@ export { default as ChartTable } from "./trade/ChartTable/chartTable";
 /*home*/
 export { default as AssetListItem } from "./home/AssetListItem/AssetListItem";
 export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankingItem";
+
+/*mypage */
+export { default as InvestmentSummary } from "./mypage/InvestingSummary/InvestingSummary";
