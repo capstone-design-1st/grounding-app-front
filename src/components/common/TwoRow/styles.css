@@ -1,0 +1,17 @@
+.lineItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.label {
+  color: var(--grey4);
+  font-weight: 400;
+}
+
+.value {
+  font-size: 13px;
+  font-weight: 400;
+}
