@@ -1,14 +1,18 @@
 import React from "react";
 import "./styles.css";
+import { table2RowsProps } from "../../../types";
 
-interface TwoRowProps {
-  label: string;
-  value: string;
-}
-
-const TwoRow: React.FC<TwoRowProps> = ({ label, value }) => (
+const TwoRow: React.FC<table2RowsProps> = ({ label, value, color, weight }) => (
   <div className="lineItem">
-    <div className="label">{label}</div>
+    <div
+      className="label"
+      style={{
+        ...(color && { color }),
+        ...(weight && { fontWeight: weight }),
+      }}
+    >
+      {label}
+    </div>
     <div className="value">{value}</div>
   </div>
 );

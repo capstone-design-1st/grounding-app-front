@@ -105,3 +105,11 @@
   font-weight: 500;
   margin-bottom: 16px;
 }
+
+.disclosureWrap {
+  padding: 10px 20px;
+}
+
+.rowWrap {
+  padding: 10px 0px;
+}

@@ -18,6 +18,7 @@ import {
   OrderModal,
   NewsListItem,
   DocumentListItem,
+  TwoRow,
 } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import newsImg1 from "../../assets/imgs/news1.png";
@@ -61,6 +62,57 @@ const TradeDetailPage = () => {
     {
       title: "감정평가보고서(태평양)",
       url: "https://example.com/document6.pdf",
+    },
+  ];
+
+  const disclosure = [
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
+    },
+    {
+      lable: "24.04.04",
+      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
     },
   ];
 
@@ -231,9 +283,17 @@ const TradeDetailPage = () => {
     {
       label: "공시",
       content: (
-        <div>
-          <h1>공시 정보</h1>
-          <p>최근 공시된 정보를 표시합니다.</p>
+        <div className="disclosureWrap">
+          {disclosure.map((item) => (
+            <div className="rowWrap">
+              <TwoRow
+                label={item.lable}
+                value={item.value}
+                color="#000"
+                weight="600"
+              />
+            </div>
+          ))}
         </div>
       ),
     },
