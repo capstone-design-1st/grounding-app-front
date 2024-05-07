@@ -28,22 +28,22 @@
   font-weight: 500;
 }
 
-.assetsList {
+.investmentSummary .assetsList {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.assetItem {
+.investmentSummary .assetItem {
   display: flex;
   justify-content: space-between;
 }
 
-.assetName {
+.investmentSummary .assetName {
   font-size: 16px;
 }
 
-.assetDetails {
+.investmentSummary .assetDetails {
   font-size: 14px;
   color: #888;
 }

@@ -61,7 +61,7 @@ const HomePage = () => {
 
       <div className="divideBox"></div>
 
-      <div className="assetHeader">
+      <div className="home assetHeader">
         <div className="assetTitle">내 자산</div>
         <div className="overallChange">+25.5%</div>
         <div className="viewMore" onClick={() => navigate("/mypage")}>

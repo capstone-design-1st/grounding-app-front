@@ -56,7 +56,7 @@ body {
   font-weight: 300;
 }
 
-.assetHeader {
+.home.assetHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
