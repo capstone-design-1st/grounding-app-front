@@ -7,6 +7,7 @@ export { default as Navbar } from "./common/Navbar/Navbar";
 export { default as Map } from "./common/Map/Map";
 export { default as IconText } from "./common/IconText/IconText";
 export { default as TwoRow } from "./common/TwoRow/TwoRow";
+export { default as TwoTwoRow } from "./common/TwoTwoRow/TwoTwoRow";
 
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
@@ -26,3 +27,4 @@ export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankin
 
 /*mypage */
 export { default as InvestmentSummary } from "./mypage/InvestingSummary/InvestingSummary";
+export { default as MyAssetListItem } from "./mypage/MyAssetListItem/MyAssetListItem";
