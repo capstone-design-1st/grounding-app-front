@@ -14,4 +14,5 @@ export interface table2RowsProps {
   value: string;
   color?: string;
   weight?: string;
+  fontSize?: string;
 }

@@ -28,3 +28,4 @@ export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankin
 /*mypage */
 export { default as InvestmentSummary } from "./mypage/InvestingSummary/InvestingSummary";
 export { default as MyAssetListItem } from "./mypage/MyAssetListItem/MyAssetListItem";
+export { default as TransactionItem } from "./mypage/TransactionItem/TransactionItem";
