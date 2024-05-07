@@ -6,7 +6,7 @@
 }
 
 .assetIntro .assetImage {
-  width: 330px;
+  width: 100%;
   height: 230px;
   margin-bottom: 16px;
 }

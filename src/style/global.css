@@ -4,6 +4,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: white;
+  font-family: "Apple SD Gothic Neo";
 }
 
 :root {
@@ -23,14 +24,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 /* 내용 영역 스타일링 */
 .content {
-  width: 330px;
-  height: 720px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  max-width: none;
   background: white;
   border-radius: 8px;
   overflow-x: hidden;
@@ -40,5 +40,12 @@ body {
 }
 
 .content::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* 너비가 400px 이상일 때 */
+@media (min-width: 400px) {
+  .content {
+    max-width: 360px; /* Set max-width to 360px */
+  }
 }

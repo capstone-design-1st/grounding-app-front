@@ -1,7 +1,7 @@
 .modalContainer {
   position: sticky;
   bottom: 0;
-  width: 330px;
+  width: 100%;
   background-color: white;
   z-index: 1000;
 }
@@ -52,7 +52,7 @@
   transform: translateY(-1px);
 }
 
-.submitOrder {
+.modalContainer .submitOrder {
   margin-top: 10px;
   padding: 10px 20px;
   color: white;
@@ -61,13 +61,13 @@
   cursor: pointer;
 }
 
-.buttonWrapper {
+.modalContainer .buttonWrapper {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
 
-.buttonWrapper p {
+.modalContainer .buttonWrapper p {
   cursor: pointer;
   color: var(--grey5);
   text-align: center;
@@ -79,6 +79,6 @@
   text-decoration-line: underline;
 }
 
-.buttonWrapper p:active {
+.modalContainer .buttonWrapper p:active {
   transform: translateY(-1px);
 }
