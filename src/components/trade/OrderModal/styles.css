@@ -1,9 +1,15 @@
 .modalContainer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
   background-color: white;
   z-index: 1000;
+}
+
+@media (min-width: 400px) {
+  .modalContainer {
+    width: 360px;
+  }
 }
 
 .orderForm {
