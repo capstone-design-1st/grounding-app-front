@@ -1,5 +1,13 @@
-import { Header, InvestmentSummary, Navbar, Tab } from "../../components";
+import {
+  Header,
+  InvestmentSummary,
+  Navbar,
+  Tab,
+  TransactionItem,
+  TwoRow,
+} from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
+import deposit from "../../assets/icons/deposit.svg";
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import MyAssetListItem from "../../components/mypage/MyAssetListItem/MyAssetListItem";
@@ -41,11 +49,74 @@ const MyPage = () => {
       content: (
         <div>
           <div className="summarySection">
-            <div className="summaryLabel">
-              <div>총 보유 자산</div>
-              <div>1,123,123원</div>
-            </div>
-            <div className="summaryValue">123,123 원</div>
+            <TwoRow
+              label="총 보유 자산"
+              value="123,123원"
+              weight="500"
+              color="#000"
+              fontSize="16px"
+            />
+            <TwoRow label="출금가능" value="123,123원" />
+          </div>
+
+          <div className="summarySection buttonWrapper">
+            <button
+              className="deposit"
+              onClick={() => navigate("/mypage/deposit")}
+            >
+              <img src={deposit} alt="Deposit Icon" />
+              입금하기
+            </button>
+            <button
+              className="withDraw"
+              onClick={() => navigate("/mypage/withdraw")}
+            >
+              <img src={deposit} alt="Deposit Icon" />
+              출금하기
+            </button>
+          </div>
+
+          <div className="wrap">
+            <TransactionItem
+              type="입금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="출금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="입금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="입금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="출금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="입금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="입금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
+            <TransactionItem
+              type="출금"
+              amount="600,000"
+              date="2024.01.03 15:34"
+            />
           </div>
         </div>
       ),
@@ -64,7 +135,7 @@ const MyPage = () => {
       />
       <div className="myPageTitle">
         <strong>안정민</strong>님의 <br />
-        투자페이지입니다
+        투자현황입니다
       </div>
 
       <Tab tabs={tabs} />
