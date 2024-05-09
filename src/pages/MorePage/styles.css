@@ -1,0 +1,44 @@
+.morePage {
+  color: #333;
+  padding: 20px;
+}
+
+.banner {
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.arrowIcon {
+  transform: rotate(180deg);
+}
+
+.bottomButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+  margin: 25px auto 15px auto;
+}
+
+.bottomButton {
+  background: none;
+  border: none;
+  color: var(--grey4);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+}
