@@ -3,12 +3,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
   color: var(--grey5);
-  padding: 20px;
 }
 
 .banner {
   width: 100%;
+}
+
+.morePageContent {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .sectionTitle {
@@ -16,6 +22,7 @@
   font-weight: 700;
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .listItem {
@@ -34,11 +41,12 @@
 .bottomButtons {
   display: flex;
   justify-content: space-between;
-  width: 40%;
+  width: 50%;
   margin: 25px auto 15px auto;
 }
 
 .bottomButton {
+  width: 48%;
   background: none;
   border: none;
   color: var(--grey4);

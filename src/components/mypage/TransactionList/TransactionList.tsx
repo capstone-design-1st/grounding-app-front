@@ -9,9 +9,15 @@ const TransactionList = () => {
   const [activeButton, setActiveButton] = useState("전체");
   const [selectedFilter, setSelectedFilter] = useState("전체");
   const [dateRange, setDateRange] = useState({
-    startDate: new Date("2024-04-10").toISOString().slice(0, 10),
-    endDate: new Date("2024-04-18").toISOString().slice(0, 10),
+    startDate: new Date().toISOString().slice(0, 10),
+    endDate: new Date().toISOString().slice(0, 10),
   });
+
+  const parseDate = (dateStr: string) => {
+    const [year, month, day] = dateStr.split(".");
+    // '24.04.10' -> '2024-04-10'
+    return new Date(`20${year}-${month}-${day}`);
+  };
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -19,10 +25,40 @@ const TransactionList = () => {
 
   const handleButtonClick = (period: string) => {
     setActiveButton(period);
+    setDateRangeForPeriod(period);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFilter(e.target.value);
+  };
+
+  const setDateRangeForPeriod = (period: string) => {
+    const today = new Date();
+    let startDate = new Date();
+    switch (period) {
+      case "당일":
+        // 당일: 오늘 날짜만
+        startDate = today;
+        break;
+      case "1개월":
+        // 1개월: 오늘부터 한 달 전
+        startDate.setMonth(today.getMonth() - 1);
+        break;
+      case "3개월":
+        // 3개월: 오늘부터 세 달 전
+        startDate.setMonth(today.getMonth() - 3);
+        break;
+      case "6개월":
+        // 6개월: 오늘부터 여섯 달 전
+        startDate.setMonth(today.getMonth() - 6);
+        break;
+      default:
+        return; // 기본적으로 변경 없음
+    }
+    setDateRange({
+      startDate: startDate.toISOString().slice(0, 10),
+      endDate: today.toISOString().slice(0, 10),
+    });
   };
 
   const handleDateChange = (
@@ -36,22 +72,30 @@ const TransactionList = () => {
     const matchTab = activeTab === "전체" || transaction.type === activeTab;
     const matchFilter =
       selectedFilter === "전체" || transaction.name === selectedFilter;
-    // 날짜 필터링 추가예정
-    return matchTab && matchFilter;
+    const transactionDate = parseDate(transaction.date);
+    const startDate = new Date(dateRange.startDate);
+    const endDate = new Date(dateRange.endDate);
+
+    const matchDate =
+      transactionDate >= startDate && transactionDate <= endDate;
+
+    return matchTab && matchFilter && matchDate;
   });
 
   return (
     <div className="transactionList">
       <div className="tabs">
-        {["전체", "매수", "매도"].map((tab) => (
-          <button
-            key={tab}
-            className={`tab ${tab === activeTab ? "active" : ""}`}
-            onClick={() => handleTabClick(tab)}
-          >
-            {tab}
-          </button>
-        ))}
+        <div className="onlyTabs">
+          {["전체", "매수", "매도"].map((tab) => (
+            <button
+              key={tab}
+              className={`tab ${tab === activeTab ? "active" : ""}`}
+              onClick={() => handleTabClick(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
         <input
           type="date"
           value={dateRange.startDate}
@@ -71,7 +115,7 @@ const TransactionList = () => {
         {["당일", "1개월", "3개월", "6개월"].map((period) => (
           <button
             key={period}
-            className={`dateButton ${period === activeButton ? "active" : ""}`}
+            className={`dateButton ${activeButton === period ? "active" : ""}`}
             onClick={() => handleButtonClick(period)}
           >
             {period}
@@ -104,20 +148,26 @@ const TransactionList = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTransactions.map((transaction, index) => (
-            <React.Fragment key={index}>
-              <tr>
-                <td>{transaction.name}</td>
-                <td>{transaction.amount}</td>
-                <td>{transaction.date}</td>
-              </tr>
-              <tr>
-                <td>{transaction.type}</td>
-                <td>{transaction.price}</td>
-                <td>{transaction.total}</td>
-              </tr>
-            </React.Fragment>
-          ))}
+          {filteredTransactions.length > 0 ? (
+            filteredTransactions.map((transaction, index) => (
+              <React.Fragment key={index}>
+                <tr>
+                  <td>{transaction.name}</td>
+                  <td>{transaction.amount}</td>
+                  <td>{transaction.date}</td>
+                </tr>
+                <tr>
+                  <td>{transaction.type}</td>
+                  <td>{transaction.price}</td>
+                  <td>{transaction.total}</td>
+                </tr>
+              </React.Fragment>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={3}>No Transactions Found</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

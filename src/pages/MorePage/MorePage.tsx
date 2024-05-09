@@ -6,10 +6,9 @@ import { Navbar } from "../../components";
 const MorePage = () => {
   return (
     <div className="morePage">
-      <div className="content">
-        <div className="sectionTitle">Grounding에 대해 더 알아보기</div>
-        <img className="banner" src={banner} alt="banner" />
-
+      <div className="sectionTitle">Grounding에 대해 더 알아보기</div>
+      <img className="banner" src={banner} alt="banner" />
+      <div className="morePageContent">
         <div className="sectionTitle">고객지원</div>
         <div className="listItem">
           <div className="listText">공지사항</div>

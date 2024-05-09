@@ -1,19 +1,24 @@
 .transactionList {
   padding: 20px;
-  background-color: #fff; /* Setting a clean background */
 }
 
-.transactionList.tabs {
+.transactionList .tabs {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.transactionList .tabs .onlyTabs {
+  display: flex;
+  width: 50%;
+  height: 23px;
 }
 
 .transactionList .tab {
-  width: 15%;
+  width: 70%;
   height: 23px;
-  margin-bottom: 10px;
   background-color: var(--grey2);
   color: var(--grey5);
   border: none;
@@ -37,7 +42,6 @@
 .transactionList .tabs button:last-of-type {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  margin-right: 5px;
 }
 
 .transactionList .tabs span {
@@ -45,7 +49,7 @@
 }
 
 .transactionList input {
-  padding: 4px 0;
+  height: 23px;
   background-color: var(--grey2);
   border: none;
   border-radius: 5px;
@@ -94,7 +98,7 @@
 .transactionList .transactionTable {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px; /* Additional spacing */
+  margin-bottom: 20px;
 }
 
 .transactionList .transactionTable th,
