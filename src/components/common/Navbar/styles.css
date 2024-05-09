@@ -1,5 +1,6 @@
 .navbar {
-  position: sticky;
+  width: 100%;
+  position: fixed;
   bottom: 0;
   display: flex;
   justify-content: space-around;
@@ -7,6 +8,12 @@
   background-color: #ffffff;
   padding: 10px 0;
   border-top: 1px solid #eeeeee;
+}
+
+@media (min-width: 400px) {
+  .navbar {
+    width: 360px;
+  }
 }
 
 .nav-item {
