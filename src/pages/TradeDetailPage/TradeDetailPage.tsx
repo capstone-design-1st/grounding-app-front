@@ -30,8 +30,6 @@ const TradeDetailPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false); // 모달 표시 상태
-  const closeModal = () => setShowModal(false);
-
   const orderBookData: OrderBookEntry[] = [
     // 추가 데이터..
     { price: 1124, amount: 6, type: "sell" },
