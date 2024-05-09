@@ -1,5 +1,9 @@
 .morePage {
-  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--grey5);
   padding: 20px;
 }
 
