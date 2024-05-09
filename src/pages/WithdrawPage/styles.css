@@ -1,0 +1,49 @@
+.withdrawPage {
+  display: flex;
+  flex-direction: column;
+  height: 94vh;
+  padding: 20px 20px 0 20px;
+}
+
+.withdrawPage .content {
+  flex: 1;
+  padding-top: 20px;
+}
+
+.withdrawPage .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.withdrawPage .label {
+  color: #000;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.withdrawPage .value {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.withdrawPage .inputWrapper {
+  margin-bottom: 20px;
+}
+
+.withdrawPage input[type="text"] {
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--grey3);
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 5px;
+  outline: none;
+  text-align: right;
+}
+.withdrawPage .note .label {
+  color: #7e7e7e;
+  font-size: 15px;
+  font-weight: 400;
+}
