@@ -1,0 +1,114 @@
+.transactionList {
+  padding: 20px;
+  background-color: #fff; /* Setting a clean background */
+}
+
+.transactionList.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.transactionList .tab {
+  width: 15%;
+  height: 23px;
+  margin-bottom: 10px;
+  background-color: var(--grey2);
+  color: var(--grey5);
+  border: none;
+  border-radius-top: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.transactionList .tab.active,
+.transactionList.tab:hover {
+  background-color: var(--main);
+  color: white;
+}
+
+.transactionList .tab:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.transactionList .tabs button:last-of-type {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-right: 5px;
+}
+
+.transactionList .tabs span {
+  font-size: 10px;
+}
+
+.transactionList input {
+  padding: 4px 0;
+  background-color: var(--grey2);
+  border: none;
+  border-radius: 5px;
+  color: var(--grey5);
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 10px;
+}
+
+.transactionList .dateButtons {
+  display: flex;
+}
+
+.transactionList .dateButton {
+  width: 20%;
+  height: 25px;
+  margin-right: 5px;
+  background-color: var(--white);
+  border: 1px solid var(--grey3);
+  color: var(--grey5);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 12px;
+  transition: background;
+}
+
+.dateButton.active {
+  border: 1px solid var(--main);
+  color: var(--main);
+}
+
+.transactionList .filterSelect {
+  display: block;
+  width: wrap;
+  height: 25px;
+  padding: 4px;
+  margin-bottom: 20px;
+  border: 1px solid var(--grey3);
+  color: var(--grey5);
+  border-radius: 5px;
+  background-color: var(--white);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.transactionList .transactionTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px; /* Additional spacing */
+}
+
+.transactionList .transactionTable th,
+.transactionList .transactionTable td {
+  padding: 5px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.transactionList .transactionTable th {
+  background-color: var(--grey1);
+  color: var(--grey4);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+}

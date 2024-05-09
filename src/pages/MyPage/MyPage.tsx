@@ -4,6 +4,7 @@ import {
   Navbar,
   Tab,
   TransactionItem,
+  TransactionList,
   TwoRow,
 } from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
@@ -123,7 +124,11 @@ const MyPage = () => {
     },
     {
       label: "거래 내역",
-      content: <div></div>,
+      content: (
+        <div>
+          <TransactionList />
+        </div>
+      ),
     },
   ];
   return (
