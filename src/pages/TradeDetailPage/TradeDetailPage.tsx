@@ -13,12 +13,12 @@ import {
   AssetIntro,
   AssetTable,
   Map,
-  IconText,
   OrderBook,
   OrderModal,
   NewsListItem,
   DocumentListItem,
   TwoRow,
+  InvestPoint,
 } from "../../components";
 import locationIcon from "../../assets/icons/location.svg";
 import newsImg1 from "../../assets/imgs/news1.png";
@@ -167,6 +167,12 @@ const TradeDetailPage = () => {
     임대기간: "2022.10.1 ~ 2025.11.30",
   };
 
+  const points = [
+    "연 6% 고정 배당금 지급",
+    "시세 대비 낮은 공모가, 매각 차익 기대",
+    "신도림역 더블 역세권, 오피스 최적 입지",
+  ];
+
   const tabs = [
     {
       label: "차트",
@@ -233,20 +239,7 @@ const TradeDetailPage = () => {
 
           <div className="divideBox"></div>
 
-          <div className="wrap">
-            <div className="info title">투자 포인트</div>
-            <div>
-              <IconText icon="pin" text="연 6% 고정 배당금 지급" />
-              <IconText
-                icon="profit"
-                text="시세 대비 낮은 공모가, 매각 차익 기대"
-              />
-              <IconText
-                icon="tips"
-                text="신도림역 더블 역세권, 오피스 최적 입지"
-              />
-            </div>
-          </div>
+          <InvestPoint points={points} />
 
           <div className="divideBox"></div>
 
