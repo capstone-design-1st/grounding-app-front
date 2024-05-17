@@ -1,0 +1,111 @@
+.recruitInfo {
+  padding: 10px 20px;
+}
+
+.recruitInfo .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recruitInfo .flexWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.recruitInfo .recruitDesc {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--grey5);
+}
+
+.recruitInfo .recruitDate {
+  font-size: 14px;
+  font-weight: 200;
+  color: var(--grey5);
+}
+
+.recruitButtonWrap {
+  padding: 0 20px;
+  margin: 20px 0;
+  font-size: 13px;
+}
+
+.recruitButtonWrap .recruitText {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.recruitButtonWrap .recruitText > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recruitButtonWrap .recruitText .mainColor {
+  color: var(--main);
+}
+
+.recruitButtonWrap .recruitText > div > span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.recruit .sidePadding {
+  padding: 0 20px;
+}
+
+.sidePadding .title {
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.recruit .locationWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.recruit .locationWrap > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recruit .locationWrap .title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.locationWrap img {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.recruit .publishInfo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recruit .wrap .title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.recruit .wrap .title + div {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.recruit .wrap .companyDescription {
+  color: var(--grey4);
+  font-size: 11px;
+  font-weight: 400;
+}

@@ -7,11 +7,13 @@ import QuotePage from "../pages/QuotePage/QuotePage";
 import DepositPage from "../pages/DepositPage/DepositPage";
 import WithdrawPage from "../pages/WithdrawPage/WithdrawPage";
 import MorePage from "../pages/MorePage/MorePage";
+import RecruitPage from "../pages/RecruitPage/RecruitPage";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/recruit/:name" element={<RecruitPage />} />
       <Route path="/trade" element={<TradePage />} />
       <Route path="/trade/:name" element={<TradeDetailPage />} />
       <Route path="/trade/:name/quote" element={<QuotePage />} />
