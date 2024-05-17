@@ -8,6 +8,7 @@ export { default as Map } from "./common/Map/Map";
 export { default as IconText } from "./common/IconText/IconText";
 export { default as TwoRow } from "./common/TwoRow/TwoRow";
 export { default as TwoTwoRow } from "./common/TwoTwoRow/TwoTwoRow";
+export { default as SkeletonLoader } from "./common/Skeleton/Skeleton";
 
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
