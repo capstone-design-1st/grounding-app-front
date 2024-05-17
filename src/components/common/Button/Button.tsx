@@ -33,6 +33,7 @@ const Button: React.FC<ButtonProps> = ({
           boxShadow: boxShadow,
           backgroundColor: background,
           padding: padding,
+          fontWeight: 600,
         }}
         onClick={onClick}
       >
