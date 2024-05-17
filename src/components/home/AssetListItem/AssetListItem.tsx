@@ -6,25 +6,27 @@ import "./styles.css";
 
 interface AssetListItemProps {
   isMyAsset: boolean;
-  isBuilding: boolean;
+  assetType: string;
   assetName: string;
-  value: string;
-  change: string;
-  count?: string;
-  unitPrice?: string;
-  totalChange?: string;
+  value: number;
+  changeRatio: number;
+  changePrice: number;
+  count?: number;
+  unitPrice?: number;
+  totalChange?: number;
 }
 
 const AssetListItem: React.FC<AssetListItemProps> = ({
   isMyAsset,
-  isBuilding,
+  assetType,
   assetName,
   value,
-  change,
+  changeRatio,
+  changePrice,
   count,
   unitPrice,
 }) => {
-  let image = isBuilding ? building : farm;
+  let image = assetType === "building" ? building : farm;
 
   return (
     <div className={`assetSection ${isMyAsset ? "myAsset" : ""}`}>
@@ -41,8 +43,20 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
           </div>
         </div>
         <div className="assetValue">
-          <div className="value">{value}</div>
-          {isMyAsset && <div className="change">{change}</div>}
+          <div className="value">{value}원</div>
+          {isMyAsset && (
+            <div className="change">
+              {changeRatio > 0 ? (
+                <span style={{ color: "var(--red)" }}>
+                  +{changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
+                </span>
+              ) : (
+                <span style={{ color: "var(--blue)" }}>
+                  {changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
+                </span>
+              )}
+            </div>
+          )}
         </div>
         {!isMyAsset && (
           <img className="heartIcon" src={heartIcon} alt="heart" />

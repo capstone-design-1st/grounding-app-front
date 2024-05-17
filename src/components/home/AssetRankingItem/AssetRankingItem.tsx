@@ -4,25 +4,27 @@ import farm from "../../../assets/icons/farm.png";
 import "./styles.css";
 
 interface AssetRankingItemProps {
-  isBuliding: boolean;
+  assetType: string;
   rank: number;
   assetName: string;
-  value: string;
-  change: string;
+  value: number;
+  changeRatio: number;
+  changePrice: number;
 }
 
 const AssetRankingItem: React.FC<AssetRankingItemProps> = ({
-  isBuliding,
+  assetType,
   rank,
   assetName,
   value,
-  change,
+  changeRatio,
+  changePrice,
 }) => {
   return (
     <div className="assetRankingItem">
       <div className="rank">{rank}</div>
       <div className="assetInfo">
-        {isBuliding ? (
+        {assetType === "building" ? (
           <img className="assetIcon" src={building} alt="building" />
         ) : (
           <img className="assetIcon" src={farm} alt="farm" />
@@ -31,7 +33,17 @@ const AssetRankingItem: React.FC<AssetRankingItemProps> = ({
       </div>
       <div className="assetValue">
         <div className="value">{value}</div>
-        <div className="change">{change}</div>
+        <div className="change">
+          {changeRatio > 0 ? (
+            <span style={{ color: "var(--red)" }}>
+              +{changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
+            </span>
+          ) : (
+            <span style={{ color: "var(--blue)" }}>
+              {changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
