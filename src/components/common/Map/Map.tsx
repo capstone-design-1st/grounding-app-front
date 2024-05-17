@@ -16,6 +16,8 @@ const Map: React.FC<MapProps> = ({ address }) => {
 
   useEffect(() => {
     const { kakao } = window;
+    //모바일에서 맵 보이게 하기
+    kakao.maps.disableHD();
 
     const geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch(address, function (result: any, status: any) {
