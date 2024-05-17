@@ -9,6 +9,8 @@ export { default as IconText } from "./common/IconText/IconText";
 export { default as TwoRow } from "./common/TwoRow/TwoRow";
 export { default as TwoTwoRow } from "./common/TwoTwoRow/TwoTwoRow";
 export { default as SkeletonLoader } from "./common/Skeleton/Skeleton";
+export { default as Badge } from "./common/Badge/Badge";
+export { default as InvestPoint } from "./common/InvestPoint/InvestPoint";
 
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
@@ -25,6 +27,7 @@ export { default as ChartTable } from "./trade/ChartTable/chartTable";
 /*home*/
 export { default as AssetListItem } from "./home/AssetListItem/AssetListItem";
 export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankingItem";
+export { default as TimeLine } from "./home/TimeLine/TimeLine";
 
 /*mypage */
 export { default as InvestmentSummary } from "./mypage/InvestingSummary/InvestingSummary";
