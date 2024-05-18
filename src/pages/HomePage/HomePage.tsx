@@ -148,7 +148,11 @@ const HomePage = () => {
         {listings ? (
           <Slider {...settings}>
             {listings.content.map((listing, index) => (
-              <div className="slider" key={listing.listing_id}>
+              <div
+                className="slider"
+                key={listing.listing_id}
+                onClick={() => navigate(`/recruit/${listing.name}`)}
+              >
                 <img src={listing.thumbnail_url} alt={`main ${index}`} />
                 <div className="sliderTitle">{listing.name}</div>
                 <div className="sliderSubTitle">{listing.summary}</div>
@@ -191,17 +195,19 @@ const HomePage = () => {
             </div>
             {assetHome.having_listing ? (
               assetHome.having_listing.map((asset: any, index: number) => (
-                <AssetListItem
-                  key={index}
-                  isMyAsset={true}
-                  assetType={asset.type}
-                  assetName={asset.name}
-                  value={asset.total}
-                  count={asset.counts}
-                  unitPrice={asset.buying_price}
-                  changeRatio={asset.earning_ratio}
-                  changePrice={asset.earning_price}
-                />
+                <div onClick={() => navigate(`/trade/${asset.name}`)}>
+                  <AssetListItem
+                    key={index}
+                    isMyAsset={true}
+                    assetType={asset.type}
+                    assetName={asset.name}
+                    value={asset.total}
+                    count={asset.counts}
+                    unitPrice={asset.buying_price}
+                    changeRatio={asset.earning_ratio}
+                    changePrice={asset.earning_price}
+                  />
+                </div>
               ))
             ) : (
               <div>보유한 자산이 없습니다.</div>
@@ -260,15 +266,17 @@ const HomePage = () => {
           <div>
             <div className="title">거래량이 많은 매물</div>
             {listingsVolume.content.map((listing: any, index: number) => (
-              <AssetRankingItem
-                key={index}
-                rank={index + 1}
-                assetType={listing.type}
-                assetName={listing.name}
-                value={listing.value}
-                changeRatio={listing.earning_ratio}
-                changePrice={listing.earning_price}
-              />
+              <div onClick={() => navigate(`/trade/${listing.name}`)}>
+                <AssetRankingItem
+                  key={index}
+                  rank={index + 1}
+                  assetType={listing.type}
+                  assetName={listing.name}
+                  value={listing.value}
+                  changeRatio={listing.earning_ratio}
+                  changePrice={listing.earning_price}
+                />
+              </div>
             ))}
           </div>
         ) : (
