@@ -110,6 +110,9 @@ const HomePage = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true, // 자동 슬라이드
+    autoplaySpeed: 3000, // 1초마다 슬라이드 넘김
+    pauseOnHover: true, // 마우스 호버시 자동 슬라이드 멈춤
   };
 
   return (

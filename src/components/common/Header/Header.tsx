@@ -1,29 +1,5 @@
 import React from "react";
-
-const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: "10px 20px",
-    color: "#333",
-  },
-  left: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  center: {
-    flexGrow: 1,
-    textAlign: "center" as const,
-  },
-  right: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-};
+import "./styles.css";
 
 interface HeaderProps {
   leftContent?: JSX.Element;
@@ -37,10 +13,10 @@ const Header: React.FC<HeaderProps> = ({
   rightContent,
 }) => {
   return (
-    <div style={styles.header}>
-      <div style={styles.left}>{leftContent}</div>
-      <div style={styles.center}>{centerContent}</div>
-      <div style={styles.right}>{rightContent}</div>
+    <div className="header">
+      <div className="header-left">{leftContent}</div>
+      <div className="header-center">{centerContent}</div>
+      <div className="header-right">{rightContent}</div>
     </div>
   );
 };

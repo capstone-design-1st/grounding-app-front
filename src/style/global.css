@@ -21,6 +21,7 @@ body {
 
 /* 전체 페이지를 감싸는 컨테이너 */
 .container {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +34,6 @@ body {
   max-width: none;
   margin-bottom: 45px;
   background: white;
-  border-radius: 8px;
   overflow-x: hidden;
   overflow-y: auto;
   -ms-overflow-style: none; /* IE and Edge */
