@@ -3,6 +3,11 @@
   "name": "Create React App Sample",
   "icons": [
     {
+      "src": "/icons/splash.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
       "src": "./icons/apple-touch-icon-57x57.png",
       "sizes": "57x57",
       "type": "image/png"
