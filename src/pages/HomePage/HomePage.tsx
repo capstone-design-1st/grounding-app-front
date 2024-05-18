@@ -1,13 +1,13 @@
-import { useQuery } from "react-query";
+//import { useQuery } from "react-query";
 import "./styles.css";
 import "../../style/slick.css";
 import "../../style/slick-theme.css";
-import {
-  fetchListings,
-  fetchListingsCount,
-  fetchListingsByVolume,
-  fetchAssetHome,
-} from "../../apis/reactQuery/Home";
+// import {
+//   fetchListings,
+//   fetchListingsCount,
+//   fetchListingsByVolume,
+//   fetchAssetHome,
+// } from "../../apis/reactQuery/Home";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import {
