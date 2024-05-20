@@ -80,3 +80,40 @@ body {
   font-size: 12px;
   cursor: pointer;
 }
+
+loading-spinner {
+  position: fixed;
+  top: 50px;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 0;
+  z-index: 999;
+}
+
+.loading-ptr-1,
+.loading-ptr-2,
+.loading-ptr-3 {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 3px;
+  background: #333;
+  border-radius: 50%;
+  animation: loading 0.6s infinite alternate;
+}
+
+.loading-ptr-2 {
+  animation-delay: 0.2s;
+}
+
+.loading-ptr-3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading {
+  to {
+    opacity: 0.3;
+    transform: translateY(-10px);
+  }
+}

@@ -20,9 +20,44 @@ import {
 import mainImg from "../../assets/imgs/main.png";
 import dotsIcon from "../../assets/icons/dots.svg";
 import banner from "../../assets/imgs/banner.svg";
+import ReactPullToRefresh from "react-pull-to-refresh";
+import Hammer from "hammerjs";
+import { useEffect, useRef, useState } from "react";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const containerRef = useRef(null);
+
+  const handleRefresh = () => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 2000); // Simulate loading time
+    });
+  };
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const hammer = new Hammer(containerRef.current);
+
+      hammer.get("pan").set({ direction: Hammer.DIRECTION_DOWN });
+
+      hammer.on("panstart", () => {
+        setLoading(true);
+      });
+
+      hammer.on("panend", () => {
+        setLoading(false);
+      });
+
+      return () => {
+        hammer.off("panstart");
+        hammer.off("panend");
+      };
+    }
+  }, []);
+
   //모집 중 매물 리스트 조회
   // const { data: listings } = useQuery(["listings", 0, 5, "ongoing"], () =>
   //   fetchListings(0, 5, "ongoing")
@@ -116,7 +151,7 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div ref={containerRef}>
       <Header
         rightContent={
           <img
@@ -127,163 +162,149 @@ const HomePage = () => {
         }
       />
 
-      {listings && listingsCount && (
-        <div>
-          <img src={banner} alt="banner" className="banner" />
-        </div>
-      )}
-
-      <div className="titleWrapper">
-        {listings && listingsCount ? (
-          <div>
-            <div className="title">모집 중인 매물</div>
-            <div className="subTitle">
-              {listingsCount.listing_count}개의 매물이 투자를 받고 있어요.
-            </div>
-          </div>
-        ) : (
-          <div className="title" style={{ marginBottom: "10px" }}>
-            <SkeletonLoader width="100%" height="20px" />
+      <ReactPullToRefresh onRefresh={handleRefresh} loading={""}>
+        {loading && (
+          <div
+            className="loading-spinner"
+            style={{ textAlign: "center", padding: "10px 0 15px 0" }}
+          >
+            <span className="loading-ptr-1"></span>
+            <span className="loading-ptr-2"></span>
+            <span className="loading-ptr-3"></span>
           </div>
         )}
-      </div>
-      <div>
-        {listings ? (
-          <Slider {...settings}>
-            {listings.content.map((listing, index) => (
-              <div
-                className="slider"
-                key={listing.listing_id}
-                onClick={() => navigate(`/recruit/${listing.name}`)}
-              >
-                <img src={listing.thumbnail_url} alt={`main ${index}`} />
-                <div className="sliderTitle">{listing.name}</div>
-                <div className="sliderSubTitle">{listing.summary}</div>
-              </div>
-            ))}
-          </Slider>
-        ) : (
-          <div
-            className="subTitle"
-            style={{
-              width: "100%",
-              padding: "0 20px",
-              boxSizing: "border-box",
-            }}
-          >
-            <SkeletonLoader width="100%" height="280px" />
+        {listings && listingsCount && (
+          <div>
+            <img src={banner} alt="banner" className="banner" />
           </div>
         )}
-      </div>
 
-      {assetHome && <div className="divideBox"></div>}
-
-      <div>
-        {assetHome ? (
-          <div>
-            <div className="home assetHeader">
-              <div className="assetTitle">내 자산</div>
-              {assetHome.total_earning_ratio > 0 ? (
-                <div className="overallChange" style={{ color: "var(--red)" }}>
-                  +{assetHome.total_earning_ratio}%
-                </div>
-              ) : (
-                <div className="overallChange" style={{ color: "var(--blue)" }}>
-                  {assetHome.total_earning_ratio}%
-                </div>
-              )}
-              <div className="viewMore" onClick={() => navigate("/mypage")}>
-                자세히 보기
+        <div className="titleWrapper">
+          {listings && listingsCount ? (
+            <div>
+              <div className="title">모집 중인 매물</div>
+              <div className="subTitle">
+                {listingsCount.listing_count}개의 매물이 투자를 받고 있어요.
               </div>
             </div>
-            {assetHome.having_listing ? (
-              assetHome.having_listing.map((asset: any, index: number) => (
-                <div onClick={() => navigate(`/trade/${asset.name}`)}>
-                  <AssetListItem
-                    key={index}
-                    isMyAsset={true}
-                    assetType={asset.type}
-                    assetName={asset.name}
-                    value={asset.total}
-                    count={asset.counts}
-                    unitPrice={asset.buying_price}
-                    changeRatio={asset.earning_ratio}
-                    changePrice={asset.earning_price}
-                  />
-                </div>
-              ))
-            ) : (
-              <div>보유한 자산이 없습니다.</div>
-            )}
-          </div>
-        ) : (
-          <div
-            style={{
-              width: "100%",
-              padding: "0 20px",
-              boxSizing: "border-box",
-            }}
-          >
-            <div className="assetTitle" style={{ marginTop: "10px" }}>
+          ) : (
+            <div className="title" style={{ marginBottom: "10px" }}>
               <SkeletonLoader width="100%" height="20px" />
             </div>
-            <div style={{ width: "100%", marginTop: "10px" }}>
-              <SkeletonLoader width="100%" height="80px" />
-            </div>
-          </div>
-        )}
-      </div>
-
-      {listings && <div className="divideBox"></div>}
-
-      {assetHome ? (
+          )}
+        </div>
         <div>
-          <div className="titleWrapper">
-            <div className="title">내가 찜한 매물</div>
-          </div>
-
-          <AssetListItem
-            isMyAsset={false}
-            assetType={"land"}
-            assetName="신도림 핀포인트타워 2호"
-            value={123456}
-            changeRatio={25.5}
-            changePrice={12345}
-          />
+          {listings ? (
+            <Slider {...settings}>
+              {listings.content.map((listing, index) => (
+                <div
+                  className="slider"
+                  key={listing.listing_id}
+                  onClick={() => navigate(`/recruit/${listing.name}`)}
+                >
+                  <img src={listing.thumbnail_url} alt={`main ${index}`} />
+                  <div className="sliderTitle">{listing.name}</div>
+                  <div className="sliderSubTitle">{listing.summary}</div>
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <div
+              className="subTitle"
+              style={{
+                width: "100%",
+                padding: "0 20px",
+                boxSizing: "border-box",
+              }}
+            >
+              <SkeletonLoader width="100%" height="280px" />
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="titleWrapper">
-          <div className="title" style={{ marginBottom: "10px" }}>
-            <SkeletonLoader width="100%" height="20px" />
-          </div>
-          <div style={{ width: "100%", marginTop: "10px" }}>
-            <SkeletonLoader width="100%" height="80px" />
-          </div>
-        </div>
-      )}
 
-      {listingsVolume && <div className="divideBox"></div>}
+        {assetHome && <div className="divideBox"></div>}
 
-      <div className="titleWrapper">
-        {listingsVolume ? (
-          <div>
-            <div className="title">거래량이 많은 매물</div>
-            {listingsVolume.content.map((listing: any, index: number) => (
-              <div onClick={() => navigate(`/trade/${listing.name}`)}>
-                <AssetRankingItem
-                  key={index}
-                  rank={index + 1}
-                  assetType={listing.type}
-                  assetName={listing.name}
-                  value={listing.value}
-                  changeRatio={listing.earning_ratio}
-                  changePrice={listing.earning_price}
-                />
+        <div>
+          {assetHome ? (
+            <div>
+              <div className="home assetHeader">
+                <div className="assetTitle">내 자산</div>
+                {assetHome.total_earning_ratio > 0 ? (
+                  <div
+                    className="overallChange"
+                    style={{ color: "var(--red)" }}
+                  >
+                    +{assetHome.total_earning_ratio}%
+                  </div>
+                ) : (
+                  <div
+                    className="overallChange"
+                    style={{ color: "var(--blue)" }}
+                  >
+                    {assetHome.total_earning_ratio}%
+                  </div>
+                )}
+                <div className="viewMore" onClick={() => navigate("/mypage")}>
+                  자세히 보기
+                </div>
               </div>
-            ))}
+              {assetHome.having_listing ? (
+                assetHome.having_listing.map((asset: any, index: number) => (
+                  <div onClick={() => navigate(`/trade/${asset.name}`)}>
+                    <AssetListItem
+                      key={index}
+                      isMyAsset={true}
+                      assetType={asset.type}
+                      assetName={asset.name}
+                      value={asset.total}
+                      count={asset.counts}
+                      unitPrice={asset.buying_price}
+                      changeRatio={asset.earning_ratio}
+                      changePrice={asset.earning_price}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div>보유한 자산이 없습니다.</div>
+              )}
+            </div>
+          ) : (
+            <div
+              style={{
+                width: "100%",
+                padding: "0 20px",
+                boxSizing: "border-box",
+              }}
+            >
+              <div className="assetTitle" style={{ marginTop: "10px" }}>
+                <SkeletonLoader width="100%" height="20px" />
+              </div>
+              <div style={{ width: "100%", marginTop: "10px" }}>
+                <SkeletonLoader width="100%" height="80px" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {listings && <div className="divideBox"></div>}
+
+        {assetHome ? (
+          <div>
+            <div className="titleWrapper">
+              <div className="title">내가 찜한 매물</div>
+            </div>
+
+            <AssetListItem
+              isMyAsset={false}
+              assetType={"land"}
+              assetName="신도림 핀포인트타워 2호"
+              value={123456}
+              changeRatio={25.5}
+              changePrice={12345}
+            />
           </div>
         ) : (
-          <div>
+          <div className="titleWrapper">
             <div className="title" style={{ marginBottom: "10px" }}>
               <SkeletonLoader width="100%" height="20px" />
             </div>
@@ -292,9 +313,41 @@ const HomePage = () => {
             </div>
           </div>
         )}
-      </div>
 
-      <div className="divideBox"></div>
+        {listingsVolume && <div className="divideBox"></div>}
+
+        <div className="titleWrapper">
+          {listingsVolume ? (
+            <div>
+              <div className="title">거래량이 많은 매물</div>
+              {listingsVolume.content.map((listing: any, index: number) => (
+                <div onClick={() => navigate(`/trade/${listing.name}`)}>
+                  <AssetRankingItem
+                    key={index}
+                    rank={index + 1}
+                    assetType={listing.type}
+                    assetName={listing.name}
+                    value={listing.value}
+                    changeRatio={listing.earning_ratio}
+                    changePrice={listing.earning_price}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <div className="title" style={{ marginBottom: "10px" }}>
+                <SkeletonLoader width="100%" height="20px" />
+              </div>
+              <div style={{ width: "100%", marginTop: "10px" }}>
+                <SkeletonLoader width="100%" height="80px" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="divideBox"></div>
+      </ReactPullToRefresh>
 
       <Navbar selected="home" />
     </div>
