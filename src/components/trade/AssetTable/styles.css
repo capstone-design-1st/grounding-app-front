@@ -8,13 +8,13 @@
 
 .assetTableLabel {
   color: var(--grey4);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.24px;
 }
 
 .assetTableValue {
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   letter-spacing: -0.24px;

@@ -26,7 +26,7 @@
   font-size: 14px;
 }
 
-.downloadIcon {
+.downloadIcon > img {
   display: inline-block;
   width: 18px;
   height: 18px;

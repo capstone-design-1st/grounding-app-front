@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
-import pdfIcon from "../../../assets/icons/pdf.svg";
-import downloadIcon from "../../../assets/icons/download.svg";
+import pdfIcon from "../../../assets/icons/pdf.png";
+import downloadIcon from "../../../assets/icons/download.png";
 
 interface DocumentItem {
   title: string;

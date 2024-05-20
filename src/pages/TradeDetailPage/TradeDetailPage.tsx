@@ -254,7 +254,10 @@ const TradeDetailPage = () => {
 
           <div className="divideBox"></div>
 
-          <InvestPoint points={points} />
+          <div className="sidePadding">
+            <div className="title">투자 포인트</div>
+            <InvestPoint points={points} />
+          </div>
 
           <div className="divideBox"></div>
 
