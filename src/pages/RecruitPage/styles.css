@@ -3,7 +3,7 @@
 }
 
 .recruitInfo .title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -29,14 +29,14 @@
 
 .recruitButtonWrap {
   padding: 0 20px;
-  margin: 20px 0;
+  margin: 20px 0 30px 0px;
   font-size: 13px;
 }
 
 .recruitButtonWrap .recruitText {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .recruitButtonWrap .recruitText > div {
@@ -61,7 +61,7 @@
 .sidePadding .title {
   margin: 20px 0;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .recruit .locationWrap {
@@ -78,7 +78,7 @@
 }
 
 .recruit .locationWrap .title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -88,13 +88,13 @@
 }
 
 .recruit .publishInfo {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .recruit .wrap .title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
 }

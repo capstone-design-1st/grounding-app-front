@@ -8,6 +8,7 @@ type ButtonProps = {
   width?: string;
   border?: string;
   boxShadow?: string;
+  fontSize?: string;
   onClick: () => void;
 };
 
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   border,
   boxShadow,
   width,
+  fontSize,
 }) => {
   return (
     <div>
@@ -34,6 +36,7 @@ const Button: React.FC<ButtonProps> = ({
           backgroundColor: background,
           padding: padding,
           fontWeight: 600,
+          fontSize: fontSize,
         }}
         onClick={onClick}
       >
