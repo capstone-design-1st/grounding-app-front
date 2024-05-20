@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "react-vertical-timeline-component/style.min.css";
 import {
   Header,
   Badge,

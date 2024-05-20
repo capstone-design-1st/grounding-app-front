@@ -1,76 +1,138 @@
 import React from "react";
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
-import "react-vertical-timeline-component/style.min.css";
-import "./styles.css";
-import idea from "../../../assets/icons/Idea.png";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/system";
 
-interface TimelineItemProps {
-  number: string;
-  title: string;
-  date: string;
-}
+const CustomTimeline = styled(Timeline)(({ theme }) => ({
+  paddingLeft: 0,
+}));
 
-const TimelineItem: React.FC<TimelineItemProps> = ({ number, title, date }) => (
-  <VerticalTimelineElement
-    className="vertical-timeline-element"
-    contentStyle={{
-      background: "#fff",
-      boxShadow: "none",
-      border: "none",
-      fontSize: "15px",
-    }}
-    date={date}
-    dateClassName="timeline-date"
-    iconStyle={{
-      background: "#fff",
-      color: "var(--main)",
-      fontSize: "12px",
-      width: "35px",
-      height: "35px",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      border: "none",
-    }}
-    icon={<div className="timelineItemNumber">{number}</div>}
-    position="left"
-  >
-    <h3 className="vertical-timeline-element-title">{title}</h3>
-  </VerticalTimelineElement>
-);
+const CustomTimelineItem = styled(TimelineItem)(({ theme }) => ({
+  "&:before": {
+    flex: 0,
+    padding: 0,
+  },
+}));
 
-const Timeline: React.FC = () => {
+const TimeLine = () => {
   return (
-    <div className="timeline">
-      <VerticalTimeline lineColor="#00bcd4" layout="1-column-left">
-        <TimelineItem
-          number="1"
-          title="청약 시작"
-          date="4월 18일 목요일 오전 9시"
-        />
-        <TimelineItem
-          number="2"
-          title="청약 마감"
-          date="5월 10일 금요일 오후 10시"
-        />
-        <TimelineItem
-          number="3"
-          title="거래 시작"
-          date="5월 21일 화요일 오전 9시"
-        />
-      </VerticalTimeline>
-      <div className="timelineNote">
-        <img src={idea} alt="Idea Icon" />
-        <p>
-          모집률 100% 달성시 조기 마감이 될 수 있습니다. 모집이 마감되면 청약 및
-          청약 취소를 할 수 없습니다.
-        </p>
-      </div>
+    <div>
+      <CustomTimeline>
+        <CustomTimelineItem>
+          <TimelineSeparator>
+            <TimelineDot
+              color="primary"
+              style={{
+                width: "22px",
+                height: "22px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "2px solid var(--main)",
+                backgroundColor: "var(--white)",
+                boxShadow: "none",
+              }}
+            >
+              <Typography
+                variant="caption"
+                style={{ color: "#000", fontSize: "16px" }}
+              >
+                1
+              </Typography>
+            </TimelineDot>
+            <TimelineConnector style={{ background: "var(--main)" }} />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography
+              component="span"
+              style={{ fontSize: "18px", fontWeight: 600 }}
+            >
+              청약 시작
+            </Typography>
+            <Typography style={{ fontWeight: 300, fontSize: "15px" }}>
+              4월 18일 목요일 오전 9시
+            </Typography>
+          </TimelineContent>
+        </CustomTimelineItem>
+        <CustomTimelineItem>
+          <TimelineSeparator>
+            <TimelineDot
+              color="primary"
+              style={{
+                width: "22px",
+                height: "22px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "2px solid var(--main)",
+                backgroundColor: "var(--white)",
+                boxShadow: "none",
+              }}
+            >
+              <Typography
+                variant="caption"
+                style={{ color: "#000", fontSize: "16px" }}
+              >
+                2
+              </Typography>
+            </TimelineDot>
+            <TimelineConnector style={{ background: "var(--main)" }} />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography
+              component="span"
+              style={{ fontSize: "18px", fontWeight: 600 }}
+            >
+              청약 마감
+            </Typography>
+            <Typography style={{ fontWeight: 300, fontSize: "15px" }}>
+              5월 10일 금요일 오후 10시
+            </Typography>
+          </TimelineContent>
+        </CustomTimelineItem>
+        <CustomTimelineItem>
+          <TimelineSeparator>
+            <TimelineDot
+              color="primary"
+              style={{
+                width: "22px",
+                height: "22px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "2px solid var(--main)",
+                backgroundColor: "var(--white)",
+                boxShadow: "none",
+              }}
+            >
+              <Typography
+                variant="caption"
+                style={{ color: "#000", fontSize: "16px" }}
+              >
+                3
+              </Typography>
+            </TimelineDot>
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography
+              component="span"
+              style={{ fontSize: "18px", fontWeight: 600 }}
+            >
+              거래 시작
+            </Typography>
+            <Typography style={{ fontWeight: 300, fontSize: "15px" }}>
+              5월 21일 화요일 오전 9시
+            </Typography>
+          </TimelineContent>
+        </CustomTimelineItem>
+      </CustomTimeline>
     </div>
   );
 };
 
-export default Timeline;
+export default TimeLine;
