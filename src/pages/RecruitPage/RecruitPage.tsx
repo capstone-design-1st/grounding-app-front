@@ -11,7 +11,7 @@ import {
   TimeLine,
 } from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
-import locationIcon from "../../assets/icons/location.svg";
+import locationIcon from "../../assets/icons/location.png";
 import defaultImg from "../../assets/imgs/main.png";
 import "./styles.css";
 

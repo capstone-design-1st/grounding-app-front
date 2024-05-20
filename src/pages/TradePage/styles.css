@@ -7,3 +7,9 @@
   margin-top: 50px;
   gap: 10px;
 }
+
+.tradeTitle {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}

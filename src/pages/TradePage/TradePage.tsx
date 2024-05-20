@@ -41,7 +41,7 @@ const TradePage = () => {
         }
       ></Header>
       <div className="wrap">
-        <h3>거래 중인 건물과 토지를 검색해 보세요</h3>
+        <p className="tradeTitle">거래 중인 건물과 토지를 검색해 보세요</p>
         <SearchBar placeholder="성수, 코오롱 타워 " />
 
         <div className="salesList">

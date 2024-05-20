@@ -4,8 +4,9 @@
 
 .accordion .title {
   width: 90%;
+  padding: 10px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -26,10 +27,10 @@
 }
 
 .accordion .accordionContent {
-  padding: 20px;
+  padding: 10px;
   display: none;
   background-color: var(--grey1);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 350;
 }
 

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
-import heart from "../../assets/icons/heart.svg";
+import heart from "../../assets/icons/heart.png";
+import heartFill from "../../assets/icons/heart-fill.png";
 import smallArrow from "../../assets/icons/small-arrow.svg";
 import defaultImg from "../../assets/imgs/main.png";
 import {
@@ -20,7 +21,7 @@ import {
   TwoRow,
   InvestPoint,
 } from "../../components";
-import locationIcon from "../../assets/icons/location.svg";
+import locationIcon from "../../assets/icons/location.png";
 import newsImg1 from "../../assets/imgs/news1.png";
 import newsImg2 from "../../assets/imgs/news2.png";
 import "./styles.css";
@@ -30,6 +31,7 @@ const TradeDetailPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false); // 모달 표시 상태
+  const [onClickHeart, setOnClickHeart] = useState(false); // 하트 클릭 상태
   const orderBookData: OrderBookEntry[] = [
     // 추가 데이터..
     { price: 1124, amount: 6, type: "sell" },
@@ -140,15 +142,15 @@ const TradeDetailPage = () => {
 
   const items: AccordionItem[] = [
     {
-      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
       content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
     },
     {
-      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
       content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
     },
     {
-      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
+      title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
       content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
     },
   ];
@@ -187,7 +189,7 @@ const TradeDetailPage = () => {
               }}
             >
               일별 · 당일 시세 보기
-              <img src={smallArrow} alt="smallArrow" />{" "}
+              <img src={smallArrow} alt="smallArrow" />
             </div>
           </div>
           <div className="divideBox"></div>
@@ -295,7 +297,14 @@ const TradeDetailPage = () => {
         leftContent={
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
-        rightContent={<img src={heart} alt="Heart Icon" />}
+        rightContent={
+          <img
+            src={onClickHeart ? heartFill : heart}
+            alt="Heart Icon"
+            onClick={() => setOnClickHeart(!onClickHeart)}
+            style={{ width: "24px", height: "24px" }}
+          />
+        }
       />
       <div className="tradeWrap">
         <div className="salesInfo">

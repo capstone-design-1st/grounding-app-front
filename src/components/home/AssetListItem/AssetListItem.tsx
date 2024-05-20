@@ -1,7 +1,7 @@
 import React from "react";
 import building from "../../../assets/icons/building.png";
 import farm from "../../../assets/icons/farm.png";
-import heartIcon from "../.././../assets/icons/fill-heart.svg";
+import heartIcon from "../.././../assets/icons/heart-fill.png";
 import "./styles.css";
 
 interface AssetListItemProps {

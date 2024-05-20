@@ -31,12 +31,12 @@
 }
 
 .salesInfo .col .row .title {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .salesInfo .info {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--grey4);
 }
 
@@ -61,21 +61,28 @@
   align-items: center;
   gap: 5px;
   margin-top: -13px;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 200;
+}
+
+.locationWrap img {
+  width: 15px;
+  height: 15px;
 }
 
 /*차트 탭*/
 .chartWrapper {
   display: block;
+  padding-bottom: 15px;
 }
 
 .goToSpan {
   display: flex;
   justify-content: center;
   gap: 10px;
-  font-size: 12px;
+  margin-top: 20px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 350;
   cursor: pointer;
@@ -92,12 +99,14 @@
   font-size: 16px;
   font-weight: 500;
   gap: 10px;
+  padding: 30px 20px;
 }
 
 .reputation > .title {
-  font-size: 16px;
+  font-size: 20px;
   width: 90%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 
 .info.title {
