@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import homeIcon from "../../../assets/icons/home.svg";
-import homeIconActive from "../../../assets/icons/active-home.svg";
-import storeIcon from "../../../assets/icons/market.svg";
-import storeIconActive from "../../../assets/icons/active-market.svg";
-import mypageIcon from "../../../assets/icons/mypage.svg";
-import mypageIconActive from "../../../assets/icons/active-mypage.svg";
-import moreIcon from "../../../assets/icons/plus.svg";
-import moreIconActive from "../../../assets/icons/active-plus.svg";
+import homeIcon from "../../../assets/icons/home.png";
+import homeIconActive from "../../../assets/icons/active-home.png";
+import storeIcon from "../../../assets/icons/market.png";
+import storeIconActive from "../../../assets/icons/active-market.png";
+import mypageIcon from "../../../assets/icons/mypage.png";
+import mypageIconActive from "../../../assets/icons/active-mypage.png";
+import moreIcon from "../../../assets/icons/plus.png";
+import moreIconActive from "../../../assets/icons/active-plus.png";
 import "./styles.css";
 
 interface NavbarProps {
