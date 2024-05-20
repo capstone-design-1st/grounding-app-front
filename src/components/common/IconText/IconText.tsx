@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles.css";
-import pin from "../../../assets/icons/pin.svg";
-import profit from "../../../assets/icons/profit.svg";
-import tips from "../../../assets/icons/tips.svg";
+import pin from "../../../assets/icons/pin.png";
+import profit from "../../../assets/icons/profit.png";
+import tips from "../../../assets/icons/tips.png";
 
 interface IconTextProps {
   icon: "pin" | "profit" | "tips";
@@ -19,7 +19,7 @@ const IconText: React.FC<IconTextProps> = ({ icon, text }) => {
   return (
     <div className="iconText">
       <img src={iconMap[icon]} alt={text} className="icon" />
-      <span>{text}</span>
+      <span className="text">{text}</span>
     </div>
   );
 };
