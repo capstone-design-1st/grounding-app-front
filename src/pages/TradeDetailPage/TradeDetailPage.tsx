@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.png";
@@ -32,6 +32,19 @@ const TradeDetailPage = () => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false); // 모달 표시 상태
   const [onClickHeart, setOnClickHeart] = useState(false); // 하트 클릭 상태
+  const [scrollY, setScrollY] = useState(0); //스크롤 감지
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const orderBookData: OrderBookEntry[] = [
     // 추가 데이터..
     { price: 1124, amount: 6, type: "sell" },
@@ -297,6 +310,7 @@ const TradeDetailPage = () => {
         leftContent={
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
+        centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
         rightContent={
           <img
             src={onClickHeart ? heartFill : heart}

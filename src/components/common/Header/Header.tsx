@@ -3,7 +3,7 @@ import "./styles.css";
 
 interface HeaderProps {
   leftContent?: JSX.Element;
-  centerContent?: JSX.Element;
+  centerContent?: JSX.Element | string;
   rightContent?: JSX.Element;
 }
 

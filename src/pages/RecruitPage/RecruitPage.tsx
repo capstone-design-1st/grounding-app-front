@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import "react-vertical-timeline-component/style.min.css";
 import {
   Header,
@@ -18,6 +18,18 @@ import "./styles.css";
 const RecruitPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
+  const [scrollY, setScrollY] = useState(0); //스크롤 감지
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const points = [
     "연 6% 고정 배당금 지급",
@@ -31,6 +43,7 @@ const RecruitPage = () => {
         leftContent={
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
+        centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
       />
       <div className="recruitInfo">
         <div className="title">{name} </div>
@@ -61,8 +74,9 @@ const RecruitPage = () => {
           text="투자하기"
           color="var(--white)"
           background="var(--main)"
-          padding="10px 0"
+          padding="15px 0"
           width="100%"
+          fontSize="16px"
           onClick={() => {
             alert("준비중입니다.");
           }}
