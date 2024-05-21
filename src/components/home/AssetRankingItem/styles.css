@@ -5,9 +5,9 @@
   padding: 10px 20px;
 }
 
-.rank {
+.assetRankingItem .rank {
   width: 15px;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 600;
 }
 
@@ -19,16 +19,17 @@
 .assetRankingItem .assetInfo .assetIcon {
   width: 24px;
   height: 24px;
-  margin-right: 8px;
-  margin-left: -70px;
+  margin-right: 10px;
+  margin-left: -90px;
   text-align: right;
 }
 
-.assetInfo .assetName {
-  font-size: 14px;
+.assetRankingItem .assetInfo .assetName {
+  font-size: 18px;
+  font-weight: 500;
 }
 
-.assetInfo .assetValue {
+.assetRankingItem .assetInfo .assetValue {
   text-align: right;
 }
 

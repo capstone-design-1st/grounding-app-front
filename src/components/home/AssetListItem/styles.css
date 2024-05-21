@@ -2,9 +2,15 @@
   padding: 0 20px;
 }
 
-.assetTitle {
+.assetSection .assetInfo .assetIcon {
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+}
+
+.assetSection .assetInfo .assetName {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .assetItem {
@@ -24,18 +30,8 @@
   justify-content: center;
 }
 
-.assetIcon {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-}
-
-.assetName {
-  font-size: 16px;
-}
-
 .assetDetails {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 400;
 }
 
@@ -44,7 +40,7 @@
 }
 
 .assetValue .value {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
 }
 
