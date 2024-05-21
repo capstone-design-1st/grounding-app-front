@@ -1,4 +1,4 @@
-import { instance } from "..";
+import { instance } from ".";
 
 interface Listing {
   listing_id: string;

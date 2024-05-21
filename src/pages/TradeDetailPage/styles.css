@@ -11,6 +11,10 @@
   display: flex;
   justify-content: space-between;
 }
+
+.tradeWrap.displayFlex > .title {
+  margin: 0 0 10px 0;
+}
 .sidePadding {
   padding: 0px 20px 20px 20px;
 }
@@ -59,16 +63,17 @@
 .locationWrap {
   display: flex;
   align-items: center;
-  gap: 5px;
+  padding-down: 20px;
   margin-top: -13px;
-  font-size: 14px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 200;
 }
 
-.locationWrap img {
+.tradeWrap .locationWrap img {
   width: 15px;
   height: 15px;
+  margin-right: 4px;
 }
 
 /*차트 탭*/

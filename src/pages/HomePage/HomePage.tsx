@@ -20,6 +20,8 @@ import {
 import mainImg from "../../assets/imgs/main.png";
 import dotsIcon from "../../assets/icons/dots.svg";
 import banner from "../../assets/imgs/banner.svg";
+import { instance } from "../../apis";
+import { useEffect } from "react";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -27,6 +29,16 @@ const HomePage = () => {
   // const { data: listings } = useQuery(["listings", 0, 5, "ongoing"], () =>
   //   fetchListings(0, 5, "ongoing")
   // );
+
+  const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
+  const getLikeList = async () => {
+    const response = await instance.get(`/likes/properties/users/${userId}`);
+    return response.data;
+  };
+
+  useEffect(() => {
+    getLikeList().then((res) => console.log(res));
+  }, []);
 
   const listings = {
     content: [

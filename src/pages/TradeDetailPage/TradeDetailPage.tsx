@@ -26,6 +26,8 @@ import newsImg1 from "../../assets/imgs/news1.png";
 import newsImg2 from "../../assets/imgs/news2.png";
 import "./styles.css";
 import { AccordionItem, OrderBookEntry } from "../../types";
+import { instance } from "../../apis";
+import { fetchProperty } from "../../apis/TradeDetails";
 
 const TradeDetailPage = () => {
   const { name } = useParams();
@@ -33,6 +35,98 @@ const TradeDetailPage = () => {
   const [showModal, setShowModal] = useState(false); // 모달 표시 상태
   const [onClickHeart, setOnClickHeart] = useState(false); // 하트 클릭 상태
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
+
+  const [property, setProperty] = useState({
+    name: "",
+    oneline: "",
+    present_price: 0,
+    view_count: 0,
+    like_count: 0,
+    volume_count: 0,
+    type: "",
+    price_difference: 0,
+    price_difference_rate: 0,
+  });
+
+  const [location, setLocation] = useState({
+    city: "",
+    detail: "",
+    dong: "",
+    gu: "",
+  });
+
+  const [investPoint, setInvestPoint] = useState([
+    "연 6% 고정 배당금 지급",
+    "시세 대비 낮은 공모가, 매각 차익 기대",
+    "신도림역 더블 역세권, 오피스 최적 입지",
+  ]);
+
+  const [fundraise, setFundraise] = useState({
+    deadline: "2025-01-01",
+    investor_count: 0,
+    issue_price: 1000000,
+    issuer: "ABC 회사",
+    operator_introduction: "이 운영사는 XYZ입니다.",
+    operator_name: "XYZ 운영사",
+    progress_rate: 0,
+    security_count: 1000,
+    security_type: "땡땡증권",
+    subscription_end_date: "2024-12-31",
+    subscription_start_date: "2024-12-01",
+    total_fund: 1000000,
+  });
+
+  const [propertyDetail, setPropertyDetail] = useState({});
+
+  const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
+  const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
+
+  const fetchPropertyData = async () => {
+    const response = await fetchProperty(propertyId);
+    console.log(response);
+    setProperty(response.property_dto);
+    setLocation(response.location_dto);
+    setPropertyDetail(response.property_detail_dto);
+    setPropertyDetail({
+      투자대상: property.name,
+      위치:
+        location.city +
+        " " +
+        location.gu +
+        " " +
+        location.dong +
+        " " +
+        location.detail,
+      용도지역: "일반상업지역",
+      주용도: response.property_detail_dto.main_use,
+      연면적: `본건 : ${response.property_detail_dto.land_area}m² (전유면적 : ${response.property_detail_dto.total_floor_area}m²)`,
+      대지면적: `본건 : ${response.property_detail_dto.land_area}m²`,
+      건물규모: response.property_detail_dto.floor_count,
+      준공일: response.property_detail_dto.completion_date.replace(/-/g, "."),
+      공시지가: `${
+        parseInt(response.property_detail_dto.official_land_price) /
+        response.property_detail_dto.total_floor_area
+      }원/m²(2022년 1월 기준)`,
+      임차인: response.property_detail_dto.leaser,
+      임대기간: `${response.property_detail_dto.lease_start_date.replace(
+        /-/g,
+        "."
+      )} ~ ${response.property_detail_dto.lease_end_date.replace(/-/g, ".")}`,
+    });
+    //setInvestPoint(response.invest_point_dto);
+  };
+  useEffect(() => {
+    fetchPropertyData();
+  }, []);
+
+  const handleClickHeart = async () => {
+    setOnClickHeart(!onClickHeart);
+    const response = await instance.post(
+      `/likes/users/${userId}/properties/${propertyId}`
+    );
+    console.log(response.data);
+    return response.data;
+  };
 
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -168,26 +262,6 @@ const TradeDetailPage = () => {
     },
   ];
 
-  const assetDataDetails = {
-    투자대상: "신도림 핀포인트 타워 2호",
-    위치: "서울특별시 구로구 경인로 661",
-    용도지역: "일반상업지역",
-    주용도: "숙박시설",
-    연면적: "본건 : 240.3m² (전유면적 : 1,000.3m²)",
-    대지면적: "본건 : 170.3m²",
-    건물규모: "지하 5층 / 지상 101층",
-    준공일: "2019.11.29",
-    공시지가: "13,770,000원/m²(2022년 1월 기준)",
-    임차인: "주식회사 유진글로벌",
-    임대기간: "2022.10.1 ~ 2025.11.30",
-  };
-
-  const points = [
-    "연 6% 고정 배당금 지급",
-    "시세 대비 낮은 공모가, 매각 차익 기대",
-    "신도림역 더블 역세권, 오피스 최적 입지",
-  ];
-
   const tabs = [
     {
       label: "차트",
@@ -236,7 +310,7 @@ const TradeDetailPage = () => {
           <div className="divideBox"></div>
           <div className="wrap">
             <div className="info title">투자 정보</div>
-            <AssetTable data={assetDataDetails} />
+            <AssetTable data={propertyDetail} />
           </div>
 
           <div className="divideBox"></div>
@@ -245,18 +319,30 @@ const TradeDetailPage = () => {
             <div className="info title">위치 정보</div>
             <div className="locationWrap">
               <img src={locationIcon} alt="Location Icon" />
-              <p>서울 구로구 경인로 661</p>
+              <p>
+                {location.city +
+                  " " +
+                  location.gu +
+                  " " +
+                  location.dong +
+                  " " +
+                  location.detail}
+              </p>
             </div>
           </div>
           <div>
-            <Map address="서울 구로구 경인로 661" />
+            <Map
+              address={
+                location.city + location.gu + location.dong + location.detail
+              }
+            />
           </div>
 
           <div className="divideBox"></div>
 
           <div className="sidePadding">
             <div className="title">투자 포인트</div>
-            <InvestPoint points={points} />
+            <InvestPoint points={investPoint} />
           </div>
 
           <div className="divideBox"></div>
@@ -313,12 +399,12 @@ const TradeDetailPage = () => {
         leftContent={
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
-        centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
+        centerContent={scrollY !== 0 ? <strong>{property.name}</strong> : ""}
         rightContent={
           <img
             src={onClickHeart ? heartFill : heart}
             alt="Heart Icon"
-            onClick={() => setOnClickHeart(!onClickHeart)}
+            onClick={() => handleClickHeart()}
             style={{ width: "24px", height: "24px" }}
           />
         }
@@ -327,18 +413,43 @@ const TradeDetailPage = () => {
         <div className="salesInfo">
           <div className="col">
             <div className="row">
-              <div className="title">{name} </div>
+              <div className="title">{property.name} </div>
             </div>
-            <div className="row info">서울 더블 역세권 + 6% 고정 배당</div>
+            <div className="row info">{property.oneline}</div>
           </div>
           <div className="col col2">
-            <div className="row">4,705원</div>
-            <div className="row">▴10 + 2.7%</div>
+            <div className="row">{property.present_price}</div>
+            <div className="row">
+              {property.price_difference === 0 ? (
+                <span style={{ color: "#000" }}>
+                  {property.price_difference}원 (
+                  {property.price_difference.toFixed(2)}%)
+                </span>
+              ) : property.price_difference > 0 ? (
+                <span style={{ color: "var(--red)" }}>
+                  ▲{property.price_difference}원 (
+                  {property.price_difference.toFixed(2)}%)
+                </span>
+              ) : (
+                <span style={{ color: "var(--blue)" }}>
+                  ▼{property.price_difference}원 (
+                  {property.price_difference.toFixed(2)}%)
+                </span>
+              )}
+            </div>
           </div>
         </div>
         <div className="locationWrap">
           <img src={locationIcon} alt="Location Icon" />
-          <p>서울 구로구 경인로 661</p>
+          <p>
+            {location.city +
+              " " +
+              location.gu +
+              " " +
+              location.dong +
+              " " +
+              location.detail}
+          </p>
         </div>
       </div>
       <Tab tabs={tabs} />
