@@ -3,6 +3,16 @@ body {
   padding: 0;
 }
 
+.homePage {
+  overflow-y: scroll;
+  touch-action: pan-y !important;
+  -webkit-overflow-scrolling: touch;
+
+  & * {
+    touch-action: pan-y !important;
+  }
+}
+
 .banner {
   width: 100%;
 }
