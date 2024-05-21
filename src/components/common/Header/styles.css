@@ -9,7 +9,7 @@
   background-color: #fff;
   padding: 15px 20px;
   color: #333;
-  z-index: 2;
+  z-index: 999;
 }
 
 .header-left {

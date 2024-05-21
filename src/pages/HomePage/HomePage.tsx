@@ -20,9 +20,53 @@ import {
 import mainImg from "../../assets/imgs/main.png";
 import dotsIcon from "../../assets/icons/dots.svg";
 import banner from "../../assets/imgs/banner.svg";
+//import ReactPullToRefresh from "react-pull-to-refresh";
+// import Hammer from "hammerjs";
+// import { useEffect, useRef, useState } from "react";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  // const [loading, setLoading] = useState(false);
+  // const containerRef = useRef<HTMLDivElement>(null);
+
+  // const handleRefresh = () => {
+  //   return new Promise<void>((resolve) => {
+  //     setTimeout(() => {
+  //       setLoading(false);
+  //       resolve();
+  //     }, 2000); // Simulate loading time
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   const container = containerRef.current;
+
+  //   if (container) {
+  //     const hammer = new Hammer(container);
+
+  //     hammer.get("pan").set({ direction: Hammer.DIRECTION_DOWN });
+
+  //     hammer.on("pandown", (event) => {
+  //       if (window.scrollY === 0) {
+  //         setLoading(true);
+  //       }
+  //     });
+
+  //     hammer.on("panend", (event) => {
+  //       if (loading) {
+  //         handleRefresh().then(() => {
+  //           setLoading(false);
+  //         });
+  //       }
+  //     });
+
+  //     return () => {
+  //       hammer.off("pandown");
+  //       hammer.off("panend");
+  //     };
+  //   }
+  // }, [loading]);
+
   //모집 중 매물 리스트 조회
   // const { data: listings } = useQuery(["listings", 0, 5, "ongoing"], () =>
   //   fetchListings(0, 5, "ongoing")
@@ -116,7 +160,10 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div
+      // ref={containerRef}
+      className="homePage"
+    >
       <Header
         rightContent={
           <img
@@ -127,6 +174,17 @@ const HomePage = () => {
         }
       />
 
+      {/* <ReactPullToRefresh onRefresh={handleRefresh} loading={""}>
+        {loading && (
+          <div
+            className="loading-spinner"
+            style={{ textAlign: "center", padding: "10px 0 15px 0" }}
+          >
+            <span className="loading-ptr-1"></span>
+            <span className="loading-ptr-2"></span>
+            <span className="loading-ptr-3"></span>
+          </div>
+        )} */}
       {listings && listingsCount && (
         <div>
           <img src={banner} alt="banner" className="banner" />
@@ -295,7 +353,7 @@ const HomePage = () => {
       </div>
 
       <div className="divideBox"></div>
-
+      {/* </ReactPullToRefresh> */}
       <Navbar selected="home" />
     </div>
   );
