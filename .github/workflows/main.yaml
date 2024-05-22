@@ -14,8 +14,7 @@ jobs:
 
       - name: Setup .env for CRA
         run: |
-          echo "REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}" >> .env 
-          echo "REACT_APP_SOCKET_SERVER_URL=${{ secrets.REACT_APP_SOCKET_SERVER_URL }}" >> .env
+          echo "REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }}" >> .env
 
       - name: Install Dependencies
         run: npm install
