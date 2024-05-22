@@ -42,8 +42,6 @@ export const fetchAssetHome = async (userId: string) => {
 };
 
 // 거래 순위에 따른 매물 리스트 조회
-export const fetchListingsByVolume = async (page: number, size: number) => {
-  return instance
-    .get(`/home/property?rank=tradingVolume&page=${page}&size=${size}`)
-    .then((response) => response.data);
+export const fetchListingsByVolume = async () => {
+  return instance.get(`/properties/popular`).then((response) => response.data);
 };
