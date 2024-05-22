@@ -1,4 +1,7 @@
-//import { useQuery } from "react-query";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
 import "./styles.css";
 import "../../style/slick.css";
 import "../../style/slick-theme.css";
@@ -7,9 +10,8 @@ import "../../style/slick-theme.css";
 //   fetchListingsCount,
 //   fetchListingsByVolume,
 //   fetchAssetHome,
-// } from "../../apis/reactQuery/Home";
-import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
+// } from "../../apis/Home";
+import { getLikeList } from "../../apis/Likes";
 import {
   Header,
   Navbar,
@@ -19,9 +21,9 @@ import {
 } from "../../components";
 import mainImg from "../../assets/imgs/main.png";
 import dotsIcon from "../../assets/icons/dots.svg";
-import banner from "../../assets/imgs/banner.svg";
-import { instance } from "../../apis";
-import { useEffect } from "react";
+import banner1 from "../../assets/imgs/banner1.png";
+import banner2 from "../../assets/imgs/banner2.png";
+import logo from "../../assets/imgs/header-logo.png";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -31,14 +33,6 @@ const HomePage = () => {
   // );
 
   const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
-  const getLikeList = async () => {
-    const response = await instance.get(`/likes/properties/users/${userId}`);
-    return response.data;
-  };
-
-  useEffect(() => {
-    getLikeList().then((res) => console.log(res));
-  }, []);
 
   const listings = {
     content: [
@@ -116,8 +110,18 @@ const HomePage = () => {
     ],
   };
 
+  const { data: likesList } = useQuery("likesList", () => getLikeList(userId));
+
+  /*슬라이더 세팅 */
   const settings = {
     dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const bannerSettings = {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -137,13 +141,23 @@ const HomePage = () => {
             style={{ width: "18px", height: "18px" }}
           />
         }
+        leftContent={
+          <img
+            src={logo}
+            alt="logo"
+            style={{ width: "57px", height: "22px" }}
+          />
+        }
       />
 
-      {listings && listingsCount && (
+      <Slider {...bannerSettings}>
         <div>
-          <img src={banner} alt="banner" className="banner" />
+          <img src={banner1} alt="Banner 1" style={{ width: "100%" }} />
         </div>
-      )}
+        <div>
+          <img src={banner2} alt="Banner 2" style={{ width: "100%" }} />
+        </div>
+      </Slider>
 
       <div className="titleWrapper">
         {listings && listingsCount ? (
@@ -248,20 +262,22 @@ const HomePage = () => {
 
       {listings && <div className="divideBox"></div>}
 
-      {assetHome ? (
+      {likesList?.content ? (
         <div>
           <div className="titleWrapper">
             <div className="title">내가 찜한 매물</div>
           </div>
-
-          <AssetListItem
-            isMyAsset={false}
-            assetType={"land"}
-            assetName="신도림 핀포인트타워 2호"
-            value={123456}
-            changeRatio={25.5}
-            changePrice={12345}
-          />
+          {likesList?.content?.map((asset: any) => (
+            <AssetListItem
+              key={asset.id}
+              isMyAsset={false}
+              assetType={asset.type}
+              assetName={asset.name}
+              value={asset.present_price}
+              changeRatio={asset.fluctuation_rate}
+              changePrice={asset.price_difference}
+            />
+          ))}
         </div>
       ) : (
         <div className="titleWrapper">
