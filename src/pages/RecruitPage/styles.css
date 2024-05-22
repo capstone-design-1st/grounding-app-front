@@ -1,3 +1,8 @@
+.recruit .mainImg {
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
 .recruitInfo {
   padding: 10px 20px;
 }
@@ -82,7 +87,8 @@
   font-weight: 700;
 }
 
-.locationWrap img {
+.recruit .locationWrap img {
+  width: 15px;
   vertical-align: middle;
   margin-right: 10px;
 }

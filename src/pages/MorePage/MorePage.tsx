@@ -1,13 +1,26 @@
-import banner from "../../assets/imgs/banner.svg";
+import banner from "../../assets/imgs/banner1.png";
 import arrow from "../../assets/icons/arrow.svg";
 import "./styles.css";
-import { Navbar } from "../../components";
+import { Header, Navbar } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 const MorePage = () => {
+  const navigate = useNavigate();
   return (
     <div className="morePage">
-      <div className="sectionTitle">Grounding에 대해 더 알아보기</div>
-      <img className="banner" src={banner} alt="banner" />
+      <Header
+        leftContent={
+          <div>
+            <img src={arrow} alt="logo" onClick={() => navigate(-1)} />
+          </div>
+        }
+      />
+      <img
+        className="banner"
+        src={banner}
+        alt="banner"
+        style={{ width: "100%" }}
+      />
       <div className="morePageContent">
         <div className="sectionTitle">고객지원</div>
         <div className="listItem">

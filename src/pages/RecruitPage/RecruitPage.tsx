@@ -51,6 +51,7 @@ const RecruitPage = () => {
           <div className="row recruitDate">24.04.18 ~ 24.05.10</div>
         </div>
       </div>
+
       <img src={defaultImg} alt="Main" className="mainImg" />
 
       <div className="recruitButtonWrap">
