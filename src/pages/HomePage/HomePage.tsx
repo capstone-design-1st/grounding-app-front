@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";

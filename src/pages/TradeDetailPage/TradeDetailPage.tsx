@@ -20,7 +20,7 @@ import {
   NewsListItem,
   DocumentListItem,
   TwoRow,
-  InvestPoint,
+  // InvestPoint,
 } from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.png";
@@ -39,7 +39,7 @@ const TradeDetailPage = () => {
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
   const [property, setProperty] = useState({});
 
-  const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
+  // const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
   const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
 
   const { data: propertyDetails, isError } = useQuery(
