@@ -1,5 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./styles.css";
+import { useQuery } from "react-query";
+import { fetchProperty } from "../../apis/PropertyDetails";
+import { formatDate, calculateDaysLeft } from "../../util/formatDate";
+import { formatNumberWithCommas } from "../../util/formatNumber";
 import {
   Header,
   Badge,
@@ -12,12 +17,24 @@ import {
 import arrow from "../../assets/icons/arrow.svg";
 import locationIcon from "../../assets/icons/location.png";
 import defaultImg from "../../assets/imgs/main.png";
-import "./styles.css";
 
 const RecruitPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
+
+  const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
+
+  const { data: propertyDetails, isError } = useQuery(
+    ["propertyDetails", propertyId],
+    () => fetchProperty(propertyId),
+    {
+      enabled: !!propertyId,
+      refetchOnWindowFocus: false,
+      onError: (error) =>
+        console.error("Error fetching property details:", error),
+    }
+  );
 
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -36,6 +53,45 @@ const RecruitPage = () => {
     "신도림역 더블 역세권, 오피스 최적 입지",
   ];
 
+  if (isError || !propertyDetails) {
+    return <div>에러!</div>;
+  }
+
+  const assetDataDetails = {
+    층수: propertyDetails.property_detail_dto.floor_count,
+    용도지역: propertyDetails.property_detail_dto.main_use,
+    대지면적: `${formatNumberWithCommas(
+      propertyDetails.property_detail_dto.land_area
+    )}m²`,
+    연면적: `${formatNumberWithCommas(
+      propertyDetails.property_detail_dto.total_floor_area
+    )}m²`,
+    준공일: propertyDetails.property_detail_dto.completion_date.replace(
+      /-/g,
+      "."
+    ),
+  };
+
+  const publishDataDetails = {
+    공모자산: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.total_fund
+    )}원`,
+    증권종류: "수익증권",
+    발행인: propertyDetails.fundraise_dto.security_type,
+    발행증권수: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.security_count
+    )}주`,
+    발행가액: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.issue_price
+    )}원`,
+    총모집액: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.total_fund
+    )}원`,
+    모집기간: `${formatDate(
+      propertyDetails.fundraise_dto.subscription_start_date
+    )} ~${formatDate(propertyDetails.fundraise_dto.subscription_end_date)}`,
+  };
+
   return (
     <div className="recruit">
       <Header
@@ -45,10 +101,15 @@ const RecruitPage = () => {
         centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
       />
       <div className="recruitInfo">
-        <div className="title">{name} </div>
+        <div className="title">{name}</div>
         <div className="flexWrap">
-          <div className="row recruitDesc">공실률 0% 성수동 오피스 투자</div>
-          <div className="row recruitDate">24.04.18 ~ 24.05.10</div>
+          <div className="row recruitDesc">
+            {propertyDetails?.property_dto.oneline}
+          </div>
+          <div className="row recruitDate">
+            {formatDate(propertyDetails.fundraise_dto.subscription_start_date)}{" "}
+            ~ {formatDate(propertyDetails.fundraise_dto.subscription_end_date)}{" "}
+          </div>
         </div>
       </div>
 
@@ -57,15 +118,24 @@ const RecruitPage = () => {
       <div className="recruitButtonWrap">
         <div className="recruitText flexWrap">
           <div className="mainColor">
-            <span>101</span>명 참여
-            <Badge color="var(--main)" background="#E7F9F9" text="28일 남음" />
+            <span>{propertyDetails.fundraise_dto.investor_count}</span>명 참여
+            <Badge
+              color="var(--main)"
+              background="#E7F9F9"
+              text={`${calculateDaysLeft(
+                propertyDetails.fundraise_dto.deadline
+              )}일 남음`}
+            />
           </div>
           <div>
-            <span>2,583,000</span>원 달성
+            <span>
+              {formatNumberWithCommas(propertyDetails.fundraise_dto.total_fund)}
+            </span>
+            원 달성
             <Badge
               color="var(--grey5)"
               background="var(--grey2)"
-              text="82% 달성"
+              text={`${propertyDetails.fundraise_dto.progress_rate}% 달성`}
             />
           </div>
         </div>
@@ -93,20 +163,38 @@ const RecruitPage = () => {
 
       <div className="sidePadding">
         <div className="title">모집 현황</div>
-        <TimeLine />
+        <TimeLine
+          startDate={propertyDetails.fundraise_dto.subscription_start_date}
+          endDate={propertyDetails.fundraise_dto.subscription_end_date}
+          tradeDate={propertyDetails.fundraise_dto.deadline}
+        />
       </div>
 
       <div className="divideBox"></div>
 
       <div className="locationWrap">
-        <div className="title">건물 알아보기</div>
+        <div className="title">건물 정보</div>
         <div>
           <img src={locationIcon} alt="Location Icon" />
-          <p>서울 구로구 경인로 21</p>
+          <p>
+            {propertyDetails?.location_dto?.city +
+              " " +
+              propertyDetails?.location_dto?.gu +
+              " " +
+              propertyDetails?.location_dto?.dong +
+              " " +
+              propertyDetails?.location_dto?.detail}
+          </p>
         </div>
       </div>
-      <Map address="서울 구로구 경인로 21" />
-
+      <Map
+        address={
+          propertyDetails?.location_dto?.city +
+          propertyDetails?.location_dto?.gu +
+          propertyDetails?.location_dto?.dong +
+          propertyDetails?.location_dto?.detail
+        }
+      />
       <div className="wrap">
         <AssetTable data={assetDataDetails} />
       </div>
@@ -114,34 +202,21 @@ const RecruitPage = () => {
 
       <div className="wrap">
         <div className="publishInfo">발행 정보</div>
-        <AssetTable data={assetDataDetails} />
+        <AssetTable data={publishDataDetails} />
       </div>
 
       <div className="divideBox"></div>
 
       <div className="wrap">
         <div className="title">공간 운영사 정보</div>
-        <div>제일저지주식회사</div>
+        <div>{propertyDetails.fundraise_dto.operator_name}</div>
         <p>회사 소개</p>
         <span className="companyDescription">
-          제일저지(주)는 골프, 아웃도어, 스포츠레저 웨어 등의 저지원단을
-          생산하는 소재 전문 기업으로 국내외 브랜드에 적용되는 섬유 소재의
-          핵심기술과 트허를 보유한 원단 40,000여종을 보유하고 있으며 의류 제조
-          전문 기업입니다.{" "}
+          {propertyDetails.fundraise_dto.operator_introduction}
         </span>
       </div>
     </div>
   );
-};
-
-const assetDataDetails = {
-  층수: "지상 20층/지하 3층",
-  용도지역: "업무 시설",
-  대지면적: "7,912.0m^2",
-  연면적: "56,857.0m^2",
-  건폐율: "44.9%",
-  용적률: "476.4%",
-  준공일: "2022.10.1",
 };
 
 export default RecruitPage;

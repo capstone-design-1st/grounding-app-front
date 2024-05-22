@@ -13,7 +13,7 @@ const Badge: React.FC<BadgeProps> = ({ background, color, width, text }) => {
           backgroundColor: background,
           color: color,
           width: width ? width : "fit-content",
-          padding: "5px 10px",
+          padding: "5px 5px",
           borderRadius: "5px",
           fontSize: "10px",
           fontWeight: 700,

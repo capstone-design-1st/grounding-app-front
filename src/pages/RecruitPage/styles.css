@@ -35,7 +35,7 @@
 .recruitButtonWrap {
   padding: 0 20px;
   margin: 20px 0 30px 0px;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .recruitButtonWrap .recruitText {
@@ -89,8 +89,15 @@
 
 .recruit .locationWrap img {
   width: 15px;
+  height: 15px;
   vertical-align: middle;
   margin-right: 10px;
+}
+
+.recruit .locationWrap img + p {
+  text-align: right;
+  vertical-align: middle;
+  margin: 0;
 }
 
 .recruit .publishInfo {

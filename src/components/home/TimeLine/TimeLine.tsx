@@ -7,6 +7,7 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/system";
+import { formatDateToKorean } from "../../../util/formatDate";
 
 const CustomTimeline = styled(Timeline)(({ theme }) => ({
   paddingLeft: 0,
@@ -19,7 +20,17 @@ const CustomTimelineItem = styled(TimelineItem)(({ theme }) => ({
   },
 }));
 
-const TimeLine = () => {
+interface TimeLineProps {
+  startDate: string;
+  endDate: string;
+  tradeDate: string;
+}
+
+const TimeLine: React.FC<TimeLineProps> = ({
+  startDate,
+  endDate,
+  tradeDate,
+}) => {
   return (
     <div>
       <CustomTimeline>
@@ -55,7 +66,7 @@ const TimeLine = () => {
               청약 시작
             </Typography>
             <Typography style={{ fontWeight: 300, fontSize: "15px" }}>
-              4월 18일 목요일 오전 9시
+              {formatDateToKorean(startDate)} 오전 9시
             </Typography>
           </TimelineContent>
         </CustomTimelineItem>
@@ -91,7 +102,7 @@ const TimeLine = () => {
               청약 마감
             </Typography>
             <Typography style={{ fontWeight: 300, fontSize: "15px" }}>
-              5월 10일 금요일 오후 10시
+              {formatDateToKorean(endDate)} 오후 10시
             </Typography>
           </TimelineContent>
         </CustomTimelineItem>
@@ -126,7 +137,7 @@ const TimeLine = () => {
               거래 시작
             </Typography>
             <Typography style={{ fontWeight: 300, fontSize: "15px" }}>
-              5월 21일 화요일 오전 9시
+              {formatDateToKorean(tradeDate)} 오전 9시
             </Typography>
           </TimelineContent>
         </CustomTimelineItem>
