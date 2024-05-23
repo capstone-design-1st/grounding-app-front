@@ -13,7 +13,25 @@ interface LikesListProps {
   content: AssetListItemProps[];
 }
 
-export const getLikeList = async (userId: string) => {
-  const response = await instance.get(`/likes/properties/users/${userId}`);
+interface LikeResponse {
+  property_id: string;
+  user_id: string;
+  liked_at?: string;
+  disliked_at?: string;
+  like_count: number;
+}
+
+export const addLike = async (propertyId: string): Promise<LikeResponse> => {
+  const response = await instance.post(`/likes/properties/${propertyId}`);
+  return response.data as LikeResponse;
+};
+
+export const deleteLike = async (propertyId: string): Promise<LikeResponse> => {
+  const response = await instance.delete(`/likes/properties/${propertyId}`);
+  return response.data as LikeResponse;
+};
+
+export const getLikeList = async () => {
+  const response = await instance.get(`/likes/properties`);
   return response.data as LikesListProps;
 };

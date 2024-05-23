@@ -3,9 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AccordionItem, OrderBookEntry } from "../../types";
 import "./styles.css";
 import { fetchProperty } from "../../apis/PropertyDetails";
+import { addLike, deleteLike } from "../../apis/Likes";
 import { formatDate } from "../../util/formatDate";
 import { formatNumberWithCommas } from "../../util/formatNumber";
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+
 import {
   Header,
   Tab,
@@ -39,7 +41,7 @@ const TradeDetailPage = () => {
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
   const [property, setProperty] = useState({});
 
-  // const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
+  const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
   const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
 
   const { data: propertyDetails, isError } = useQuery(
@@ -52,6 +54,39 @@ const TradeDetailPage = () => {
         console.error("Error fetching property details:", error),
     }
   );
+
+  const queryClient = useQueryClient();
+
+  // addLike 기능을 위한 Mutation
+  const addLikeMutation = useMutation(() => addLike(propertyId), {
+    onSuccess: () => {
+      // 성공 시 수행할 작업, 예를 들어 캐시된 쿼리 데이터 갱신
+      queryClient.invalidateQueries("likeList");
+    },
+    onError: (error) => {
+      console.error("Error adding like:", error);
+    },
+  });
+
+  // deleteLike 기능을 위한 Mutation
+  const deleteLikeMutation = useMutation(() => deleteLike(propertyId), {
+    onSuccess: () => {
+      // 성공 시 수행할 작업
+      queryClient.invalidateQueries("likeList");
+    },
+    onError: (error) => {
+      console.error("Error deleting like:", error);
+    },
+  });
+
+  const handleClickHeart = async () => {
+    if (onClickHeart) {
+      deleteLikeMutation.mutate();
+    } else {
+      addLikeMutation.mutate();
+    }
+    setOnClickHeart(!onClickHeart);
+  };
 
   useEffect(() => {
     if (propertyDetails) {
@@ -84,10 +119,6 @@ const TradeDetailPage = () => {
       });
     }
   }, [propertyDetails]);
-
-  const handleClickHeart = async () => {
-    setOnClickHeart(!onClickHeart);
-  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

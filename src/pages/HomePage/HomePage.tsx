@@ -32,8 +32,6 @@ const HomePage = () => {
   //   fetchListings(0, 5, "ongoing")
   // );
 
-  const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
-
   const listings = {
     content: [
       {
@@ -110,7 +108,7 @@ const HomePage = () => {
     ],
   };
 
-  const { data: likesList } = useQuery("likesList", () => getLikeList(userId));
+  const { data: likesList } = useQuery("likesList", () => getLikeList());
 
   /*슬라이더 세팅 */
   const settings = {
