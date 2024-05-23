@@ -5,12 +5,12 @@ import Slider from "react-slick";
 import "./styles.css";
 import "../../style/slick.css";
 import "../../style/slick-theme.css";
-// import {
-//   fetchListings,
-//   fetchListingsCount,
-//   fetchListingsByVolume,
-//   fetchAssetHome,
-// } from "../../apis/Home";
+import {
+  //   fetchListings,
+  //   fetchListingsCount,
+  fetchListingsByVolume,
+  //   fetchAssetHome,
+} from "../../apis/Home";
 import { getLikeList } from "../../apis/Likes";
 import {
   Header,
@@ -61,23 +61,26 @@ const HomePage = () => {
   };
 
   //거래량이 많은 매물 리스트 조회
-  // const { data: listingsVolume } = useQuery(["listingsVolume", 0, 5], () =>
-  //   fetchListingsByVolume(0, 5)
-  // );
-  const listingsVolume = {
-    content: [
-      {
-        listing_id: "string",
-        name: "string",
-        type: "building",
-        value: 123456,
-        earning_ratio: 25.5,
-        earning_price: 12345,
-        created_at: "2024-03-25T06:52:38.200Z",
-        updated_at: "2024-03-25T06:52:38.200Z",
-      },
-    ],
-  };
+  const { data: listingsVolume } = useQuery("listingsVolume", () =>
+    fetchListingsByVolume()
+  );
+
+  console.log(listingsVolume);
+
+  // const listingsVolume = {
+  //   content: [
+  //     {
+  //       listing_id: "string",
+  //       name: "string",
+  //       type: "building",
+  //       value: 123456,
+  //       earning_ratio: 25.5,
+  //       earning_price: 12345,
+  //       created_at: "2024-03-25T06:52:38.200Z",
+  //       updated_at: "2024-03-25T06:52:38.200Z",
+  //     },
+  //   ],
+  // };
 
   //보유 자산 조회
   // const { data: assetHome } = useQuery("assetHome", () => fetchAssetHome("1"));
@@ -301,9 +304,9 @@ const HomePage = () => {
                   rank={index + 1}
                   assetType={listing.type}
                   assetName={listing.name}
-                  value={listing.value}
-                  changeRatio={listing.earning_ratio}
-                  changePrice={listing.earning_price}
+                  value={listing.present_price}
+                  changeRatio={listing.fluctuation_rate}
+                  changePrice={listing.price_difference}
                 />
               </div>
             ))}
