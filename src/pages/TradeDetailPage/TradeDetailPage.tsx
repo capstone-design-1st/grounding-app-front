@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AccordionItem, OrderBookEntry } from "../../types";
 import "./styles.css";
-import { fetchProperty } from "../../apis/PropertyDetails";
+import { fetchProperty, fetchPropertyLike } from "../../apis/PropertyDetails";
 import { addLike, deleteLike } from "../../apis/Likes";
 import { formatDate } from "../../util/formatDate";
 import { formatNumberWithCommas } from "../../util/formatNumber";
@@ -37,11 +37,10 @@ const TradeDetailPage = () => {
   const { name } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false); // 모달 표시 상태
-  const [onClickHeart, setOnClickHeart] = useState(false); // 하트 클릭 상태
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
   const [property, setProperty] = useState({});
 
-  const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
+  //const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
   const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
 
   const { data: propertyDetails, isError } = useQuery(
@@ -54,6 +53,22 @@ const TradeDetailPage = () => {
         console.error("Error fetching property details:", error),
     }
   );
+
+  const { data: isLike } = useQuery(
+    ["isLike", propertyId],
+    () => fetchPropertyLike(propertyId),
+    {
+      enabled: !!propertyId,
+    }
+  );
+
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    if (isLike) {
+      setLiked(isLike.is_like);
+    }
+  }, [isLike]);
 
   const queryClient = useQueryClient();
 
@@ -80,12 +95,12 @@ const TradeDetailPage = () => {
   });
 
   const handleClickHeart = async () => {
-    if (onClickHeart) {
+    if (liked) {
       deleteLikeMutation.mutate();
     } else {
       addLikeMutation.mutate();
     }
-    setOnClickHeart(!onClickHeart);
+    setLiked(!liked);
   };
 
   useEffect(() => {
@@ -402,7 +417,7 @@ const TradeDetailPage = () => {
         centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
         rightContent={
           <img
-            src={onClickHeart ? heartFill : heart}
+            src={liked ? heartFill : heart}
             alt="Heart Icon"
             onClick={() => handleClickHeart()}
             style={{ width: "24px", height: "24px" }}

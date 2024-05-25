@@ -87,3 +87,18 @@ export const fetchProperty = async (
   }
   return response.data;
 };
+
+// API 응답을 위한 인터페이스 정의
+interface LikeData {
+  is_like: boolean;
+}
+
+export const fetchPropertyLike = async (
+  propertyId: string
+): Promise<LikeData> => {
+  const response = await instance.get(`/properties/${propertyId}/users/like`);
+  if (response.status !== 200) {
+    throw new Error("Network response was not ok");
+  }
+  return await response.data;
+};
