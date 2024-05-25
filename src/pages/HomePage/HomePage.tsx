@@ -65,8 +65,6 @@ const HomePage = () => {
     fetchListingsByVolume()
   );
 
-  console.log(listingsVolume);
-
   // const listingsVolume = {
   //   content: [
   //     {
@@ -263,30 +261,32 @@ const HomePage = () => {
 
       {listings && <div className="divideBox"></div>}
 
-      {likesList?.content ? (
+      {!likesList?.content || likesList.content.length !== 0 ? (
         <div>
           <div className="titleWrapper">
             <div className="title">내가 찜한 매물</div>
           </div>
-          {likesList?.content?.map((asset: any) => (
-            <AssetListItem
+          {likesList?.content.map((asset: any) => (
+            <div
               key={asset.id}
-              isMyAsset={false}
-              assetType={asset.type}
-              assetName={asset.name}
-              value={asset.present_price}
-              changeRatio={asset.fluctuation_rate}
-              changePrice={asset.price_difference}
-            />
+              onClick={() => navigate(`/trade/${asset.name}`)}
+            >
+              <AssetListItem
+                isMyAsset={false}
+                assetType={asset.type}
+                assetName={asset.name}
+                value={asset.present_price}
+                changeRatio={asset.fluctuation_rate}
+                changePrice={asset.price_difference}
+              />
+            </div>
           ))}
         </div>
       ) : (
         <div className="titleWrapper">
-          <div className="title" style={{ marginBottom: "10px" }}>
-            <SkeletonLoader width="100%" height="20px" />
-          </div>
-          <div style={{ width: "100%", marginTop: "10px" }}>
-            <SkeletonLoader width="100%" height="80px" />
+          <div className="title">내가 찜한 매물</div>
+          <div style={{ textAlign: "center", padding: "20px" }}>
+            찜한 매물이 없습니다.
           </div>
         </div>
       )}
