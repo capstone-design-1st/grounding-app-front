@@ -1,0 +1,58 @@
+.loginWrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  margin-top: 50px;
+  font-family: "Noto Sans KR";
+}
+
+.loginWrapper .logo {
+  width: 135px;
+  height: 125px;
+
+  margin: 0 auto;
+}
+
+.loginWrapper .login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
+  margin-top: 90px;
+  gap: 7px;
+  font-family: "Noto Sans KR";
+}
+
+.linkWrapper .divider {
+  color: var(--grey4);
+  margin: 0 8px;
+}
+
+.linkWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.loginWrapper span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--grey4);
+  cursor: pointer;
+}
+
+.loginMessage {
+  margin-top: 80px;
+  font-size: 10px;
+  color: var(--grey4);
+  text-align: center;
+}
+
+.loginMessage span {
+  font-size: 10px;
+  color: var(--grey5);
+}

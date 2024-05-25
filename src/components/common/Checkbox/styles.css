@@ -1,0 +1,37 @@
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+}
+
+.customCheckbox {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border: 1px solid var(--grey3);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.customCheckbox:checked {
+  background-color: var(--main);
+  border-color: var(--main);
+}
+
+.customCheckbox:checked::after {
+  content: "✔";
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+}
+
+.checkboxLabel {
+  cursor: pointer;
+  color: var(--grey4);
+  font-size: 14px;
+  margin-left: 5px;
+}

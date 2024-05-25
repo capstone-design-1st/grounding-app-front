@@ -11,6 +11,8 @@ export { default as TwoTwoRow } from "./common/TwoTwoRow/TwoTwoRow";
 export { default as SkeletonLoader } from "./common/Skeleton/Skeleton";
 export { default as Badge } from "./common/Badge/Badge";
 export { default as InvestPoint } from "./common/InvestPoint/InvestPoint";
+export { default as Checkbox } from "./common/Checkbox/Checkbox";
+export { default as PasswordInput } from "./common/PasswordInput/PasswordInput";
 
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
@@ -34,3 +36,6 @@ export { default as InvestmentSummary } from "./mypage/InvestingSummary/Investin
 export { default as MyAssetListItem } from "./mypage/MyAssetListItem/MyAssetListItem";
 export { default as TransactionItem } from "./mypage/TransactionItem/TransactionItem";
 export { default as TransactionList } from "./mypage/TransactionList/TransactionList";
+
+/*Login */
+export { default as LoginForm } from "./login/LoginForm/LoginForm";

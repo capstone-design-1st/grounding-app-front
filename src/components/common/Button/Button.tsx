@@ -37,6 +37,7 @@ const Button: React.FC<ButtonProps> = ({
           padding: padding,
           fontWeight: 600,
           fontSize: fontSize,
+          boxSizing: "border-box",
         }}
         onClick={onClick}
       >

@@ -1,0 +1,29 @@
+.loginBox {
+  padding: 20px 0;
+}
+
+.loginBox input {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid var(--grey3);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.loginBox input::placeholder {
+  color: var(--grey4);
+}
+
+.loginBox input::active {
+  border: 1px solid var(--main);
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0 50px 0;
+  gap: 10px;
+}

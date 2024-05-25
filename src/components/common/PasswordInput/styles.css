@@ -1,0 +1,14 @@
+.passwordInput {
+  position: relative;
+  width: 100%;
+}
+
+.passwordInput img {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px; /* Adjust size as needed */
+  height: 24px;
+}

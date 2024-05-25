@@ -8,6 +8,7 @@ import DepositPage from "../pages/DepositPage/DepositPage";
 import WithdrawPage from "../pages/WithdrawPage/WithdrawPage";
 import MorePage from "../pages/MorePage/MorePage";
 import RecruitPage from "../pages/RecruitPage/RecruitPage";
+import Login from "../pages/Login/Login";
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
       <Route path="/mypage/deposit" element={<DepositPage />} />
       <Route path="/mypage/withdraw" element={<WithdrawPage />} />
       <Route path="/more" element={<MorePage />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 };
