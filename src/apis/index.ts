@@ -20,6 +20,8 @@ instance.interceptors.request.use(
     if (token) {
       // 토큰이 있으면 Authorization 헤더에 추가
       config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      config.headers.Authorization = `Bearer ${process.env.REACT_APP_SERVER_TOKEN}`;
     }
     return config;
   },
