@@ -24,7 +24,7 @@ const LoginForm = () => {
   const handleLogin = async () => {
     console.log("로그인");
     console.log(formData);
-    navigate("/donation");
+    navigate("/home");
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

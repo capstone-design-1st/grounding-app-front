@@ -9,11 +9,13 @@ import WithdrawPage from "../pages/WithdrawPage/WithdrawPage";
 import MorePage from "../pages/MorePage/MorePage";
 import RecruitPage from "../pages/RecruitPage/RecruitPage";
 import Login from "../pages/Login/Login";
+import SignUp from "../pages/SignUp/SignUp";
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/home" element={<HomePage />} />
       <Route path="/recruit/:name" element={<RecruitPage />} />
       <Route path="/trade" element={<TradePage />} />
       <Route path="/trade/:name" element={<TradeDetailPage />} />
@@ -22,7 +24,7 @@ const Router = () => {
       <Route path="/mypage/deposit" element={<DepositPage />} />
       <Route path="/mypage/withdraw" element={<WithdrawPage />} />
       <Route path="/more" element={<MorePage />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
     </Routes>
   );
 };

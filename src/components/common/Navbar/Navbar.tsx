@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ selected }) => {
     <div className="navbar">
       <div
         className={`nav-item ${selected === "home" ? "active" : ""}`}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/home")}
       >
         <img
           src={selected === "home" ? homeIconActive : homeIcon}
