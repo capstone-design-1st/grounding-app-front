@@ -16,7 +16,7 @@
   color: var(--grey4);
 }
 
-.loginBox input::active {
+.loginBox input:focus {
   border: 1px solid var(--main);
 }
 

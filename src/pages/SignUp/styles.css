@@ -1,0 +1,152 @@
+.SignInTabWrapper {
+  padding: 0 20px;
+  padding-bottom: 100px;
+}
+
+.SignInTabWrapper .title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.SignInTabWrapper .subTitle {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.SignInTabWrapper .resentLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SignInTabWrapper .resentLabel a {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: underline;
+  margin-bottom: 20px;
+  color: var(--grey4);
+}
+
+.SignInTabWrapper input[type="text"],
+.SignInTabWrapper input[type="password"],
+.SignInTabWrapper input[type="tel"] {
+  width: 100%;
+  border-radius: 8px;
+  padding: 20px 17px;
+
+  border: 1px solid var(--grey2);
+  box-sizing: border-box;
+}
+
+.SignInTabWrapper .inputContainer {
+  margin-bottom: 25px;
+}
+
+.SignInTabWrapper .inputContainer .verifyWrapper {
+  display: flex;
+  justify-content: center;
+  align-item: center;
+  gap: 10px;
+}
+
+.SignInTabWrapper input::placeholder {
+  font-size: 14px;
+  color: var(--grey4);
+}
+
+.SignInCompleteWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dotWrapper {
+  display: flex;
+  padding: 30px 20px;
+  margin-bottom: 10px;
+}
+
+.checkListContainer {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  margin: 0 5px;
+  background-color: var(--grey3);
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: var(--main);
+}
+
+.allAgree {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  justify-content: flex-start;
+  border-bottom: 1px solid var(--grey2);
+}
+
+.allAgree .allAgreeText {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: var(--grey5);
+}
+
+.allAgree .agreeText {
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  color: var(--grey4);
+}
+
+.allAgreeLabel {
+  display: block;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.allAgree input[type="checkbox"] {
+  margin-top: -32px;
+}
+.termsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.termsItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 14px;
+  gap: 10px;
+}
+
+.buttonWrapper {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+@media (min-width: 400px) {
+  .buttonWrapper {
+    position: fixed;
+    bottom: 30px;
+    max-width: 360px;
+  }
+}

@@ -26,7 +26,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         onChange={handleInputChange}
       />
       <img
-        src={showPassword ? eyeOff : eye}
+        src={showPassword ? eye : eyeOff}
         alt="Toggle visibility"
         onClick={togglePasswordVisibility}
       />
