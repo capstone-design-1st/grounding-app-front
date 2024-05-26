@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 type ButtonProps = {
   text: string;
@@ -23,6 +23,16 @@ const Button: React.FC<ButtonProps> = ({
   width,
   fontSize,
 }) => {
+  const [isActive, setIsActive] = useState(false);
+
+  const handleMouseDown = () => {
+    setIsActive(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsActive(false);
+  };
+
   return (
     <div>
       <div
@@ -38,7 +48,12 @@ const Button: React.FC<ButtonProps> = ({
           fontWeight: 600,
           fontSize: fontSize,
           boxSizing: "border-box",
+          transition: "transform 0.2s ease, box-shadow 0.2s ease",
+          transform: isActive ? "scale(0.97)" : "scale(1)",
         }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
         onClick={onClick}
       >
         {text}
