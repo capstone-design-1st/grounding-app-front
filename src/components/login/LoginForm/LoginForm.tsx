@@ -2,29 +2,44 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, PasswordInput, Button } from "../../index";
 import "./styles.css";
+import { useMutation } from "react-query";
+import { login } from "../../../apis/Login";
 
 interface FormData {
-  userId: string;
+  email: string;
   password: string;
 }
 
 const LoginForm = () => {
   const navigate = useNavigate();
+
+  const { mutate } = useMutation(login, {
+    onSuccess: (data) => {
+      // 토큰을 로컬 스토리지에 저장
+      localStorage.setItem("token", data.payload.access_token);
+      navigate("/home");
+    },
+    onError: (error) => {
+      console.log(error);
+      alert("로그인에 실패했습니다.");
+    },
+  });
+
   const [autoLoginChecked, setAutoLoginChecked] = useState(false);
   const [saveIdChecked, setSaveIdChecked] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
-    userId: "",
+    email: "",
     password: "",
   });
 
   const isFormFilled =
-    formData.userId.trim() !== "" && formData.password.trim() !== "";
+    formData.email.trim() !== "" && formData.password.trim() !== "";
 
-  const handleLogin = async () => {
-    console.log("로그인");
-    console.log(formData);
-    navigate("/home");
+  const submitLogin = () => {
+    if (isFormFilled) {
+      mutate({ email: formData.email, password: formData.password });
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,10 +54,10 @@ const LoginForm = () => {
     <div>
       <div className="loginBox">
         <input
-          name="userId"
+          name="email"
           type="text"
           placeholder="이메일"
-          value={formData.userId}
+          value={formData.email}
           onChange={handleInputChange}
           className="login-input"
         />
@@ -73,7 +88,7 @@ const LoginForm = () => {
 
       <Button
         width="100%"
-        onClick={handleLogin}
+        onClick={submitLogin}
         text="로그인"
         padding="16px"
         fontSize="18px"

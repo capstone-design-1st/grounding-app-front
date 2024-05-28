@@ -5,7 +5,6 @@ import { LoginForm } from "../../components/index";
 
 const Login = () => {
   const navigate = useNavigate();
-
   const handleFindId = () => {
     console.log("아이디찾기");
   };
