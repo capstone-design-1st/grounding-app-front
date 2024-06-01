@@ -10,6 +10,7 @@ type ButtonProps = {
   boxShadow?: string;
   fontSize?: string;
   onClick: () => void;
+  disabled?: boolean;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,15 +23,24 @@ const Button: React.FC<ButtonProps> = ({
   boxShadow,
   width,
   fontSize,
+  disabled,
 }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleMouseDown = () => {
-    setIsActive(true);
+    if (!disabled) {
+      setIsActive(true);
+    }
   };
 
   const handleMouseUp = () => {
     setIsActive(false);
+  };
+
+  const handleClick = () => {
+    if (!disabled) {
+      onClick();
+    }
   };
 
   return (
@@ -54,7 +64,7 @@ const Button: React.FC<ButtonProps> = ({
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        onClick={onClick}
+        onClick={handleClick}
       >
         {text}
       </div>

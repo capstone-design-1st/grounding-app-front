@@ -89,6 +89,12 @@
   background-color: var(--main);
 }
 
+.verificationContainer .timer {
+  font-size: 14px;
+  margin-top: 10px;
+  color: var(--grey4);
+}
+
 .allAgree {
   display: flex;
   gap: 10px;
@@ -121,6 +127,7 @@
 .allAgree input[type="checkbox"] {
   margin-top: -32px;
 }
+
 .termsList {
   list-style-type: none;
   padding: 0;

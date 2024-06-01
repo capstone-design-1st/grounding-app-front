@@ -10,7 +10,8 @@ import x from "../../assets/icons/x.png";
 import check from "../../assets/icons/check.png";
 import fillCheck from "../../assets/icons/check-fill.png";
 import welcomeLogo from "../../assets/imgs/big-logo.png";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { formatTime } from "../../util/formatTime";
 import "./styles.css";
 
 interface FormData {
@@ -24,10 +25,8 @@ interface FormData {
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state as { tab: number } | null;
-  //재학생 탭 갔다올 때 location 확인
-  const [activeIndex, setActiveIndex] = useState(state?.tab || 0);
+
+  const [activeIndex, setActiveIndex] = useState(0);
   //아이디, 비밀번호, 이메일 유효성 확인
   const [validPassword, setValidPassword] = useState(false);
   const [emailValid, setEmailValid] = useState(true);
@@ -36,9 +35,14 @@ const SignUp: React.FC = () => {
   const [specialCharValid, setSpecialCharValid] = useState(false);
   //이메일 인증 완료 여부
   const [emailVerified, setEmailVerified] = useState(false);
+  //이메일 인증 인풋 보여주기 여부
+  const [showEmailVerification, setShowEmailVerification] = useState(false);
+  //인증 타이머
+  const [remainingTime, setRemainingTime] = useState(300); //5분
+  const [timerActive, setTimerActive] = useState(false);
+
   //휴대폰 인증 완료 여부
   const [phoneVerified, setPhoneVerified] = useState(false);
-
   //약관 동의 체크박스
   const [allAgreed, setAllAgreed] = useState(false);
   //유효성 확인 후 버튼 색 변경
@@ -46,6 +50,7 @@ const SignUp: React.FC = () => {
     backgroundColor: "var(--grey2)",
     color: "var(--grey5)",
   });
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -99,14 +104,46 @@ const SignUp: React.FC = () => {
     }
   };
 
+  //비밀번호 동일 여부 확인
   useEffect(() => {
     setValidPassword(formData.password === formData.confirmPassword);
   }, [formData.password, formData.confirmPassword]);
+
+  const handleShowEmailVerification = () => {
+    const isValid = isValidEmail(formData.email);
+    if (isValid) {
+      setShowEmailVerification(true);
+      setTimerActive(true);
+      setRemainingTime(300);
+      alert("인증번호가 발송되었습니다.");
+    } else {
+      alert("이메일 형식이 올바르지 않습니다.");
+    }
+  };
+
+  //인증 타이머
+  useEffect(() => {
+    let timer: NodeJS.Timeout | number;
+    if (timerActive) {
+      timer = setInterval(() => {
+        setRemainingTime((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            setTimerActive(false);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [timerActive]);
 
   const handleEmailVerification = () => {
     // 이메일 인증 처리 로직
     if (formData.emailCode === "1234") {
       setEmailVerified(true);
+      setTimerActive(false);
       alert("이메일 인증이 완료되었습니다.");
     } else {
       setEmailVerified(false);
@@ -160,16 +197,19 @@ const SignUp: React.FC = () => {
         backgroundColor: "var(--main)",
         color: "#ffffff",
       });
+      setIsButtonDisabled(false);
     } else if (phoneVerified && formData.phoneNumber) {
       setButtonColor({
         backgroundColor: "var(--main)",
         color: "#ffffff",
       });
+      setIsButtonDisabled(false);
     } else if (allAgreed) {
       setButtonColor({
         backgroundColor: "var(--main)",
         color: "#ffffff",
       });
+      setIsButtonDisabled(false);
     } else {
       // 그렇지 않으면 회색으로 설정
       setButtonColor({
@@ -177,7 +217,15 @@ const SignUp: React.FC = () => {
         color: "var(--grey5)",
       });
     }
-  }, [emailValid, formData.emailCode, validPassword, phoneVerified, allAgreed]);
+  }, [
+    emailValid,
+    emailVerified,
+    formData.emailCode,
+    validPassword,
+    phoneVerified,
+    formData.phoneNumber,
+    allAgreed,
+  ]);
 
   /*탭 전환  */
   const renderTabContent = () => {
@@ -190,51 +238,60 @@ const SignUp: React.FC = () => {
 
               <div className="inputContainer">
                 <div className="subTitle">이메일</div>
-                <input
-                  name="email"
-                  type="text"
-                  placeholder="이메일을 입력해주세요"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-                {!emailValid && (
-                  <div
-                    className="checkItem"
-                    style={{
-                      color: validPassword ? "var(--main)" : "var(--red)",
-
-                      fontSize: "14px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    이메일 형식이 올바르지 않습니다.
-                  </div>
-                )}
-              </div>
-
-              <div className="inputContainer">
-                <div className="subTitle">이메일 인증번호</div>
                 <div className="verifyWrapper">
                   <input
-                    name="emailCode"
-                    type="tel"
-                    placeholder="인증번호 입력"
-                    value={formData.emailCode}
+                    name="email"
+                    type="text"
+                    placeholder="이메일을 입력해주세요"
+                    value={formData.email}
                     onChange={handleInputChange}
                   />
                   <Button
-                    text="확인"
+                    text="인증"
                     width="50px"
-                    padding="15px 10px"
+                    padding="20px 10px"
                     fontSize="13px"
                     background="var(--main)"
                     color="#ffffff"
                     onClick={() => {
-                      handleEmailVerification();
+                      handleShowEmailVerification();
                     }}
                   />
                 </div>
               </div>
+
+              {showEmailVerification && (
+                <div className="inputContainer verificationContainer">
+                  <div className="subTitle">인증번호</div>
+                  <div className="verifyWrapper">
+                    <input
+                      name="emailCode"
+                      type="tel"
+                      placeholder="인증번호를 입력해주세요"
+                      value={formData.emailCode}
+                      onChange={handleInputChange}
+                    />
+                    <Button
+                      text="확인"
+                      width="50px"
+                      padding="20px 10px"
+                      fontSize="13px"
+                      background="var(--main)"
+                      color="#ffffff"
+                      onClick={() => {
+                        handleEmailVerification();
+                      }}
+                    />
+                  </div>
+                  <div className="timer">
+                    {emailVerified
+                      ? "이메일이 확인되었습니다."
+                      : remainingTime > 0
+                      ? `남은 시간: ${formatTime(remainingTime)}`
+                      : "인증 시간이 만료되었습니다. 다시 시도해주세요."}
+                  </div>
+                </div>
+              )}
 
               <div className="inputContainer">
                 <div className="subTitle">비밀번호</div>
@@ -277,7 +334,7 @@ const SignUp: React.FC = () => {
                 <div className="subTitle">비밀번호 확인</div>
                 <PasswordInput
                   name="confirmPassword"
-                  placeholder="비밀번호를 다시 입력해주세요"
+                  placeholder="비밀번호를 한 번 더 입력해주세요"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   handleInputChange={handleInputChange}
@@ -344,7 +401,7 @@ const SignUp: React.FC = () => {
 
               <div className="resentLabel">
                 <a
-                  href="#"
+                  href="/"
                   onClick={(e) => {
                     e.preventDefault();
                     alert("인증번호가 재전송되었습니다.");
@@ -511,6 +568,7 @@ const SignUp: React.FC = () => {
             fontSize="18px"
             background={buttonColor.backgroundColor}
             color={buttonColor.color}
+            disabled={isButtonDisabled}
           />
           <div style={{ textAlign: "center", marginTop: "20px" }}>
             이미 회원이신가요?{" "}
