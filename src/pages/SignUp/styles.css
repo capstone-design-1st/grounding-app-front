@@ -10,9 +10,21 @@
 }
 
 .SignInTabWrapper .subTitle {
+  display: flex;
+  justify-content: space-between;
   font-size: 16px;
   font-weight: 400;
   margin-bottom: 8px;
+}
+
+.SignInTabWrapper .subTitle span {
+  font-size: 13px;
+  font-style: underline;
+  color: var(--grey4);
+}
+
+.SignInTabWrapper .subTitle span:active {
+  transform: scale(0.9);
 }
 
 .SignInTabWrapper .resentLabel {
@@ -141,7 +153,7 @@
   gap: 10px;
 }
 
-.SignInTabWrapper .buttonWrapper {
+.signInContainer .buttonWrapper {
   position: fixed;
   bottom: 10px;
   width: 100%;
@@ -151,9 +163,22 @@
 }
 
 @media (min-width: 400px) {
-  .SignInTabWrapper .buttonWrapper {
+  .signInContainer .buttonWrapper {
     position: fixed;
     bottom: 30px;
     max-width: 360px;
+    left: 50%;
+    transform: translateX(-50%);
   }
+}
+
+.inputContainer {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.inputContainer.visible {
+  opacity: 1;
+  transform: translateY(0);
 }

@@ -12,37 +12,44 @@ import fillCheck from "../../assets/icons/check-fill.png";
 import welcomeLogo from "../../assets/imgs/big-logo.png";
 import { useNavigate } from "react-router-dom";
 import { formatTime } from "../../util/formatTime";
+import { isValidEmail, isValidPhoneNumber } from "../../util/validCheck";
 import "./styles.css";
+import { useMutation } from "react-query";
+import {
+  sendValidateEmailCode,
+  checkEmailCode,
+  postSignin,
+} from "../../apis/Signin";
 
 interface FormData {
+  name: string;
   email: string;
   emailCode: string;
   password: string;
   confirmPassword: string;
   phoneNumber: string;
-  phoneCode: string;
+  wallet: string;
 }
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const [activeIndex, setActiveIndex] = useState(0);
-  //아이디, 비밀번호, 이메일 유효성 확인
+  //아이디, 비밀번호, 이메일 유효성, 핸드폰 번호 유효성 확인
   const [validPassword, setValidPassword] = useState(false);
-  const [emailValid, setEmailValid] = useState(true);
+  const [emailValid, setEmailValid] = useState(false);
+  const [phoneValid, setPhoneValid] = useState(false);
   const [lengthValid, setLengthValid] = useState(false);
   const [numberValid, setNumberValid] = useState(false);
   const [specialCharValid, setSpecialCharValid] = useState(false);
-  //이메일 인증 완료 여부
-  const [emailVerified, setEmailVerified] = useState(false);
   //이메일 인증 인풋 보여주기 여부
   const [showEmailVerification, setShowEmailVerification] = useState(false);
+  //이메일 인증 완료 여부
+  const [emailVerified, setEmailVerified] = useState(false);
   //인증 타이머
   const [remainingTime, setRemainingTime] = useState(300); //5분
   const [timerActive, setTimerActive] = useState(false);
 
-  //휴대폰 인증 완료 여부
-  const [phoneVerified, setPhoneVerified] = useState(false);
   //약관 동의 체크박스
   const [allAgreed, setAllAgreed] = useState(false);
   //유효성 확인 후 버튼 색 변경
@@ -53,32 +60,35 @@ const SignUp: React.FC = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [formData, setFormData] = useState<FormData>({
+    name: "",
     email: "",
     emailCode: "",
     password: "",
     confirmPassword: "",
     phoneNumber: "",
-    phoneCode: "",
+    wallet: `${process.env.REACT_APP_WALLET_ADDRESS}`,
   });
 
   /*회원가입 */
-  //   const postSignup = async () => {
-  //     console.log({
-  //       userId: signinFormData.userId,
-  //       password: signinFormData.password,
-  //       universityName: signinFormData.universityName,
-  //       universityEmail: signinFormData.universityEmail,
-  //       styleTags: formData.styleTags,
-  //     });
-  //     const response = await instance.post("/signup", {
-  //       userId: signinFormData.userId,
-  //       password: signinFormData.password,
-  //       universityName: signinFormData.universityName,
-  //       universityEmail: signinFormData.universityEmail,
-  //       styleTags: formData.styleTags,
-  //     });
-  //     console.log(response.data);
-  //   };
+  const { mutate: signin } = useMutation(postSignin);
+
+  const postSignup = () => {
+    console.log({
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      wallet: formData.wallet,
+      phoneNumber: formData.phoneNumber,
+    });
+
+    signin({
+      email: formData.email,
+      password: formData.password,
+      name: formData.name,
+      phoneNumber: formData.phoneNumber,
+      wallet: formData.wallet,
+    });
+  };
 
   /*입력창 변경시 */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,27 +108,65 @@ const SignUp: React.FC = () => {
       setEmailValid(isValid);
     }
 
+    if (name === "phoneNumber") {
+      const isValid = isValidPhoneNumber(value);
+      setPhoneValid(isValid);
+      console.log(isValid);
+    }
+
     // 비밀번호 확인 로직 추가
     if (name === "confirmPassword") {
       setValidPassword(formData.password === value);
     }
   };
 
-  //비밀번호 동일 여부 확인
-  useEffect(() => {
-    setValidPassword(formData.password === formData.confirmPassword);
-  }, [formData.password, formData.confirmPassword]);
+  const { mutate: sendEmailCode } = useMutation(sendValidateEmailCode);
+  const { mutate: verifyEmailCode } = useMutation(checkEmailCode, {
+    onSuccess: (data) => {
+      console.log("Verification success:", data);
+      alert("이메일 인증이 완료되었습니다.");
+      setEmailVerified(true);
+      setTimerActive(false);
+    },
+    onError: (error) => {
+      console.error("Verification failed:", error);
+      setEmailVerified(false);
+      alert("인증번호가 일치하지 않습니다.");
+    },
+  });
 
   const handleShowEmailVerification = () => {
     const isValid = isValidEmail(formData.email);
     if (isValid) {
-      setShowEmailVerification(true);
-      setTimerActive(true);
-      setRemainingTime(300);
-      alert("인증번호가 발송되었습니다.");
+      sendEmailCode(formData.email, {
+        onSuccess: (data) => {
+          console.log(data);
+          setShowEmailVerification(true);
+          setTimerActive(true);
+          setRemainingTime(300);
+          alert("인증번호가 발송되었습니다.");
+        },
+        onError: (error) => {
+          alert("인증번호 전송 실패하였습니다.");
+        },
+      });
     } else {
       alert("이메일 형식이 올바르지 않습니다.");
     }
+  };
+
+  const handleEmailVerification = () => {
+    // 이메일 인증 처리 로직
+    verifyEmailCode({ email: formData.email, code: formData.emailCode });
+
+    // if (formData.emailCode === "1234") {
+    //   setEmailVerified(true);
+    //   setTimerActive(false);
+    //   alert("이메일 인증이 완료되었습니다.");
+    // } else {
+    //   setEmailVerified(false);
+    //   alert("인증번호가 일치하지 않습니다.");
+    // }
   };
 
   //인증 타이머
@@ -139,29 +187,6 @@ const SignUp: React.FC = () => {
     return () => clearInterval(timer);
   }, [timerActive]);
 
-  const handleEmailVerification = () => {
-    // 이메일 인증 처리 로직
-    if (formData.emailCode === "1234") {
-      setEmailVerified(true);
-      setTimerActive(false);
-      alert("이메일 인증이 완료되었습니다.");
-    } else {
-      setEmailVerified(false);
-      alert("인증번호가 일치하지 않습니다.");
-    }
-  };
-
-  const handlePhoneVerification = () => {
-    // 휴대폰 인증 처리 로직
-    if (formData.phoneCode === "1234") {
-      setPhoneVerified(true);
-      alert("휴대폰 인증이 완료되었습니다.");
-    } else {
-      setPhoneVerified(false);
-      alert("인증번호가 일치하지 않습니다.");
-    }
-  };
-
   /*비밀번호 유효성 체크 */
   useEffect(() => {
     const lengthCheck =
@@ -174,15 +199,12 @@ const SignUp: React.FC = () => {
     setSpecialCharValid(specialCharCheck);
   }, [formData.password]);
 
-  // 이메일 유효성 검사
-  const isValidEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   /*다음 절차로 이동 */
   const goToNextTab = () => {
     setActiveIndex((prevIndex) => (prevIndex < 4 ? prevIndex + 1 : prevIndex));
+    if (activeIndex === 1) {
+      postSignup();
+    }
   };
   /*이전 절차로 이동 */
   const goToPreviousTab = () => {
@@ -192,19 +214,20 @@ const SignUp: React.FC = () => {
   /*모든 조건 만족하면 버튼 색 변경 */
   useEffect(() => {
     // 모든 조건이 참일 때 버튼 색 변경
-    if (emailValid && emailVerified && validPassword) {
+    if (
+      emailValid &&
+      emailVerified &&
+      validPassword &&
+      formData.phoneNumber &&
+      activeIndex === 0
+    ) {
       setButtonColor({
         backgroundColor: "var(--main)",
         color: "#ffffff",
       });
+
       setIsButtonDisabled(false);
-    } else if (phoneVerified && formData.phoneNumber) {
-      setButtonColor({
-        backgroundColor: "var(--main)",
-        color: "#ffffff",
-      });
-      setIsButtonDisabled(false);
-    } else if (allAgreed) {
+    } else if (allAgreed && activeIndex === 1) {
       setButtonColor({
         backgroundColor: "var(--main)",
         color: "#ffffff",
@@ -218,11 +241,11 @@ const SignUp: React.FC = () => {
       });
     }
   }, [
+    activeIndex,
     emailValid,
     emailVerified,
     formData.emailCode,
     validPassword,
-    phoneVerified,
     formData.phoneNumber,
     allAgreed,
   ]);
@@ -236,32 +259,107 @@ const SignUp: React.FC = () => {
             <div className="SignInTabWrapper">
               <div className="title">회원가입</div>
 
-              <div className="inputContainer">
-                <div className="subTitle">이메일</div>
-                <div className="verifyWrapper">
+              {lengthValid && numberValid && specialCharValid && (
+                <div
+                  className={`inputContainer ${
+                    lengthValid && numberValid && specialCharValid
+                      ? "visible"
+                      : ""
+                  }`}
+                >
+                  <div className="subTitle">비밀번호 확인</div>
+                  <PasswordInput
+                    name="confirmPassword"
+                    placeholder="비밀번호를 한 번 더 입력해주세요"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    handleInputChange={handleInputChange}
+                  />
+
+                  {
+                    <div
+                      className="checkItem"
+                      style={{
+                        color: validPassword ? "var(--main)" : "var(--red)",
+
+                        fontSize: "14px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      {!validPassword && formData.password !== "" && (
+                        <div className="checkItem invalid">
+                          비밀번호가 일치하지 않습니다
+                        </div>
+                      )}
+                    </div>
+                  }
+                </div>
+              )}
+
+              {phoneValid && (
+                <div
+                  className={`inputContainer ${phoneValid ? "visible" : ""}`}
+                >
+                  <div className="subTitle">비밀번호</div>
+                  <PasswordInput
+                    name="password"
+                    placeholder="비밀번호를 입력해주세요"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    handleInputChange={handleInputChange}
+                  />
+                  <div className="checkListContainer">
+                    <div
+                      className="checkItem"
+                      style={{
+                        color: numberValid ? "var(--main)" : "var(--grey4)",
+                      }}
+                    >
+                      ✓ 숫자
+                    </div>
+                    <div
+                      className="checkItem"
+                      style={{
+                        color: specialCharValid
+                          ? "var(--main)"
+                          : "var(--grey4)",
+                      }}
+                    >
+                      ✓ 특수문자
+                    </div>
+                    <div
+                      className="checkItem"
+                      style={{
+                        color: lengthValid ? "var(--main)" : "var(--grey4)",
+                      }}
+                    >
+                      ✓ 8~20자 이내
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {emailVerified && (
+                <div
+                  className={`inputContainer ${emailVerified ? "visible" : ""}`}
+                >
+                  <div className="subTitle">휴대폰 번호</div>
                   <input
-                    name="email"
-                    type="text"
-                    placeholder="이메일을 입력해주세요"
-                    value={formData.email}
+                    name="phoneNumber"
+                    type="tel"
+                    placeholder="휴대폰 번호를 입력해주세요"
+                    value={formData.phoneNumber}
                     onChange={handleInputChange}
                   />
-                  <Button
-                    text="인증"
-                    width="50px"
-                    padding="20px 10px"
-                    fontSize="13px"
-                    background="var(--main)"
-                    color="#ffffff"
-                    onClick={() => {
-                      handleShowEmailVerification();
-                    }}
-                  />
                 </div>
-              </div>
+              )}
 
               {showEmailVerification && (
-                <div className="inputContainer verificationContainer">
+                <div
+                  className={`inputContainer 
+                  verificationContainer
+                  ${showEmailVerification ? "visible" : ""}`}
+                >
                   <div className="subTitle">인증번호</div>
                   <div className="verifyWrapper">
                     <input
@@ -293,130 +391,54 @@ const SignUp: React.FC = () => {
                 </div>
               )}
 
-              <div className="inputContainer">
-                <div className="subTitle">비밀번호</div>
-                <PasswordInput
-                  name="password"
-                  placeholder="비밀번호를 입력해주세요"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  handleInputChange={handleInputChange}
-                />
-                <div className="checkListContainer">
-                  <div
-                    className="checkItem"
-                    style={{
-                      color: numberValid ? "var(--main)" : "var(--grey4)",
-                    }}
-                  >
-                    ✓ 숫자
-                  </div>
-                  <div
-                    className="checkItem"
-                    style={{
-                      color: specialCharValid ? "var(--main)" : "var(--grey4)",
-                    }}
-                  >
-                    ✓ 특수문자
-                  </div>
-                  <div
-                    className="checkItem"
-                    style={{
-                      color: lengthValid ? "var(--main)" : "var(--grey4)",
-                    }}
-                  >
-                    ✓ 8~20자 이내
-                  </div>
-                </div>
-              </div>
-
-              <div className="inputContainer">
-                <div className="subTitle">비밀번호 확인</div>
-                <PasswordInput
-                  name="confirmPassword"
-                  placeholder="비밀번호를 한 번 더 입력해주세요"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  handleInputChange={handleInputChange}
-                />
-
-                {
-                  <div
-                    className="checkItem"
-                    style={{
-                      color: validPassword ? "var(--main)" : "var(--red)",
-
-                      fontSize: "14px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {!validPassword && (
-                      <div className="checkItem invalid">
-                        비밀번호가 일치하지 않습니다
-                      </div>
-                    )}
-                  </div>
-                }
-              </div>
-            </div>
-          </>
-        );
-      case 1: // 재학생 인증 탭
-        return (
-          <>
-            <div className="SignInTabWrapper">
-              <div className="title">휴대폰 인증</div>
-              <div className="inputContainer">
-                <div className="subTitle">휴대폰 번호</div>
-                <input
-                  name="phoneNumber"
-                  type="tel"
-                  placeholder="휴대폰 번호를 입력해주세요"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="inputContainer">
-                <div className="subTitle">휴대폰 인증번호</div>
-                <div className="verifyWrapper">
-                  <input
-                    name="phoneCode"
-                    type="tel"
-                    placeholder="인증번호 입력"
-                    value={formData.phoneCode}
-                    onChange={handleInputChange}
-                  />
-                  <Button
-                    text="확인"
-                    width="50px"
-                    padding="15px 10px"
-                    fontSize="13px"
-                    background="var(--main)"
-                    color="#ffffff"
-                    onClick={handlePhoneVerification}
-                  />
-                </div>
-              </div>
-
-              <div className="resentLabel">
-                <a
-                  href="/"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert("인증번호가 재전송되었습니다.");
-                  }}
+              {formData.name.length >= 2 && (
+                <div
+                  className={`inputContainer 
+               ${formData.name.length >= 2 ? "visible" : ""}`}
                 >
-                  인증번호 재전송
-                </a>
+                  <div className="subTitle">이메일</div>
+                  <div className="verifyWrapper">
+                    <input
+                      name="email"
+                      type="text"
+                      placeholder="이메일을 입력해주세요"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
+                    <Button
+                      text="인증"
+                      width="50px"
+                      padding="20px 10px"
+                      fontSize="13px"
+                      background="var(--main)"
+                      color="#ffffff"
+                      onClick={() => {
+                        handleShowEmailVerification();
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="inputContainer visible">
+                <div className="subTitle">이름</div>
+
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="이름을 입력해주세요"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
           </>
         );
-      case 2:
+
+      case 1:
         return (
           <div className="SignInTabWrapper">
-            <div className="title">약관 동의</div>
+            <div className="title">약관에 동의해주세요</div>
             <div className="allAgree">
               <Checkbox
                 label=""
@@ -472,10 +494,10 @@ const SignUp: React.FC = () => {
             </ul>
           </div>
         );
-      case 3: //회원가입 완료
+      case 2: //회원가입 완료
         return (
           <>
-            <div className="SignInCompleteWrapper">
+            <div className="SignInCompleteWrapper signInContainer">
               <img
                 src={welcomeLogo}
                 style={{
@@ -497,25 +519,18 @@ const SignUp: React.FC = () => {
               >
                 회원가입이 완료되었습니다
               </div>
-              <div
-                style={{
-                  position: "fixed",
-                  bottom: 40,
-                  width: "100%",
-                  padding: "20px",
-                  backgroundColor: "#ffffff",
-                  boxSizing: "border-box",
-                }}
-              >
-                <Button
-                  onClick={() => navigate("/")}
-                  text="로그인 하러 가기"
-                  width="100%"
-                  padding="16px"
-                  fontSize="18px"
-                  background={"var(--main)"}
-                  color={"#ffffff"}
-                />
+              <div>
+                <div className="buttonWrapper">
+                  <Button
+                    onClick={() => navigate("/")}
+                    text="로그인 하러 가기"
+                    width="100%"
+                    padding="16px"
+                    fontSize="18px"
+                    background={"var(--main)"}
+                    color={"#ffffff"}
+                  />
+                </div>
               </div>
             </div>
           </>
@@ -528,7 +543,7 @@ const SignUp: React.FC = () => {
   return (
     <>
       {/*TAB */}
-      {activeIndex < 3 && (
+      {activeIndex < 2 && (
         <>
           {" "}
           <Header
@@ -545,7 +560,7 @@ const SignUp: React.FC = () => {
             }
           />
           <div className="dotWrapper">
-            {[...Array(3)].map((_, index) => (
+            {[...Array(2)].map((_, index) => (
               <div
                 className={`dot ${index === activeIndex ? "active" : ""}`}
                 key={index}
@@ -557,30 +572,31 @@ const SignUp: React.FC = () => {
 
       {/*TAB 내용 렌더링 */}
       {renderTabContent()}
-
-      {activeIndex < 3 && (
-        <div className="buttonWrapper">
-          <Button
-            onClick={goToNextTab}
-            text="다음"
-            width="100%"
-            padding="16px"
-            fontSize="18px"
-            background={buttonColor.backgroundColor}
-            color={buttonColor.color}
-            disabled={isButtonDisabled}
-          />
-          <div style={{ textAlign: "center", marginTop: "20px" }}>
-            이미 회원이신가요?{" "}
-            <span
-              onClick={() => navigate("/login")}
-              style={{ color: "var(--main)" }}
-            >
-              로그인하기
-            </span>
+      <div className="signInContainer">
+        {activeIndex < 2 && (
+          <div className="buttonWrapper">
+            <Button
+              onClick={goToNextTab}
+              text="다음"
+              width="100%"
+              padding="16px"
+              fontSize="18px"
+              background={buttonColor.backgroundColor}
+              color={buttonColor.color}
+              disabled={isButtonDisabled}
+            />
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+              이미 회원이신가요?{" "}
+              <span
+                onClick={() => navigate("/login")}
+                style={{ color: "var(--main)" }}
+              >
+                로그인하기
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
