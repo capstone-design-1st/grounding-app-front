@@ -1,4 +1,4 @@
-import { instance } from "./index";
+import { instanceWithToken, instanceWithoutToken } from "./index";
 
 interface LocationDTO {
   city: string;
@@ -78,7 +78,7 @@ interface PropertyDetails {
 export const fetchProperty = async (
   propertyId: string
 ): Promise<PropertyDetails> => {
-  const response = await instance.get<PropertyDetails>(
+  const response = await instanceWithoutToken.get<PropertyDetails>(
     `/properties/${propertyId}`
   );
 
@@ -96,7 +96,9 @@ interface LikeData {
 export const fetchPropertyLike = async (
   propertyId: string
 ): Promise<LikeData> => {
-  const response = await instance.get(`/properties/${propertyId}/users/like`);
+  const response = await instanceWithToken.get(
+    `/properties/${propertyId}/users/like`
+  );
   if (response.status !== 200) {
     throw new Error("Network response was not ok");
   }

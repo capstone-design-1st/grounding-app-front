@@ -1,4 +1,4 @@
-import axios from "axios";
+import { instanceWithoutToken } from ".";
 
 interface LoginCredentials {
   email: string;
@@ -6,17 +6,9 @@ interface LoginCredentials {
 }
 
 export const login = async ({ email, password }: LoginCredentials) => {
-  const response = await axios.post(
-    `${process.env.REACT_APP_SERVER_URL}users/login`,
-    {
-      email: email,
-      password: password,
-    },
-    {
-      headers: {
-        Authorization: undefined,
-      },
-    }
-  );
+  const response = await instanceWithoutToken.post(`/users/login`, {
+    email: email,
+    password: password,
+  });
   return response.data;
 };

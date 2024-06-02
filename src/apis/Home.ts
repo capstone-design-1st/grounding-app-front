@@ -1,4 +1,4 @@
-import { instance } from ".";
+import { instanceWithoutToken, instanceWithToken } from ".";
 
 interface Listing {
   listing_id: string;
@@ -18,7 +18,7 @@ export const fetchListings = async (
   size: number,
   status: string
 ): Promise<HomeData> => {
-  const response = await instance.get(
+  const response = await instanceWithoutToken.get(
     `/property?page=${page}&size=${size}&status=${status}`
   );
   if (response.status !== 200) {
@@ -29,19 +29,21 @@ export const fetchListings = async (
 
 // 매물 갯수 조회
 export const fetchListingsCount = async () => {
-  return instance
+  return instanceWithoutToken
     .get(`/home/property/counting`)
     .then((response) => response.data);
 };
 
 //보유 자산 조회
 export const fetchAssetHome = async (userId: string) => {
-  return instance
+  return instanceWithToken
     .get(`/home/${userId}/listings`)
     .then((response) => response.data);
 };
 
 // 거래 순위에 따른 매물 리스트 조회
 export const fetchListingsByVolume = async () => {
-  return instance.get(`/properties/popular`).then((response) => response.data);
+  return instanceWithoutToken
+    .get(`/properties/popular`)
+    .then((response) => response.data);
 };

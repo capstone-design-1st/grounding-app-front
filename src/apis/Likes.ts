@@ -1,4 +1,4 @@
-import { instance } from "./index";
+import { instanceWithToken } from "./index";
 
 interface AssetListItemProps {
   id: string;
@@ -22,16 +22,20 @@ interface LikeResponse {
 }
 
 export const addLike = async (propertyId: string): Promise<LikeResponse> => {
-  const response = await instance.post(`/likes/properties/${propertyId}`);
+  const response = await instanceWithToken.post(
+    `/likes/properties/${propertyId}`
+  );
   return response.data as LikeResponse;
 };
 
 export const deleteLike = async (propertyId: string): Promise<LikeResponse> => {
-  const response = await instance.delete(`/likes/properties/${propertyId}`);
+  const response = await instanceWithToken.delete(
+    `/likes/properties/${propertyId}`
+  );
   return response.data as LikeResponse;
 };
 
 export const getLikeList = async () => {
-  const response = await instance.get(`/likes/properties`);
+  const response = await instanceWithToken.get(`/likes/properties`);
   return response.data as LikesListProps;
 };
