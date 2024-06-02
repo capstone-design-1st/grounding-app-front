@@ -32,6 +32,7 @@ import defaultImg from "../../assets/imgs/main.png";
 import locationIcon from "../../assets/icons/location.png";
 import newsImg1 from "../../assets/imgs/news1.png";
 import newsImg2 from "../../assets/imgs/news2.png";
+import usePropertyStore from "../../store/tradeStore";
 
 const TradeDetailPage = () => {
   const { name } = useParams();
@@ -42,6 +43,14 @@ const TradeDetailPage = () => {
 
   //const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
   const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
+
+  const { setPropertyId } = usePropertyStore();
+  useEffect(() => {
+    // 컴포넌트 마운트 시 프로퍼티 ID를 설정
+    setPropertyId(propertyId);
+    // 컴포넌트 언마운트 시 프로퍼티 ID를 null로 리셋
+    return () => setPropertyId(null);
+  }, [propertyId, setPropertyId]);
 
   const { data: propertyDetails, isError } = useQuery(
     ["propertyDetails", propertyId],

@@ -6,15 +6,28 @@ interface TabProps {
     label: string;
     content: JSX.Element;
   }[];
+  active?: string; // 현재 활성화된 탭 상태
+  onTabChange?: () => void;
   width?: string;
   padding?: string;
 }
 
-const Tab: React.FC<TabProps> = ({ tabs, width, padding }) => {
-  const [activeTab, setActiveTab] = useState<string>(tabs[0].label);
+const Tab: React.FC<TabProps> = ({
+  tabs,
+  width,
+  active,
+  padding,
+  onTabChange,
+}) => {
+  const [activeTab, setActiveTab] = useState<string>(
+    active ? active : tabs[0].label
+  );
 
   const handleClick = (label: string) => {
     setActiveTab(label);
+    if (onTabChange) {
+      onTabChange();
+    }
   };
 
   return (

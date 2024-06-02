@@ -141,7 +141,7 @@
   gap: 10px;
 }
 
-.buttonWrapper {
+.SignInTabWrapper .buttonWrapper {
   position: fixed;
   bottom: 10px;
   width: 100%;
@@ -151,7 +151,7 @@
 }
 
 @media (min-width: 400px) {
-  .buttonWrapper {
+  .SignInTabWrapper .buttonWrapper {
     position: fixed;
     bottom: 30px;
     max-width: 360px;
