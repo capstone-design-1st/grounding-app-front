@@ -1,8 +1,10 @@
 import React from "react";
 import "./styles.css";
 import building from "../../../assets/icons/building.png";
+import land from "../../../assets/icons/farm.png";
 
 type SalesListItemProps = {
+  type: "building" | "land";
   location: string;
   name: string;
   info: string;
@@ -12,6 +14,7 @@ type SalesListItemProps = {
 
 const SalesListItem: React.FC<SalesListItemProps> = ({
   location,
+  type,
   name,
   info,
   profit,
@@ -20,7 +23,11 @@ const SalesListItem: React.FC<SalesListItemProps> = ({
   return (
     <div className="SalesListItem" onClick={onClick}>
       <div className="col icon">
-        <img src={building} alt="building" />
+        {type === "building" ? (
+          <img src={building} alt="building" />
+        ) : (
+          <img src={land} alt="land" />
+        )}
       </div>
       <div className="col">
         <div className="row location">{location}</div>

@@ -32,6 +32,7 @@ export interface Property {
   name: string;
   one_line: string;
   fluctuation_rate: number;
+  type: "building" | "land";
 }
 
 // API 응답 타입 정의
