@@ -52,11 +52,15 @@ const TradePage: React.FC = () => {
           {saleLists.map((saleList) => (
             <SalesListItem
               key={saleList.property_id}
+              type={saleList.type}
               location={saleList.city + " " + saleList.gu}
               name={saleList.name}
               info={saleList.one_line}
               profit={saleList.fluctuation_rate ?? 0} // null인 경우 0으로 설정
-              onClick={() => navigate(`/trade/${saleList.property_id}`)}
+              onClick={() =>
+                saleList.property_id &&
+                navigate(`/trade/${saleList.property_id}`)
+              }
             />
           ))}
         </div>

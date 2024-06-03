@@ -16,10 +16,10 @@ const Router = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<HomePage />} />
-      <Route path="/recruit/:name" element={<RecruitPage />} />
+      <Route path="/recruit/:id" element={<RecruitPage />} />
       <Route path="/trade" element={<TradePage />} />
-      <Route path="/trade/:name" element={<TradeDetailPage />} />
-      <Route path="/trade/:name/quote" element={<QuotePage />} />
+      <Route path="/trade/:id" element={<TradeDetailPage />} />
+      <Route path="/trade/:id/quote" element={<QuotePage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/mypage/deposit" element={<DepositPage />} />
       <Route path="/mypage/withdraw" element={<WithdrawPage />} />

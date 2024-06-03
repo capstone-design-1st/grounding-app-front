@@ -267,10 +267,7 @@ const HomePage = () => {
             <div className="title">내가 찜한 매물</div>
           </div>
           {likesList?.content.map((asset: any) => (
-            <div
-              key={asset.id}
-              onClick={() => navigate(`/trade/${asset.name}`)}
-            >
+            <div key={asset.id} onClick={() => navigate(`/trade/${asset.id}`)}>
               <AssetListItem
                 isMyAsset={false}
                 assetType={asset.type}
@@ -298,9 +295,9 @@ const HomePage = () => {
           <div>
             <div className="title">거래량이 많은 매물</div>
             {listingsVolume.content.map((listing: any, index: number) => (
-              <div onClick={() => navigate(`/trade/${listing.name}`)}>
+              <div onClick={() => navigate(`/trade/${listing.id}`)}>
                 <AssetRankingItem
-                  key={index}
+                  key={listing.id}
                   rank={index + 1}
                   assetType={listing.type}
                   assetName={listing.name}

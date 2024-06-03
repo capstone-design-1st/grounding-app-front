@@ -35,14 +35,13 @@ import newsImg2 from "../../assets/imgs/news2.png";
 import usePropertyStore from "../../store/tradeStore";
 
 const TradeDetailPage = () => {
-  const { name } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false); // 모달 표시 상태
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
   const [property, setProperty] = useState({});
 
-  //const userId = "2222c0f7-0c97-4bd7-a200-0de1392f1df0";
-  const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
+  const propertyId = id as string;
 
   const { setPropertyId } = usePropertyStore();
   useEffect(() => {
@@ -114,33 +113,51 @@ const TradeDetailPage = () => {
 
   useEffect(() => {
     if (propertyDetails) {
-      setProperty({
-        투자대상: propertyDetails.property_dto.name,
-        위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,
-        용도지역: "일반상업지역",
-        주용도: propertyDetails.property_detail_dto.main_use,
-        연면적: `본건: ${formatNumberWithCommas(
-          propertyDetails.property_detail_dto.land_area
-        )}m² (전유면적: ${formatNumberWithCommas(
-          propertyDetails.property_detail_dto.total_floor_area
-        )}m²)`,
-        대지면적: `본건: ${formatNumberWithCommas(
-          propertyDetails.property_detail_dto.land_area
-        )}m²`,
-        건물규모: propertyDetails.property_detail_dto.floor_count,
-        준공일: propertyDetails.property_detail_dto.completion_date.replace(
-          /-/g,
-          "."
-        ),
-        공시지가: `${formatNumberWithCommas(
-          parseInt(propertyDetails.property_detail_dto.official_land_price) /
+      if (propertyDetails.property_detail_dto.type === "building") {
+        setProperty({
+          투자대상: propertyDetails.property_dto.name,
+          위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,
+          용도지역: "일반상업지역",
+          주용도: propertyDetails.property_detail_dto.main_use,
+          연면적: `본건: ${formatNumberWithCommas(
+            propertyDetails.property_detail_dto.land_area
+          )}m² (전유면적: ${formatNumberWithCommas(
             propertyDetails.property_detail_dto.total_floor_area
-        )}원/m²(2022년 1월 기준)`,
-        임차인: propertyDetails.property_detail_dto.leaser,
-        임대기간: `${formatDate(
-          propertyDetails.property_detail_dto.lease_start_date
-        )} ~ ${formatDate(propertyDetails.property_detail_dto.lease_end_date)}`,
-      });
+          )}m²)`,
+          대지면적: `본건: ${formatNumberWithCommas(
+            propertyDetails.property_detail_dto.land_area
+          )}m²`,
+          건물규모: propertyDetails.property_detail_dto.floor_count,
+          준공일: propertyDetails.property_detail_dto.completion_date?.replace(
+            /-/g,
+            "."
+          ),
+          공시지가: `${formatNumberWithCommas(
+            parseInt(propertyDetails.property_detail_dto.official_land_price) /
+              propertyDetails.property_detail_dto.total_floor_area
+          )}원/m²(2022년 1월 기준)`,
+          임차인: propertyDetails.property_detail_dto.leaser,
+          임대기간: `${formatDate(
+            propertyDetails.property_detail_dto.lease_start_date
+          )} ~ ${formatDate(
+            propertyDetails.property_detail_dto.lease_end_date
+          )}`,
+        });
+      } else {
+        setProperty({
+          투자대상: propertyDetails.property_dto.name,
+          위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,
+          면적: `임야 면적: ${formatNumberWithCommas(
+            propertyDetails.property_detail_dto.area
+          )}m²`,
+          용도지역: propertyDetails.property_detail_dto.land_use,
+          추천용도: propertyDetails.property_detail_dto.recommend_use,
+          주차가능여부: propertyDetails.property_detail_dto.parking
+            ? "가능"
+            : "불가능",
+          가까운역: propertyDetails.property_detail_dto.nearest_station,
+        });
+      }
     }
   }, [propertyDetails]);
 
@@ -292,7 +309,7 @@ const TradeDetailPage = () => {
             <div
               className="goToSpan"
               onClick={() => {
-                navigate(`/trade/${name}/quote`);
+                navigate(`/trade/${propertyId}/quote`);
               }}
             >
               일별 · 당일 시세 보기
@@ -423,7 +440,13 @@ const TradeDetailPage = () => {
         leftContent={
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
-        centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
+        centerContent={
+          scrollY !== 0 ? (
+            <strong>{propertyDetails.property_dto.name}</strong>
+          ) : (
+            ""
+          )
+        }
         rightContent={
           <img
             src={liked ? heartFill : heart}
@@ -437,7 +460,7 @@ const TradeDetailPage = () => {
         <div className="salesInfo">
           <div className="col">
             <div className="row">
-              <div className="title">{name} </div>
+              <div className="title">{propertyDetails.property_dto.name}</div>
             </div>
             <div className="row info">
               {propertyDetails.property_dto.oneline}
