@@ -14,8 +14,6 @@ interface OrderModalProps {
 }
 
 const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
-  const [buyAmount, setBuyAmount] = useState<number>(0);
-  const [sellAmount, setSellAmount] = useState<number>(0);
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [activeTab, setActiveTab] = useState("매수");
@@ -44,16 +42,21 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
   }, [onClose]);
 
   const fetchQuantity = async () => {
+    let response;
     if (activeTab === "매수") {
-      return await getAvailableBuyQuantity(propertyId);
+      response = await getAvailableBuyQuantity(propertyId);
     } else {
-      return await getAvailableSellQuantity(propertyId);
+      response = await getAvailableSellQuantity(propertyId);
     }
+    return response.quantity;
   };
 
   const { data: maxQuantity, refetch } = useQuery(
-    ["maxQuantity", activeTab],
-    fetchQuantity
+    ["maxQuantity", activeTab, propertyId],
+    fetchQuantity,
+    {
+      enabled: !!propertyId,
+    }
   );
 
   const resetValues = () => {
@@ -82,9 +85,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
         <div className="orderForm">
           <div className="quickButtons">
             <p>
-              매수 가능 수량 <span>(수수료 포함)</span>
+              매수 가능 수량 <span>(수수료 포함)</span>최대 {maxQuantity}주
             </p>
-            <div>{maxQuantity}주</div>
           </div>
           <div className="inputGroup">
             <button onClick={() => handleQuantityChange(-1)}>-</button>
@@ -111,8 +113,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             <button onClick={() => setPrice(price + 50)}>+</button>
           </div>
           <div className="quickButtons">
-            <button onClick={() => setBuyAmount(1 / 2)}>시장가</button>
-            <button onClick={() => setBuyAmount(1 / 2)}>지정가</button>
+            <button onClick={() => setPrice(1 / 2)}>시장가</button>
+            <button>지정가</button>
           </div>
 
           <div className="buttonWrapper">
@@ -146,7 +148,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             {[1 / 2, 1 / 4, 1 / 5, 1 / 10, 1].map((fraction, index) => (
               <button
                 key={index}
-                onClick={() => setSellAmount(Math.floor(4 * fraction))}
+                onClick={() => setQuantity(Math.floor(maxQuantity * fraction))}
               >
                 {fraction}
               </button>
@@ -164,8 +166,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
           </div>
 
           <div className="quickButtons">
-            <button onClick={() => setBuyAmount(1 / 2)}>시장가</button>
-            <button onClick={() => setBuyAmount(1 / 2)}>지정가</button>
+            <button onClick={() => setPrice(1 / 2)}>시장가</button>
+            <button>지정가</button>
           </div>
 
           <div className="buttonWrapper">
