@@ -39,3 +39,23 @@ export interface Property {
 export interface ApiResponse {
   content: Property[];
 }
+
+//당일 거래 타입 정의
+export interface TodayTradingTableRow {
+  executed_at: string;
+  executed_price: string;
+  fluctuation_rate: string;
+  quantity: string;
+}
+
+//일별 거래 타입 정의
+export interface EachDayTradingTableRow {
+  closing_price: number;
+  fluctuation_rate: number;
+  date: string;
+  max_price: number;
+  min_price: number;
+  opening_price: number;
+  property_id: string;
+  volume_count: number;
+}

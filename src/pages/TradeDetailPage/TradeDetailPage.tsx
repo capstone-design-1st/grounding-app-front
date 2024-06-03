@@ -7,6 +7,7 @@ import { addLike, deleteLike } from "../../apis/Likes";
 import { formatDate } from "../../util/formatDate";
 import { formatNumberWithCommas } from "../../util/formatNumber";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import disclosure from "../../data/disclosure.json";
 
 import {
   Header,
@@ -205,57 +206,6 @@ const TradeDetailPage = () => {
     },
   ];
 
-  const disclosure = [
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-    {
-      lable: "24.04.04",
-      value: "신도림 핀포인트타워 2호 배당금 지급 안내",
-    },
-  ];
-
   const newsItems = [
     {
       title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
@@ -309,7 +259,14 @@ const TradeDetailPage = () => {
             <div
               className="goToSpan"
               onClick={() => {
-                navigate(`/trade/${propertyId}/quote`);
+                navigate(`/trade/${propertyDetails.property_dto.name}/quote`, {
+                  state: {
+                    propertyId: propertyDetails.property_dto.id,
+                    priceDifference:
+                      propertyDetails.property_dto.price_difference,
+                    presentPrice: propertyDetails.present_price,
+                  },
+                });
               }}
             >
               일별 · 당일 시세 보기

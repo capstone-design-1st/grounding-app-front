@@ -1,4 +1,6 @@
-/* styles.css */
+.tableWrapper {
+  overflow: auto;
+}
 
 .infoTable {
   width: 100%;

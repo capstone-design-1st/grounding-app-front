@@ -27,6 +27,41 @@ export const getAvailableSellQuantity = async (propertyId: string | null) => {
   const response = await instanceWithToken.get(
     `/trading/${propertyId}/inventory/quantity`
   );
-  console.log(response.data);
+  return response.data;
+};
+
+// 당일 거래 조회
+export const getTodayTrading = async (
+  propertyId: string | null,
+  page: number,
+  size: number
+) => {
+  const response = await instanceWithToken.get(
+    `/properties/${propertyId}/real-time-transaction-log`,
+    {
+      params: {
+        page,
+        size,
+      },
+    }
+  );
+  return response.data;
+};
+
+// 일별 거래 조회
+export const getEachDayTrading = async (
+  propertyId: string | null,
+  page: number,
+  size: number
+) => {
+  const response = await instanceWithToken.get(
+    `/properties/${propertyId}/price-info`,
+    {
+      params: {
+        page,
+        size,
+      },
+    }
+  );
   return response.data;
 };
