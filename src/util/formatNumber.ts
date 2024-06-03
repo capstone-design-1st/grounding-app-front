@@ -4,5 +4,6 @@
  * @returns 천 단위마다 쉼표가 추가된 문자열
  */
 export function formatNumberWithCommas(num: number): string {
+  if (isNaN(num)) return String(num);
   return num.toLocaleString("en-US");
 }
