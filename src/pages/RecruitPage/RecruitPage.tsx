@@ -166,7 +166,7 @@ const RecruitPage = () => {
         <TimeLine
           startDate={propertyDetails.fundraise_dto.subscription_start_date}
           endDate={propertyDetails.fundraise_dto.subscription_end_date}
-          tradeDate={propertyDetails.fundraise_dto.deadline}
+          tradeDate={propertyDetails.property_detail_dto.lease_start_date}
         />
       </div>
 

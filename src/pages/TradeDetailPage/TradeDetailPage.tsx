@@ -402,8 +402,8 @@ const TradeDetailPage = () => {
       label: "공시",
       content: (
         <div className="disclosureWrap">
-          {disclosure.map((item) => (
-            <div className="rowWrap">
+          {disclosure.map((item, index) => (
+            <div className="rowWrap" key={index}>
               <TwoRow
                 label={item.lable}
                 value={item.value}
@@ -445,9 +445,7 @@ const TradeDetailPage = () => {
           </div>
           <div className="col col2">
             <div className="row">
-              {formatNumberWithCommas(
-                propertyDetails.property_dto.present_price
-              )}
+              {formatNumberWithCommas(propertyDetails.present_price)}
             </div>
             <div className="row">
               {propertyDetails.property_dto.price_difference === 0 ? (

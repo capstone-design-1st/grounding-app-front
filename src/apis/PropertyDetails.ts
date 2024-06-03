@@ -64,6 +64,7 @@ interface InvestmentPointDTO {
 }
 
 interface PropertyDetails {
+  present_price: number;
   property_dto: PropertyDTO;
   fundraise_dto: FundraiseDTO;
   property_detail_dto: Record<string, any>;
