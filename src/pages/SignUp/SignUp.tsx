@@ -9,11 +9,12 @@ import arrow from "../../assets/icons/arrow.svg";
 import x from "../../assets/icons/x.png";
 import check from "../../assets/icons/check.png";
 import fillCheck from "../../assets/icons/check-fill.png";
-import welcomeLogo from "../../assets/imgs/big-logo.png";
+import welcomeLogo from "../../assets/imgs/welcome.png";
 import { useNavigate } from "react-router-dom";
 import { formatTime } from "../../util/formatTime";
 import { isValidEmail, isValidPhoneNumber } from "../../util/validCheck";
 import "./styles.css";
+import spinner from "../../assets/imgs/spinner.gif";
 import { useMutation } from "react-query";
 import {
   sendValidateEmailCode,
@@ -90,6 +91,19 @@ const SignUp: React.FC = () => {
     });
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const emailInputContainer = document.getElementById(
+        "emailInputContainer"
+      );
+      console.log(emailInputContainer);
+      if (emailInputContainer) {
+        emailInputContainer.style.display = "block";
+        emailInputContainer.classList.add("visible");
+      }
+    }
+  };
+
   /*입력창 변경시 */
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -111,7 +125,6 @@ const SignUp: React.FC = () => {
     if (name === "phoneNumber") {
       const isValid = isValidPhoneNumber(value);
       setPhoneValid(isValid);
-      console.log(isValid);
     }
 
     // 비밀번호 확인 로직 추가
@@ -120,7 +133,19 @@ const SignUp: React.FC = () => {
     }
   };
 
-  const { mutate: sendEmailCode } = useMutation(sendValidateEmailCode);
+  const { mutate: sendEmailCode, isLoading } = useMutation(
+    sendValidateEmailCode,
+    {
+      onSuccess: (data) => {
+        alert("인증번호가 발송되었습니다.");
+        setShowEmailVerification(true);
+      },
+      onError: (error) => {
+        alert("인증번호 전송 실패하였습니다.");
+      },
+    }
+  );
+
   const { mutate: verifyEmailCode } = useMutation(checkEmailCode, {
     onSuccess: (data) => {
       console.log("Verification success:", data);
@@ -136,20 +161,8 @@ const SignUp: React.FC = () => {
   });
 
   const handleShowEmailVerification = () => {
-    const isValid = isValidEmail(formData.email);
-    if (isValid) {
-      sendEmailCode(formData.email, {
-        onSuccess: (data) => {
-          console.log(data);
-          setShowEmailVerification(true);
-          setTimerActive(true);
-          setRemainingTime(300);
-          alert("인증번호가 발송되었습니다.");
-        },
-        onError: (error) => {
-          alert("인증번호 전송 실패하였습니다.");
-        },
-      });
+    if (isValidEmail(formData.email)) {
+      sendEmailCode(formData.email);
     } else {
       alert("이메일 형식이 올바르지 않습니다.");
     }
@@ -391,20 +404,25 @@ const SignUp: React.FC = () => {
                 </div>
               )}
 
-              {formData.name.length >= 2 && (
-                <div
-                  className={`inputContainer 
-               ${formData.name.length >= 2 ? "visible" : ""}`}
-                >
-                  <div className="subTitle">이메일</div>
-                  <div className="verifyWrapper">
-                    <input
-                      name="email"
-                      type="text"
-                      placeholder="이메일을 입력해주세요"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                    />
+              <div id="emailInputContainer" className="inputContainer hidden">
+                <div className="subTitle">이메일</div>
+                <div className="verifyWrapper">
+                  <input
+                    name="email"
+                    type="text"
+                    placeholder="이메일을 입력해주세요"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                  {isLoading ? (
+                    <div className="modalOverlay">
+                      <img
+                        src={spinner}
+                        alt="Loading..."
+                        style={{ width: "50px" }}
+                      />
+                    </div>
+                  ) : (
                     <Button
                       text="인증"
                       width="50px"
@@ -416,9 +434,9 @@ const SignUp: React.FC = () => {
                         handleShowEmailVerification();
                       }}
                     />
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
 
               <div className="inputContainer visible">
                 <div className="subTitle">이름</div>
@@ -429,6 +447,7 @@ const SignUp: React.FC = () => {
                   placeholder="이름을 입력해주세요"
                   value={formData.name}
                   onChange={handleInputChange}
+                  onKeyDown={handleKeyPress}
                 />
               </div>
             </div>
@@ -498,39 +517,45 @@ const SignUp: React.FC = () => {
         return (
           <>
             <div className="SignInCompleteWrapper signInContainer">
+              <div
+                className="subTitle"
+                style={{
+                  margin: "20px 0",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                }}
+              >
+                그라운딩 가입을 축하드려요!
+              </div>
+              <div
+                style={{
+                  margin: "0px 0 60px 0",
+                  fontSize: "18px",
+                }}
+              >
+                원하는 매물에 투자해 보세요
+              </div>
               <img
                 src={welcomeLogo}
                 style={{
-                  width: "135px",
-                  height: "125px",
-                  marginBottom: "20px",
-                  marginTop: "170px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  width: "100%",
                 }}
                 alt="회원가입 완료"
               />
 
-              <div
-                className="subTitle"
-                style={{
-                  fontSize: "16px",
-                  marginTop: "-10px",
-                  color: "var(--main)",
-                }}
-              >
-                회원가입이 완료되었습니다
-              </div>
-              <div>
-                <div className="buttonWrapper">
-                  <Button
-                    onClick={() => navigate("/")}
-                    text="로그인 하러 가기"
-                    width="100%"
-                    padding="16px"
-                    fontSize="18px"
-                    background={"var(--main)"}
-                    color={"#ffffff"}
-                  />
-                </div>
+              <div className="buttonWrapper">
+                <Button
+                  onClick={() => navigate("/")}
+                  text="로그인 하러 가기"
+                  width="100%"
+                  padding="16px"
+                  fontSize="18px"
+                  background={"var(--main)"}
+                  color={"#ffffff"}
+                />
               </div>
             </div>
           </>
@@ -571,6 +596,7 @@ const SignUp: React.FC = () => {
       )}
 
       {/*TAB 내용 렌더링 */}
+
       {renderTabContent()}
       <div className="signInContainer">
         {activeIndex < 2 && (
