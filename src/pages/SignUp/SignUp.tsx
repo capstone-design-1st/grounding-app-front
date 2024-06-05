@@ -21,6 +21,7 @@ import {
   checkEmailCode,
   postSignin,
 } from "../../apis/Signin";
+import ConfettiExplosion from "react-confetti-explosion";
 
 interface FormData {
   name: string;
@@ -139,6 +140,7 @@ const SignUp: React.FC = () => {
       onSuccess: (data) => {
         alert("인증번호가 발송되었습니다.");
         setShowEmailVerification(true);
+        setTimerActive(true);
       },
       onError: (error) => {
         alert("인증번호 전송 실패하였습니다.");
@@ -520,7 +522,7 @@ const SignUp: React.FC = () => {
               <div
                 className="subTitle"
                 style={{
-                  margin: "20px 0",
+                  margin: "80px 0 20px 0",
                   fontSize: "25px",
                   fontWeight: "bold",
                 }}
@@ -535,6 +537,7 @@ const SignUp: React.FC = () => {
               >
                 원하는 매물에 투자해 보세요
               </div>
+              <ConfettiExplosion force={0.7} duration={3000} />
               <img
                 src={welcomeLogo}
                 style={{
