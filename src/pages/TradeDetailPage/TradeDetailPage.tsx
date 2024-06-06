@@ -32,12 +32,12 @@ import heartFill from "../../assets/icons/heart-fill.png";
 import smallArrow from "../../assets/icons/small-arrow.svg";
 import defaultImg from "../../assets/imgs/main.png";
 import locationIcon from "../../assets/icons/location.png";
-import usePropertyStore from "../../store/tradeStore";
+import { usePropertyStore, useModalStore } from "../../store/tradeStore";
 
 const TradeDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false); // 모달 표시 상태
+  const { showModal, setShowModal } = useModalStore();
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
   const [property, setProperty] = useState({});
 
@@ -113,7 +113,7 @@ const TradeDetailPage = () => {
 
   useEffect(() => {
     if (propertyDetails) {
-      if (propertyDetails.property_detail_dto.type === "land") {
+      if (propertyDetails.property_dto.type === "land") {
         setProperty({
           투자대상: propertyDetails.property_dto.name,
           위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,

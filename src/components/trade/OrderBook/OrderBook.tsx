@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import "./styles.css";
 import { OrderBookEntry } from "../../../types";
+import {
+  useModalStore,
+  useQuantityPriceStore,
+} from "../../../store/tradeStore";
 
 interface OrderBookProps {
   entries: OrderBookEntry[];
@@ -11,6 +15,14 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ amount, price, type }) => {
   const percentage = (amount / maxAmount) * 100;
   const leftBarRef = useRef<HTMLDivElement>(null);
   const rightBarRef = useRef<HTMLDivElement>(null);
+
+  const { setShowModal } = useModalStore();
+  const { setPrice } = useQuantityPriceStore();
+
+  const handlePriceClick = () => {
+    setPrice(price);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     if (type === "sell" && leftBarRef.current) {
@@ -36,7 +48,9 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ amount, price, type }) => {
         {amount}개
       </span>
       {type === "sell" && <div ref={leftBarRef} className="bar leftBar" />}
-      <span className="price">{price.toLocaleString()}원</span>
+      <span className="price" onClick={handlePriceClick}>
+        {price.toLocaleString()}원
+      </span>
       {type === "buy" && <div ref={rightBarRef} className="bar rightBar" />}
     </div>
   );

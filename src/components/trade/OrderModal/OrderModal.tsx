@@ -5,17 +5,21 @@ import Button from "../../common/Button/Button";
 import {
   getAvailableBuyQuantity,
   getAvailableSellQuantity,
+  // postBuyProperty,
 } from "../../../apis/Trading";
 import { useQuery } from "react-query";
-import usePropertyStore from "../../../store/tradeStore";
+import {
+  usePropertyStore,
+  useQuantityPriceStore,
+} from "../../../store/tradeStore";
 
 interface OrderModalProps {
   onClose: () => void;
 }
 
 const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
-  const [quantity, setQuantity] = useState(0);
-  const [price, setPrice] = useState(0);
+  const { quantity, setQuantity, price, setPrice } = useQuantityPriceStore();
+
   const [activeTab, setActiveTab] = useState("매수");
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -58,6 +62,14 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
       enabled: !!propertyId,
     }
   );
+
+  // const { data: fetchBuyQuantity } = useQuery(
+  //   ["buyQuantity", propertyId, quantity, price],
+  //   postBuyProperty,
+  //   {
+  //     enabled: !!propertyId,
+  //   }
+  // );
 
   const resetValues = () => {
     setQuantity(0);

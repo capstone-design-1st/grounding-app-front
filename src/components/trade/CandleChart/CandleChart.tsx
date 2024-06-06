@@ -2,7 +2,7 @@ import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { getEachDayTrading } from "../../../apis/Trading";
 import { QueryFunctionContext, useQuery } from "react-query";
-import usePropertyStore from "../../../store/tradeStore";
+import { usePropertyStore } from "../../../store/tradeStore";
 
 const CandleChart = () => {
   const chartOptions: ApexOptions = {
