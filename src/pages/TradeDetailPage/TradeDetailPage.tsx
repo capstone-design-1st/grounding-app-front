@@ -8,6 +8,7 @@ import { formatDate } from "../../util/formatDate";
 import { formatNumberWithCommas } from "../../util/formatNumber";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import disclosure from "../../data/disclosure.json";
+import spinner from "../../assets/imgs/spinner.gif";
 
 import {
   Header,
@@ -246,7 +247,18 @@ const TradeDetailPage = () => {
   ];
 
   if (isError || !propertyDetails) {
-    return <div>에러!</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "24px",
+        }}
+      >
+        <img src={spinner} alt="Spinner" />
+      </div>
+    );
   }
 
   const tabs = [
@@ -293,7 +305,11 @@ const TradeDetailPage = () => {
       content: (
         <div>
           <AssetIntro
-            image={defaultImg}
+            image={
+              propertyDetails?.thumbnail_url_dto.s3_url
+                ? propertyDetails?.thumbnail_url_dto.s3_url
+                : defaultImg
+            }
             details={{
               발행가: "5,000원 / DAS",
               발행수량: "570,000 DAS",
