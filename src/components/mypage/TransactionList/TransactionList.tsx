@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import "./styles.css";
-import transactions from "../../../data/transaction.json";
 
-const transactionTypes = ["전체", "부동산", "건물"];
+const transactionTypes = ["전체", "임야", "건물"];
 
-const TransactionList = () => {
+interface TransactionProps {
+  property_id: string;
+  property_name: string;
+  quantity: number;
+  date: string;
+  type: string;
+  price: number;
+}
+
+interface TransactionListProps {
+  transactions: TransactionProps[];
+}
+
+const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
   const [activeTab, setActiveTab] = useState("전체");
   const [activeButton, setActiveButton] = useState("전체");
   const [selectedFilter, setSelectedFilter] = useState("전체");
@@ -12,12 +24,6 @@ const TransactionList = () => {
     startDate: new Date().toISOString().slice(0, 10),
     endDate: new Date().toISOString().slice(0, 10),
   });
-
-  const parseDate = (dateStr: string) => {
-    const [year, month, day] = dateStr.split(".");
-    // '24.04.10' -> '2024-04-10'
-    return new Date(`20${year}-${month}-${day}`);
-  };
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -71,8 +77,8 @@ const TransactionList = () => {
   const filteredTransactions = transactions.filter((transaction) => {
     const matchTab = activeTab === "전체" || transaction.type === activeTab;
     const matchFilter =
-      selectedFilter === "전체" || transaction.name === selectedFilter;
-    const transactionDate = parseDate(transaction.date);
+      selectedFilter === "전체" || transaction.property_id === selectedFilter;
+    const transactionDate = new Date(transaction.date);
     const startDate = new Date(dateRange.startDate);
     const endDate = new Date(dateRange.endDate);
 
@@ -152,14 +158,14 @@ const TransactionList = () => {
             filteredTransactions.map((transaction, index) => (
               <React.Fragment key={index}>
                 <tr>
-                  <td>{transaction.name}</td>
-                  <td>{transaction.amount}</td>
+                  <td>{transaction.property_name}</td>
+                  <td>{transaction.quantity}조각</td>
                   <td>{transaction.date}</td>
                 </tr>
                 <tr>
                   <td>{transaction.type}</td>
                   <td>{transaction.price}</td>
-                  <td>{transaction.total}</td>
+                  <td>{transaction.price * transaction.quantity}</td>
                 </tr>
               </React.Fragment>
             ))

@@ -59,3 +59,15 @@ export interface EachDayTradingTableRow {
   property_id: string;
   volume_count: number;
 }
+
+//거래 내역 타입 정의
+export type transactionQueryKey = [
+  string,
+  {
+    page: number;
+    size: number;
+    startDate?: string;
+    endDate?: string;
+    type?: string;
+  }
+];
