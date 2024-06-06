@@ -9,6 +9,7 @@ import {
   //   fetchListings,
   //   fetchListingsCount,
   fetchListingsByVolume,
+  getOnGoingList,
   //   fetchAssetHome,
 } from "../../apis/Home";
 import { getLikeList } from "../../apis/Likes";
@@ -28,57 +29,14 @@ import logo from "../../assets/imgs/header-logo.png";
 const HomePage = () => {
   const navigate = useNavigate();
   //모집 중 매물 리스트 조회
-  // const { data: listings } = useQuery(["listings", 0, 5, "ongoing"], () =>
-  //   fetchListings(0, 5, "ongoing")
-  // );
+  const { data: listings } = useQuery("listings", () => getOnGoingList());
 
-  const listings = {
-    content: [
-      {
-        listing_id: "string",
-        thumbnail_url: mainImg,
-        name: "string",
-        summary: "string",
-        created_at: "2024-03-25T06:52:38.200Z",
-        updated_at: "2024-03-25T06:52:38.200Z",
-      },
-      {
-        listing_id: "string",
-        thumbnail_url: mainImg,
-        name: "string",
-        summary: "string",
-        created_at: "2024-03-25T06:52:38.200Z",
-        updated_at: "2024-03-25T06:52:38.200Z",
-      },
-    ],
-  };
-
-  //모집 중 매물 갯수 조회
-  //const { data: listingsCount } = useQuery("listingsCount", fetchListingsCount);
-
-  const listingsCount = {
-    listing_count: 5,
-  };
+  const listingsCount = listings?.content.length;
 
   //거래량이 많은 매물 리스트 조회
   const { data: listingsVolume } = useQuery("listingsVolume", () =>
     fetchListingsByVolume()
   );
-
-  // const listingsVolume = {
-  //   content: [
-  //     {
-  //       listing_id: "string",
-  //       name: "string",
-  //       type: "building",
-  //       value: 123456,
-  //       earning_ratio: 25.5,
-  //       earning_price: 12345,
-  //       created_at: "2024-03-25T06:52:38.200Z",
-  //       updated_at: "2024-03-25T06:52:38.200Z",
-  //     },
-  //   ],
-  // };
 
   //보유 자산 조회
   // const { data: assetHome } = useQuery("assetHome", () => fetchAssetHome("1"));
@@ -163,7 +121,7 @@ const HomePage = () => {
           <div>
             <div className="title">모집 중인 매물</div>
             <div className="subTitle">
-              {listingsCount.listing_count}개의 매물이 투자를 받고 있어요.
+              {listingsCount}개의 매물이 투자를 받고 있어요.
             </div>
           </div>
         ) : (
@@ -172,18 +130,26 @@ const HomePage = () => {
           </div>
         )}
       </div>
+
       <div>
         {listings ? (
           <Slider {...settings}>
             {listings.content.map((listing, index) => (
               <div
                 className="slider"
-                key={listing.listing_id}
-                onClick={() => navigate(`/recruit/${listing.name}`)}
+                key={listing.property_id}
+                onClick={() => navigate(`/recruit/${listing.property_id}`)}
               >
-                <img src={listing.thumbnail_url} alt={`main ${index}`} />
+                <img
+                  src={
+                    listing.thumbnail_url === null
+                      ? mainImg
+                      : listing.thumbnail_url
+                  }
+                  alt={`main ${index}`}
+                />
                 <div className="sliderTitle">{listing.name}</div>
-                <div className="sliderSubTitle">{listing.summary}</div>
+                <div className="sliderSubTitle">{listing.oneline}</div>
               </div>
             ))}
           </Slider>

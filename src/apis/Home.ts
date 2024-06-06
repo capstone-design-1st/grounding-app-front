@@ -1,30 +1,26 @@
 import { instanceWithoutToken, instanceWithToken } from ".";
 
 interface Listing {
-  listing_id: string;
-  thumbnail_url: string;
-  name: string;
-  summary: string;
   created_at: string;
-  updated_at: string;
+  name: string;
+  oneline: string;
+  property_id: string;
+  thumbnail_url: string | null;
 }
 
-interface HomeData {
+interface onGoingList {
   content: Listing[];
 }
-// 매물 리스트 조회
-export const fetchListings = async (
-  page: number,
-  size: number,
-  status: string
-): Promise<HomeData> => {
-  const response = await instanceWithoutToken.get(
-    `/property?page=${page}&size=${size}&status=${status}`
+
+// 모집 중 매물 리스트 조회
+export const getOnGoingList = async (): Promise<onGoingList> => {
+  const response = await instanceWithoutToken.get<onGoingList>(
+    `/properties/fundraising/basic-info`
   );
   if (response.status !== 200) {
     throw new Error("Network response was not ok");
   }
-  return response.data as HomeData;
+  return response.data;
 };
 
 // 매물 갯수 조회
