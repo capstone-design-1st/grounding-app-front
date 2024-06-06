@@ -10,19 +10,67 @@ import {
 import arrow from "../../assets/icons/arrow.svg";
 import deposit from "../../assets/icons/deposit.svg";
 import { useNavigate } from "react-router-dom";
-import "./styles.css";
 import MyAssetListItem from "../../components/mypage/MyAssetListItem/MyAssetListItem";
+// import { useQuery } from "react-query";
+// import { getTransactions } from "../../apis/Mypage";
+import { getMyAccountInventory, getMyInvestment } from "../../apis/Mypage";
+import transactions from "../.../../../data/transaction.json";
+import spinner from "../../assets/imgs/spinner.gif";
+
+import "./styles.css";
+import { useQuery } from "react-query";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
+  //자산 현황 조회
+  const { data: myInvestment } = useQuery("myInvestment", () =>
+    getMyInvestment()
+  );
+
+  //보유 자산 조회
+  const { data: assetList } = useQuery("assetHome", () =>
+    getMyAccountInventory()
+  );
+  console.log(assetList);
+
+  if (!myInvestment) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={spinner} alt="loading" />
+      </div>
+    );
+  }
+  // const transactionsQuery = useQuery({
+  //   queryKey: [
+  //     "transactions",
+  //     {
+  //       page: 0,
+  //       size: 10,
+  //       startDate: "2020-01-01",
+  //       endDate: "2100-12-31",
+  //       type: "all",
+  //     },
+  //   ],
+  //   queryFn: getTransactions,
+  // });
+
+  // const transactions = transactionsQuery.data;
+
   const items = [
-    { label: "매입금액", value: "8,000,000원" },
-    { label: "청약 중금액", value: "8,000,000원" },
-    { label: "예수금", value: "8,000,000원" },
-    { label: "투자 가능금액", value: "8,000,000원" },
-    { label: "출금 가능금액", value: "8,000,000원" },
-    { label: "평가금액", value: "8,000,000원" },
-    { label: "평가손익", value: "8,000,000원" },
+    { label: "매입금액", value: `${myInvestment.total_buying_price}` },
+    { label: "청약 중금액", value: `${myInvestment.fundraising_price}` },
+    { label: "예수금", value: `${myInvestment.deposit}` },
+    { label: "투자 가능금액", value: `${myInvestment.deposit}` },
+    { label: "출금 가능금액", value: `${myInvestment.deposit}` },
+    { label: "평가금액", value: `${myInvestment.evaluation_price}` },
+    { label: "평가손익", value: `${myInvestment.evaluation_earning}` },
   ];
 
   const tabs = [
@@ -31,17 +79,26 @@ const MyPage = () => {
       content: (
         <div>
           <InvestmentSummary
-            totalAmount="8,234,123"
-            change="+124,210"
-            changePercentage="+10.34%"
+            totalAmount={`${myInvestment.evaluation_price}`}
+            change={`${myInvestment.evaluation_earning}원`}
+            changePercentage={`${myInvestment.average_earning_rate}%`}
             items={items}
           />
           <div className="tradeWrap">
             <div className="info title">보유한 자산</div>
           </div>
-          <MyAssetListItem />
-          <MyAssetListItem />
-          <MyAssetListItem />
+          {assetList.length !== 0 ? (
+            assetList.map((asset: any) => <MyAssetListItem {...asset} />)
+          ) : (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "20px",
+              }}
+            >
+              <div>보유하고 있는 자산이 없습니다.</div>
+            </div>
+          )}
         </div>
       ),
     },
@@ -52,12 +109,12 @@ const MyPage = () => {
           <div className="summarySection">
             <TwoRow
               label="총 보유 자산"
-              value="123,123원"
+              value={`${myInvestment.evaluation_price}원`}
               weight="500"
               color="#000"
               fontSize="16px"
             />
-            <TwoRow label="출금가능" value="123,123원" />
+            <TwoRow label="출금가능" value={`${myInvestment.deposit}원`} />
           </div>
 
           <div className="summarySection buttonWrapper">
@@ -125,9 +182,7 @@ const MyPage = () => {
     {
       label: "거래 내역",
       content: (
-        <div>
-          <TransactionList />
-        </div>
+        <div>{/* <TransactionList transactions={transactions} /> */}</div>
       ),
     },
   ];

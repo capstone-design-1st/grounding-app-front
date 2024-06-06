@@ -1,26 +1,32 @@
 import { instanceWithToken } from "./index";
 
-type QueryKey = [
-  string,
-  {
-    page: number;
-    size: number;
-    startDate?: string;
-    endDate?: string;
-    type?: string;
-  }
-];
+// type QueryKey = [
+//   string,
+//   {
+//     page: number;
+//     size: number;
+//     startDate?: string;
+//     endDate?: string;
+//     type?: string;
+//   }
+// ];
 
-export const getTransactions = async ({ queryKey }: { queryKey: QueryKey }) => {
-  const [, { page, size, startDate, endDate, type }] = queryKey;
-  const { data } = await instanceWithToken.get("/account/transactions", {
-    params: { page, size, startDate, endDate, type },
-  });
-  return data;
-};
+// export const getTransactions = async ({ queryKey }: { queryKey: QueryKey }) => {
+//   const [, { page, size, startDate, endDate, type }] = queryKey;
+//   const { data } = await instanceWithToken.get("/account/transactions", {
+//     params: { page, size, startDate, endDate, type },
+//   });
+//   return data;
+// };
 
-//내가 가진 자산 리스트 조회ㄴ
+//내가 가진 자산 리스트 조회
 export const getMyAccountInventory = async () => {
   const response = await instanceWithToken.get("/account/inventory");
+  return response.data;
+};
+
+//현재 투자 금액 조회
+export const getMyInvestment = async () => {
+  const response = await instanceWithToken.get("/account/present-status");
   return response.data;
 };
