@@ -7,11 +7,11 @@ import "../../style/slick.css";
 import "../../style/slick-theme.css";
 import {
   //   fetchListings,
-  //   fetchListingsCount,
   fetchListingsByVolume,
   getOnGoingList,
   //   fetchAssetHome,
 } from "../../apis/Home";
+import { getMyAccountInventory } from "../../apis/Mypage";
 import { getLikeList } from "../../apis/Likes";
 import {
   Header,
@@ -20,6 +20,7 @@ import {
   AssetRankingItem,
   SkeletonLoader,
 } from "../../components";
+import { calculateTotalReturn } from "../../util/calculateTotal";
 import mainImg from "../../assets/imgs/main.png";
 import dotsIcon from "../../assets/icons/dots.svg";
 import banner1 from "../../assets/imgs/banner1.png";
@@ -39,33 +40,35 @@ const HomePage = () => {
   );
 
   //보유 자산 조회
-  // const { data: assetHome } = useQuery("assetHome", () => fetchAssetHome("1"));
+  const { data: assetHome } = useQuery("assetHome", () =>
+    getMyAccountInventory()
+  );
 
-  const assetHome = {
-    total_earning_ratio: 20.5,
-    having_listing: [
-      {
-        listing_id: "string",
-        type: "land",
-        name: "string",
-        counts: 10,
-        buying_price: 5321,
-        total: 53210,
-        earning_ratio: 20.5,
-        earning_price: 12345,
-      },
-      {
-        listing_id: "string",
-        type: "building",
-        name: "string",
-        counts: 10,
-        buying_price: 5321,
-        total: 53210,
-        earning_ratio: 20.5,
-        earning_price: 12345,
-      },
-    ],
-  };
+  // const assetHome = {
+  //   total_earning_ratio: 20.5,
+  //   having_listing: [
+  //     {
+  //       listing_id: "string",
+  //       type: "land",
+  //       name: "string",
+  //       counts: 10,
+  //       buying_price: 5321,
+  //       total: 53210,
+  //       earning_ratio: 20.5,
+  //       earning_price: 12345,
+  //     },
+  //     {
+  //       listing_id: "string",
+  //       type: "building",
+  //       name: "string",
+  //       counts: 10,
+  //       buying_price: 5321,
+  //       total: 53210,
+  //       earning_ratio: 20.5,
+  //       earning_price: 12345,
+  //     },
+  //   ],
+  // };
 
   const { data: likesList } = useQuery("likesList", () => getLikeList());
 
@@ -171,47 +174,58 @@ const HomePage = () => {
 
       <div>
         {assetHome ? (
-          <div>
-            <div className="home assetHeader">
-              <div className="assetTitle">내 자산</div>
-              {assetHome.total_earning_ratio > 0 ? (
-                <div className="overallChange" style={{ color: "var(--red)" }}>
-                  +{assetHome.total_earning_ratio}%
+          (() => {
+            const totalEarningRatio = calculateTotalReturn(assetHome);
+            return (
+              <div>
+                <div className="home assetHeader">
+                  <div className="assetTitle">내 자산</div>
+                  {totalEarningRatio > 0 ? (
+                    <div
+                      className="overallChange"
+                      style={{ color: "var(--red)" }}
+                    >
+                      +{totalEarningRatio.toFixed(2)}%{" "}
+                      {/* Fixed missing toFixed method for formatting */}
+                    </div>
+                  ) : (
+                    <div
+                      className="overallChange"
+                      style={{ color: "var(--blue)" }}
+                    >
+                      {totalEarningRatio.toFixed(2)}%
+                    </div>
+                  )}
+                  <div className="viewMore" onClick={() => navigate("/mypage")}>
+                    자세히 보기
+                  </div>
                 </div>
-              ) : (
-                <div className="overallChange" style={{ color: "var(--blue)" }}>
-                  {assetHome.total_earning_ratio}%
-                </div>
-              )}
-              <div className="viewMore" onClick={() => navigate("/mypage")}>
-                자세히 보기
+                {assetHome.map((asset: any) => (
+                  <div
+                    key={asset.property_id}
+                    onClick={() => navigate(`/trade/${asset.name}`)}
+                  >
+                    <AssetListItem
+                      isMyAsset={true}
+                      assetType={asset.type}
+                      assetName={asset.property_name}
+                      value={asset.evaluation_price}
+                      count={asset.quantity}
+                      unitPrice={asset.evaluation_price}
+                      changeRatio={asset.fluctuation_rate}
+                      changePrice={asset.difference_amount}
+                    />
+                  </div>
+                ))}
               </div>
-            </div>
-            {assetHome.having_listing ? (
-              assetHome.having_listing.map((asset: any, index: number) => (
-                <div onClick={() => navigate(`/trade/${asset.name}`)}>
-                  <AssetListItem
-                    key={index}
-                    isMyAsset={true}
-                    assetType={asset.type}
-                    assetName={asset.name}
-                    value={asset.total}
-                    count={asset.counts}
-                    unitPrice={asset.buying_price}
-                    changeRatio={asset.earning_ratio}
-                    changePrice={asset.earning_price}
-                  />
-                </div>
-              ))
-            ) : (
-              <div>보유한 자산이 없습니다.</div>
-            )}
-          </div>
+            );
+          })()
         ) : (
           <div
             style={{
               width: "100%",
               padding: "0 20px",
+              marginTop: "10px",
               boxSizing: "border-box",
             }}
           >
@@ -261,9 +275,11 @@ const HomePage = () => {
           <div>
             <div className="title">거래량이 많은 매물</div>
             {listingsVolume.content.map((listing: any, index: number) => (
-              <div onClick={() => navigate(`/trade/${listing.id}`)}>
+              <div
+                key={listing.id}
+                onClick={() => navigate(`/trade/${listing.id}`)}
+              >
                 <AssetRankingItem
-                  key={listing.id}
                   rank={index + 1}
                   assetType={listing.type}
                   assetName={listing.name}
