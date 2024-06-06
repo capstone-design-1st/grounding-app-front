@@ -1,11 +1,15 @@
 import React from "react";
 import "./styles.css";
+import newsImg1 from "../../../assets/imgs/news1.png";
 
 interface NewsItem {
+  id: string;
+  s3_url: string;
+  cloudfront_url: string;
   title: string;
-  date: string;
-  source: string;
-  image: string;
+  content: string;
+  reported_at: string;
+  publisher: string;
   url: string;
 }
 
@@ -27,10 +31,14 @@ const NewsListItem: React.FC<NewsProps> = ({ items }) => {
             <div className="newsText">
               <div className="newsTitle">{item.title}</div>
               <div className="newsInfo">
-                {item.date} · {item.source}
+                {item.reported_at} · {item.publisher}
               </div>
             </div>
-            <img src={item.image} alt={item.title} className="newsImage" />
+            <img
+              src={item.s3_url ? item.s3_url : newsImg1}
+              alt={item.title}
+              className="newsImage"
+            />
           </div>
         </a>
       ))}

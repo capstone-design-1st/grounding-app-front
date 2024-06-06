@@ -1,9 +1,14 @@
 import React from "react";
 import IconText from "../IconText/IconText";
 
-interface InvestPointProps {
-  points: string[];
+interface InvestmentPointDTO {
+  title: string;
 }
+
+interface InvestPointProps {
+  points: InvestmentPointDTO[]; // This specifies that points is an array of InvestmentPointDTO
+}
+
 const InvestPoint: React.FC<InvestPointProps> = ({ points }) => {
   const getIcon = (point: string) => {
     if (point.includes("입지") || point.includes("위치")) {
@@ -16,11 +21,9 @@ const InvestPoint: React.FC<InvestPointProps> = ({ points }) => {
   };
   return (
     <div>
-      <div>
-        {points.map((point) => (
-          <IconText icon={getIcon(point)} text={point} />
-        ))}
-      </div>
+      {points.map((point, index) => (
+        <IconText key={index} icon={getIcon(point.title)} text={point.title} />
+      ))}
     </div>
   );
 };

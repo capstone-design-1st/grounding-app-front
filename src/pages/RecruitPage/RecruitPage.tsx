@@ -19,11 +19,11 @@ import locationIcon from "../../assets/icons/location.png";
 import defaultImg from "../../assets/imgs/main.png";
 
 const RecruitPage = () => {
-  const { name } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [scrollY, setScrollY] = useState(0); //스크롤 감지
 
-  const propertyId = "1111c0f7-0c97-4bd7-a200-0de1392f1df0";
+  const propertyId = id as string;
 
   const { data: propertyDetails, isError } = useQuery(
     ["propertyDetails", propertyId],
@@ -47,11 +47,11 @@ const RecruitPage = () => {
     };
   }, []);
 
-  const points = [
-    "연 6% 고정 배당금 지급",
-    "시세 대비 낮은 공모가, 매각 차익 기대",
-    "신도림역 더블 역세권, 오피스 최적 입지",
-  ];
+  const points = propertyDetails?.investment_point_dto;
+
+  if (!points) {
+    return <div>로딩중...</div>;
+  }
 
   if (isError || !propertyDetails) {
     return <div>에러!</div>;
@@ -98,10 +98,16 @@ const RecruitPage = () => {
         leftContent={
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
-        centerContent={scrollY !== 0 ? <strong>{name}</strong> : ""}
+        centerContent={
+          scrollY !== 0 ? (
+            <strong>{propertyDetails.property_dto.name}</strong>
+          ) : (
+            ""
+          )
+        }
       />
       <div className="recruitInfo">
-        <div className="title">{name}</div>
+        <div className="title">{propertyDetails.property_dto.name}</div>
         <div className="flexWrap">
           <div className="row recruitDesc">
             {propertyDetails?.property_dto.oneline}

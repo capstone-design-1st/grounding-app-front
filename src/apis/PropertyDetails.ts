@@ -60,7 +60,6 @@ interface ThumbnailURLDTO {
 
 interface InvestmentPointDTO {
   title: string;
-  content: string;
 }
 
 interface PropertyDetails {

@@ -4,8 +4,10 @@ import pdfIcon from "../../../assets/icons/pdf.png";
 import downloadIcon from "../../../assets/icons/download.png";
 
 interface DocumentItem {
+  id: string;
   title: string;
-  url: string;
+  s3_url: string;
+  cloudfront_url: string;
 }
 
 interface DocumentListProps {
@@ -19,7 +21,7 @@ const DocumentListItem: React.FC<DocumentListProps> = ({ documents }) => {
         <div key={index} className="documentItem">
           <img src={pdfIcon} alt="PDF Icon" className="pdfIcon" />
           <a
-            href={doc.url}
+            href={doc.s3_url}
             className="documentTitle"
             target="_blank"
             rel="noopener noreferrer"
@@ -27,7 +29,7 @@ const DocumentListItem: React.FC<DocumentListProps> = ({ documents }) => {
             {doc.title}
           </a>
           <a
-            href={doc.url}
+            href={doc.s3_url}
             className="downloadIcon"
             target="_blank"
             rel="noopener noreferrer"

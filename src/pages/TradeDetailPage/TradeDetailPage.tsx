@@ -24,7 +24,7 @@ import {
   NewsListItem,
   DocumentListItem,
   TwoRow,
-  // InvestPoint,
+  InvestPoint,
 } from "../../components";
 import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.png";
@@ -32,8 +32,6 @@ import heartFill from "../../assets/icons/heart-fill.png";
 import smallArrow from "../../assets/icons/small-arrow.svg";
 import defaultImg from "../../assets/imgs/main.png";
 import locationIcon from "../../assets/icons/location.png";
-import newsImg1 from "../../assets/imgs/news1.png";
-import newsImg2 from "../../assets/imgs/news2.png";
 import usePropertyStore from "../../store/tradeStore";
 
 const TradeDetailPage = () => {
@@ -115,7 +113,21 @@ const TradeDetailPage = () => {
 
   useEffect(() => {
     if (propertyDetails) {
-      if (propertyDetails.property_detail_dto.type === "building") {
+      if (propertyDetails.property_detail_dto.type === "land") {
+        setProperty({
+          투자대상: propertyDetails.property_dto.name,
+          위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,
+          면적: `임야 면적: ${formatNumberWithCommas(
+            propertyDetails.property_detail_dto.area
+          )}m²`,
+          용도지역: propertyDetails.property_detail_dto.land_use,
+          추천용도: propertyDetails.property_detail_dto.recommend_use,
+          주차가능여부: propertyDetails.property_detail_dto.parking
+            ? "가능"
+            : "불가능",
+          가까운역: propertyDetails.property_detail_dto.nearest_station,
+        });
+      } else {
         setProperty({
           투자대상: propertyDetails.property_dto.name,
           위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,
@@ -145,20 +157,6 @@ const TradeDetailPage = () => {
             propertyDetails.property_detail_dto.lease_end_date
           )}`,
         });
-      } else {
-        setProperty({
-          투자대상: propertyDetails.property_dto.name,
-          위치: `${propertyDetails.location_dto.city} ${propertyDetails.location_dto.gu} ${propertyDetails.location_dto.dong} ${propertyDetails.location_dto.detail}`,
-          면적: `임야 면적: ${formatNumberWithCommas(
-            propertyDetails.property_detail_dto.area
-          )}m²`,
-          용도지역: propertyDetails.property_detail_dto.land_use,
-          추천용도: propertyDetails.property_detail_dto.recommend_use,
-          주차가능여부: propertyDetails.property_detail_dto.parking
-            ? "가능"
-            : "불가능",
-          가까운역: propertyDetails.property_detail_dto.nearest_station,
-        });
       }
     }
   }, [propertyDetails]);
@@ -173,6 +171,16 @@ const TradeDetailPage = () => {
   const handleScroll = () => {
     setScrollY(window.scrollY);
   };
+
+  const points = propertyDetails?.investment_point_dto;
+
+  const documents = propertyDetails?.document_dto;
+
+  const newsItems = propertyDetails?.news_dto;
+
+  if (!points || !documents || !newsItems) {
+    return <div>로딩중...</div>;
+  }
 
   const orderBookData: OrderBookEntry[] = [
     // 추가 데이터..
@@ -190,45 +198,6 @@ const TradeDetailPage = () => {
     { price: 1113, amount: 36, type: "buy" },
     { price: 1112, amount: 60, type: "buy" },
     { price: 1111, amount: 80, type: "buy" },
-  ];
-
-  const documents = [
-    { title: "공모 청약 안내문", url: "https://example.com/document1.pdf" },
-    { title: "증권신고서", url: "https://example.com/document2.pdf" },
-    { title: "투자설명서", url: "https://example.com/document3.pdf" },
-    {
-      title: "부동산관리처분신탁계약서",
-      url: "https://example.com/document4.pdf",
-    },
-    { title: "감정평가보고서(대한)", url: "https://example.com/document5.pdf" },
-    {
-      title: "감정평가보고서(태평양)",
-      url: "https://example.com/document6.pdf",
-    },
-  ];
-
-  const newsItems = [
-    {
-      title: "조각투자사 소유, 8호 부동산 '신도림 핀포인트타워 2호' 완판",
-      date: "24.04.04",
-      source: "뉴스투데이",
-      image: newsImg1,
-      url: "https://www.naver.com",
-    },
-    {
-      title: "루센트블록 소유, 부동산 상품 ‘신도림 핀포인트타워 2호’ 공모 시작",
-      date: "24.04.04",
-      source: "뉴스투데이",
-      image: newsImg2,
-      url: "https://www.naver.com",
-    },
-    {
-      title: "루센트블록 소유, 부동산 상품 ‘신도림 핀포인트타워 2호’ 공모 시작",
-      date: "24.04.04",
-      source: "뉴스투데이",
-      image: newsImg2,
-      url: "https://www.naver.com",
-    },
   ];
 
   const items: AccordionItem[] = [
@@ -355,7 +324,7 @@ const TradeDetailPage = () => {
 
           <div className="sidePadding">
             <div className="title">투자 포인트</div>
-            {/* <InvestPoint points={investPoint} /> */}
+            <InvestPoint points={points} />
           </div>
 
           <div className="divideBox"></div>
