@@ -23,10 +23,10 @@ const SalesListItem: React.FC<SalesListItemProps> = ({
   return (
     <div className="SalesListItem" onClick={onClick}>
       <div className="col icon">
-        {type === "building" ? (
-          <img src={building} alt="building" />
+        {type === "land" ? (
+          <img src={land} alt="building" />
         ) : (
-          <img src={land} alt="land" />
+          <img src={building} alt="land" />
         )}
       </div>
       <div className="col">
@@ -37,9 +37,9 @@ const SalesListItem: React.FC<SalesListItemProps> = ({
       <div className="col">
         <div className="profit_badge">
           {profit > 0 ? (
-            <div className="positive">+{profit}%</div>
+            <div className="positive">+{profit.toFixed(2)}%</div>
           ) : (
-            <div className="negative">{profit}%</div>
+            <div className="negative">{profit.toFixed(2)}%</div>
           )}
         </div>
       </div>
