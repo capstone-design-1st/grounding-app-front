@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
 import {
   Header,
   InvestmentSummary,
@@ -6,19 +8,18 @@ import {
   TransactionItem,
   TransactionList,
   TwoRow,
+  MyAssetListItem,
 } from "../../components";
+import {
+  getMyAccountInventory,
+  getMyInvestment,
+  getTransactions,
+} from "../../apis/Mypage";
+import { transactionQueryKey } from "../../types";
+import "./styles.css";
+import spinner from "../../assets/imgs/spinner.gif";
 import arrow from "../../assets/icons/arrow.svg";
 import deposit from "../../assets/icons/deposit.svg";
-import { useNavigate } from "react-router-dom";
-import MyAssetListItem from "../../components/mypage/MyAssetListItem/MyAssetListItem";
-// import { useQuery } from "react-query";
-// import { getTransactions } from "../../apis/Mypage";
-import { getMyAccountInventory, getMyInvestment } from "../../apis/Mypage";
-import transactions from "../.../../../data/transaction.json";
-import spinner from "../../assets/imgs/spinner.gif";
-
-import "./styles.css";
-import { useQuery } from "react-query";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -32,7 +33,21 @@ const MyPage = () => {
   const { data: assetList } = useQuery("assetHome", () =>
     getMyAccountInventory()
   );
-  console.log(assetList);
+
+  //거래 내역 조회
+  const queryKey: transactionQueryKey = [
+    "transactions",
+    {
+      page: 0,
+      size: 10,
+      startDate: "2020-01-01",
+      endDate: "2100-12-31",
+    },
+  ];
+
+  const { data: transactions } = useQuery(queryKey, getTransactions);
+
+  console.log(transactions);
 
   if (!myInvestment) {
     return (
@@ -47,21 +62,20 @@ const MyPage = () => {
       </div>
     );
   }
-  // const transactionsQuery = useQuery({
-  //   queryKey: [
-  //     "transactions",
-  //     {
-  //       page: 0,
-  //       size: 10,
-  //       startDate: "2020-01-01",
-  //       endDate: "2100-12-31",
-  //       type: "all",
-  //     },
-  //   ],
-  //   queryFn: getTransactions,
-  // });
 
-  // const transactions = transactionsQuery.data;
+  if (!transactions) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={spinner} alt="loading" />
+      </div>
+    );
+  }
 
   const items = [
     { label: "매입금액", value: `${myInvestment.total_buying_price}` },
@@ -182,7 +196,20 @@ const MyPage = () => {
     {
       label: "거래 내역",
       content: (
-        <div>{/* <TransactionList transactions={transactions} /> */}</div>
+        <div>
+          {transactions?.content.length !== 0 ? (
+            <TransactionList transactions={transactions} />
+          ) : (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "20px",
+              }}
+            >
+              <div>거래 내역이 없습니다.</div>
+            </div>
+          )}
+        </div>
       ),
     },
   ];
