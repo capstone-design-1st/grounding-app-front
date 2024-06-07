@@ -17,7 +17,7 @@ export const getPropertiesList = async ({
 //구매 가능한 수량 조회
 export const getAvailableBuyQuantity = async (propertyId: string | null) => {
   const response = await instanceWithToken.get(
-    `/trading/${propertyId}/inventory/quantity`
+    `/trading/${propertyId}/buyable-quantity`
   );
   return response.data;
 };
@@ -61,6 +61,38 @@ export const getEachDayTrading = async (
         page,
         size,
       },
+    }
+  );
+  return response.data;
+};
+
+//매도하기
+export const postBuyProperty = async (
+  propertyId: string | null,
+  quantity: number,
+  price: number
+) => {
+  const response = await instanceWithToken.post(
+    `/trading/${propertyId}/buying`,
+    {
+      quantity,
+      price,
+    }
+  );
+  return response.data;
+};
+
+//매수하기
+export const postSellProperty = async (
+  propertyId: string | null,
+  quantity: number,
+  price: number
+) => {
+  const response = await instanceWithToken.post(
+    `/trading/${propertyId}/selling`,
+    {
+      quantity,
+      price,
     }
   );
   return response.data;
