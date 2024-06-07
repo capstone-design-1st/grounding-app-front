@@ -5,20 +5,30 @@ import Button from "../../common/Button/Button";
 import {
   getAvailableBuyQuantity,
   getAvailableSellQuantity,
-  // postBuyProperty,
+  postBuyProperty,
+  postSellProperty,
 } from "../../../apis/Trading";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import {
   usePropertyStore,
   useQuantityPriceStore,
 } from "../../../store/tradeStore";
+import AlertModal from "../../common/AlertModal/AlertModal";
 
 interface OrderModalProps {
   onClose: () => void;
 }
 
+interface TradeDetails {
+  quantity: number;
+  price: number;
+}
+
 const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
   const { quantity, setQuantity, price, setPrice } = useQuantityPriceStore();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [transactionAmount, setTransactionAmount] = useState(0);
+  const [transactionType, setTransactionType] = useState<"buy" | "sell">("buy");
 
   const [activeTab, setActiveTab] = useState("매수");
   const modalRef = useRef<HTMLDivElement>(null);
@@ -63,13 +73,37 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
     }
   );
 
-  // const { data: fetchBuyQuantity } = useQuery(
-  //   ["buyQuantity", propertyId, quantity, price],
-  //   postBuyProperty,
-  //   {
-  //     enabled: !!propertyId,
-  //   }
-  // );
+  const buyMutation = useMutation<void, Error, TradeDetails>(
+    ({ quantity, price }) => postBuyProperty(propertyId, quantity, price),
+    {
+      onSuccess: () => {
+        setTransactionAmount(quantity * price);
+        setTransactionType("buy");
+        setShowSuccessModal(true);
+      },
+      onError: (error) => alert(`Error during purchase: ${error.message}`),
+    }
+  );
+
+  const sellMutation = useMutation<void, Error, TradeDetails>(
+    ({ quantity, price }) => postSellProperty(propertyId, quantity, price),
+    {
+      onSuccess: () => {
+        setTransactionAmount(quantity * price);
+        setTransactionType("sell");
+        setShowSuccessModal(true);
+      },
+      onError: (error) => alert(`Error during sale: ${error.message}`),
+    }
+  );
+
+  const handleBuy = (quantity: number, price: number) => {
+    buyMutation.mutate({ quantity, price });
+  };
+
+  const handleSell = (quantity: number, price: number) => {
+    sellMutation.mutate({ quantity, price });
+  };
 
   const resetValues = () => {
     setQuantity(0);
@@ -79,6 +113,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
 
   const handleTabChange = () => {
     resetValues();
+    setActiveTab(activeTab === "매수" ? "매도" : "매도");
   };
 
   const handleQuantityChange = (increment: number) => {
@@ -137,7 +172,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
               background="var(--red)"
               padding="10px 0px"
               width="240px"
-              onClick={() => console.log("매수하기")}
+              onClick={() => handleBuy(quantity, price)}
             />
           </div>
         </div>
@@ -190,7 +225,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
               background="var(--blue)"
               padding="10px 0px"
               width="240px"
-              onClick={() => console.log("매도하기")}
+              onClick={() => handleSell(quantity, price)}
             />
           </div>
         </div>
@@ -206,6 +241,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
         active={activeTab}
         onTabChange={handleTabChange}
       />
+      {showSuccessModal && (
+        <AlertModal
+          amount={transactionAmount}
+          type={transactionType}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </div>
   );
 };

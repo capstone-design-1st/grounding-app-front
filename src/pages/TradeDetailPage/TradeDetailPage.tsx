@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AccordionItem, OrderBookEntry } from "../../types";
+import { AccordionItem } from "../../types";
 import "./styles.css";
 import { fetchProperty, fetchPropertyLike } from "../../apis/PropertyDetails";
 import { addLike, deleteLike } from "../../apis/Likes";
@@ -182,24 +182,6 @@ const TradeDetailPage = () => {
     return <div>로딩중...</div>;
   }
 
-  const orderBookData: OrderBookEntry[] = [
-    // 추가 데이터..
-    { price: 1124, amount: 6, type: "sell" },
-    { price: 1123, amount: 50, type: "sell" },
-    { price: 1122, amount: 10, type: "sell" },
-    { price: 1121, amount: 6, type: "sell" },
-    { price: 1120, amount: 20, type: "sell" },
-    { price: 1119, amount: 10, type: "sell" },
-    { price: 1118, amount: 10, type: "sell" },
-    { price: 1117, amount: 10, type: "buy" },
-    { price: 1116, amount: 6, type: "buy" },
-    { price: 1115, amount: 10, type: "buy" },
-    { price: 1114, amount: 6, type: "buy" },
-    { price: 1113, amount: 36, type: "buy" },
-    { price: 1112, amount: 60, type: "buy" },
-    { price: 1111, amount: 80, type: "buy" },
-  ];
-
   const items: AccordionItem[] = [
     {
       title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
@@ -263,7 +245,7 @@ const TradeDetailPage = () => {
               color="white"
               background={"var(--main)"}
               padding="15px 0px"
-              onClick={() => navigate("/trade")}
+              onClick={() => setShowModal(true)}
             />
           </div>
         </div>
@@ -280,9 +262,13 @@ const TradeDetailPage = () => {
                 : defaultImg
             }
             details={{
-              발행가: "5,000원 / DAS",
-              발행수량: "570,000 DAS",
-              DAS상장일: "22.12.22",
+              발행가: `${formatNumberWithCommas(
+                propertyDetails?.fundraise_dto.issue_price
+              )}원 / DAS`,
+              발행수량: `${formatNumberWithCommas(
+                propertyDetails?.fundraise_dto.security_count
+              )} DAS`,
+              DAS상장일: `${propertyDetails?.fundraise_dto.subscription_end_date}`,
               배당주기: "1개월",
             }}
           />
@@ -345,7 +331,7 @@ const TradeDetailPage = () => {
       label: "호가",
       content: (
         <div className="sidePadding">
-          <OrderBook entries={orderBookData} />
+          <OrderBook basePrice={5000} />
           <Button
             text="거래하기"
             color="var(--main)"
