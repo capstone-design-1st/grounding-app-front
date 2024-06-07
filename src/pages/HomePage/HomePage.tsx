@@ -83,7 +83,6 @@ const HomePage = () => {
           />
         }
       />
-
       <Slider {...bannerSettings}>
         <div>
           <img src={banner1} alt="Banner 1" style={{ width: "100%" }} />
@@ -92,7 +91,6 @@ const HomePage = () => {
           <img src={banner2} alt="Banner 2" style={{ width: "100%" }} />
         </div>
       </Slider>
-
       <div className="titleWrapper">
         {listings && listingsCount ? (
           <div>
@@ -107,11 +105,31 @@ const HomePage = () => {
           </div>
         )}
       </div>
-
       <div>
         {listings ? (
-          <Slider {...settings}>
-            {listings.content.map((listing, index) => (
+          listings.content.length > 1 ? (
+            <Slider {...settings}>
+              {listings.content.map((listing, index) => (
+                <div
+                  className="slider"
+                  key={listing.property_id}
+                  onClick={() => navigate(`/recruit/${listing.property_id}`)}
+                >
+                  <img
+                    src={
+                      listing.thumbnail_url === null
+                        ? mainImg
+                        : listing.thumbnail_url
+                    }
+                    alt={`main ${index}`}
+                  />
+                  <div className="sliderTitle">{listing.name}</div>
+                  <div className="sliderSubTitle">{listing.oneline}</div>
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            listings.content.map((listing, index) => (
               <div
                 className="slider"
                 key={listing.property_id}
@@ -128,8 +146,8 @@ const HomePage = () => {
                 <div className="sliderTitle">{listing.name}</div>
                 <div className="sliderSubTitle">{listing.oneline}</div>
               </div>
-            ))}
-          </Slider>
+            ))
+          )
         ) : (
           <div
             className="subTitle"
@@ -145,7 +163,6 @@ const HomePage = () => {
       </div>
 
       {assetHome && <div className="divideBox"></div>}
-
       <div>
         {assetHome ? (
           assetHome.length > 0 ? (
@@ -155,7 +172,7 @@ const HomePage = () => {
                 <div>
                   <div className="home assetHeader">
                     <div className="assetTitle">내 자산</div>
-                    {totalEarningRatio > 0 ? (
+                    {totalEarningRatio >= 0 ? (
                       <div
                         className="overallChange"
                         style={{ color: "var(--red)" }}
@@ -180,7 +197,7 @@ const HomePage = () => {
                   {assetHome.map((asset: any) => (
                     <div
                       key={asset.property_id}
-                      onClick={() => navigate(`/trade/${asset.name}`)}
+                      onClick={() => navigate(`/trade/${asset.property_id}`)}
                     >
                       <AssetListItem
                         isMyAsset={true}
@@ -188,7 +205,7 @@ const HomePage = () => {
                         assetName={asset.property_name}
                         value={asset.evaluation_price}
                         count={asset.quantity}
-                        unitPrice={asset.evaluation_price}
+                        unitPrice={asset.average_buying_price}
                         changeRatio={asset.fluctuation_rate}
                         changePrice={asset.difference_amount}
                       />
@@ -228,9 +245,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
-
       {listings && <div className="divideBox"></div>}
-
       {!likesList?.content || likesList.content.length !== 0 ? (
         <div>
           <div className="titleWrapper">
@@ -257,9 +272,7 @@ const HomePage = () => {
           </div>
         </div>
       )}
-
       {listingsVolume && <div className="divideBox"></div>}
-
       <div className="titleWrapper">
         {listingsVolume ? (
           <div>
@@ -291,9 +304,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
-
       <div className="divideBox"></div>
-
       <Navbar selected="home" />
     </div>
   );
