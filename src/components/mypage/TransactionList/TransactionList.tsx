@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-const transactionTypes = ["전체", "임야", "건물"];
+const transactionTypes = ["전체", "임야", "건물", "매수", "매도"];
 
 interface TransactionProps {
   property_id: string;
@@ -16,11 +16,16 @@ interface TransactionListProps {
   transactions: TransactionProps[];
 }
 
+interface DateRange {
+  startDate: string;
+  endDate: string;
+}
+
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
-  const [activeTab, setActiveTab] = useState("전체");
-  const [activeButton, setActiveButton] = useState("전체");
-  const [selectedFilter, setSelectedFilter] = useState("전체");
-  const [dateRange, setDateRange] = useState({
+  const [activeTab, setActiveTab] = useState<string>("전체");
+  const [activeButton, setActiveButton] = useState<string>("전체");
+  const [selectedFilter, setSelectedFilter] = useState<string>("전체");
+  const [dateRange, setDateRange] = useState<DateRange>({
     startDate: new Date().toISOString().slice(0, 10),
     endDate: new Date().toISOString().slice(0, 10),
   });
@@ -43,23 +48,19 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
     let startDate = new Date();
     switch (period) {
       case "당일":
-        // 당일: 오늘 날짜만
         startDate = today;
         break;
       case "1개월":
-        // 1개월: 오늘부터 한 달 전
         startDate.setMonth(today.getMonth() - 1);
         break;
       case "3개월":
-        // 3개월: 오늘부터 세 달 전
         startDate.setMonth(today.getMonth() - 3);
         break;
       case "6개월":
-        // 6개월: 오늘부터 여섯 달 전
         startDate.setMonth(today.getMonth() - 6);
         break;
       default:
-        return; // 기본적으로 변경 없음
+        return;
     }
     setDateRange({
       startDate: startDate.toISOString().slice(0, 10),
@@ -155,8 +156,8 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
         </thead>
         <tbody>
           {filteredTransactions.length > 0 ? (
-            filteredTransactions.map((transaction, index) => (
-              <React.Fragment key={index}>
+            filteredTransactions.map((transaction) => (
+              <React.Fragment key={transaction.property_id}>
                 <tr>
                   <td>{transaction.property_name}</td>
                   <td>{transaction.quantity}조각</td>
@@ -164,14 +165,19 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                 </tr>
                 <tr>
                   <td>{transaction.type}</td>
-                  <td>{transaction.price}</td>
-                  <td>{transaction.price * transaction.quantity}</td>
+                  <td>{transaction.price.toLocaleString()} 원</td>
+                  <td>
+                    {(
+                      transaction.price * transaction.quantity
+                    ).toLocaleString()}{" "}
+                    원
+                  </td>
                 </tr>
               </React.Fragment>
             ))
           ) : (
             <tr>
-              <td colSpan={3}>No Transactions Found</td>
+              <td colSpan={6}>거래 내역이 없습니다</td>
             </tr>
           )}
         </tbody>
