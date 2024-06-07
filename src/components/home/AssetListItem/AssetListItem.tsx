@@ -46,13 +46,13 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
           <div className="value">{value}원</div>
           {isMyAsset && (
             <div className="change">
-              {changeRatio > 0 ? (
+              {changeRatio >= 0 ? (
                 <span style={{ color: "var(--red)" }}>
-                  +{changePrice.toLocaleString()}원({changeRatio}%)
+                  +{changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
                 </span>
               ) : (
                 <span style={{ color: "var(--blue)" }}>
-                  {changePrice.toLocaleString()}원({changeRatio}%)
+                  {changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
                 </span>
               )}
             </div>

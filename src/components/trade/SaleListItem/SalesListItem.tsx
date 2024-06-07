@@ -36,7 +36,7 @@ const SalesListItem: React.FC<SalesListItemProps> = ({
       </div>
       <div className="col">
         <div className="profit_badge">
-          {profit > 0 ? (
+          {profit >= 0 ? (
             <div className="positive">+{profit.toFixed(2)}%</div>
           ) : (
             <div className="negative">{profit.toFixed(2)}%</div>
