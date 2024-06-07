@@ -45,7 +45,7 @@
   background-color: rgba(255, 59, 59, 0.2); /* Red for buy */
 }
 
-.amount {
+.orderBook .amount {
   z-index: 2;
   position: absolute;
   font-size: 12px;
