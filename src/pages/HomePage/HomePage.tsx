@@ -44,32 +44,6 @@ const HomePage = () => {
     getMyAccountInventory()
   );
 
-  // const assetHome = {
-  //   total_earning_ratio: 20.5,
-  //   having_listing: [
-  //     {
-  //       listing_id: "string",
-  //       type: "land",
-  //       name: "string",
-  //       counts: 10,
-  //       buying_price: 5321,
-  //       total: 53210,
-  //       earning_ratio: 20.5,
-  //       earning_price: 12345,
-  //     },
-  //     {
-  //       listing_id: "string",
-  //       type: "building",
-  //       name: "string",
-  //       counts: 10,
-  //       buying_price: 5321,
-  //       total: 53210,
-  //       earning_ratio: 20.5,
-  //       earning_price: 12345,
-  //     },
-  //   ],
-  // };
-
   const { data: likesList } = useQuery("likesList", () => getLikeList());
 
   /*슬라이더 세팅 */
@@ -174,52 +148,68 @@ const HomePage = () => {
 
       <div>
         {assetHome ? (
-          (() => {
-            const totalEarningRatio = calculateTotalReturn(assetHome);
-            return (
-              <div>
-                <div className="home assetHeader">
-                  <div className="assetTitle">내 자산</div>
-                  {totalEarningRatio > 0 ? (
+          assetHome.length > 0 ? (
+            (() => {
+              const totalEarningRatio = calculateTotalReturn(assetHome);
+              return (
+                <div>
+                  <div className="home assetHeader">
+                    <div className="assetTitle">내 자산</div>
+                    {totalEarningRatio > 0 ? (
+                      <div
+                        className="overallChange"
+                        style={{ color: "var(--red)" }}
+                      >
+                        +{totalEarningRatio.toFixed(2)}%{" "}
+                      </div>
+                    ) : (
+                      <div
+                        className="overallChange"
+                        style={{ color: "var(--blue)" }}
+                      >
+                        {totalEarningRatio.toFixed(2)}%
+                      </div>
+                    )}
                     <div
-                      className="overallChange"
-                      style={{ color: "var(--red)" }}
+                      className="viewMore"
+                      onClick={() => navigate("/mypage")}
                     >
-                      +{totalEarningRatio.toFixed(2)}%{" "}
-                      {/* Fixed missing toFixed method for formatting */}
+                      자세히 보기
                     </div>
-                  ) : (
-                    <div
-                      className="overallChange"
-                      style={{ color: "var(--blue)" }}
-                    >
-                      {totalEarningRatio.toFixed(2)}%
-                    </div>
-                  )}
-                  <div className="viewMore" onClick={() => navigate("/mypage")}>
-                    자세히 보기
                   </div>
+                  {assetHome.map((asset: any) => (
+                    <div
+                      key={asset.property_id}
+                      onClick={() => navigate(`/trade/${asset.name}`)}
+                    >
+                      <AssetListItem
+                        isMyAsset={true}
+                        assetType={asset.type}
+                        assetName={asset.property_name}
+                        value={asset.evaluation_price}
+                        count={asset.quantity}
+                        unitPrice={asset.evaluation_price}
+                        changeRatio={asset.fluctuation_rate}
+                        changePrice={asset.difference_amount}
+                      />
+                    </div>
+                  ))}
                 </div>
-                {assetHome.map((asset: any) => (
-                  <div
-                    key={asset.property_id}
-                    onClick={() => navigate(`/trade/${asset.name}`)}
-                  >
-                    <AssetListItem
-                      isMyAsset={true}
-                      assetType={asset.type}
-                      assetName={asset.property_name}
-                      value={asset.evaluation_price}
-                      count={asset.quantity}
-                      unitPrice={asset.evaluation_price}
-                      changeRatio={asset.fluctuation_rate}
-                      changePrice={asset.difference_amount}
-                    />
-                  </div>
-                ))}
+              );
+            })()
+          ) : (
+            <div>
+              <div className="home assetHeader">
+                <div className="assetTitle">내 자산</div>
               </div>
-            );
-          })()
+              <div
+                className="assetTitle"
+                style={{ padding: "10px 20px", textAlign: "center" }}
+              >
+                보유한 자산이 없습니다.
+              </div>
+            </div>
+          )
         ) : (
           <div
             style={{
