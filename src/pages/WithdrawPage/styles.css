@@ -1,13 +1,8 @@
 .withdrawPage {
   display: flex;
   flex-direction: column;
-  height: 94vh;
-  padding: 20px 20px 0 20px;
-}
-
-.withdrawPage .content {
-  flex: 1;
-  padding-top: 20px;
+  height: 100vh;
+  padding: 0 20px;
 }
 
 .withdrawPage .row {
@@ -46,4 +41,12 @@
   color: #7e7e7e;
   font-size: 15px;
   font-weight: 400;
+}
+
+.withdrawPage + .buttonWrapper {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
 }

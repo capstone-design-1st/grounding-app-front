@@ -1,7 +1,7 @@
 .depositPage {
   display: flex;
   flex-direction: column;
-  height: 94vh;
+  height: 80vh;
   padding: 20px 20px 0 20px;
 }
 
@@ -52,4 +52,12 @@
   font-size: 13px;
   font-weight: 500;
   white-space: pre-line;
+}
+
+.depositPage + .buttonWrapper {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
 }
