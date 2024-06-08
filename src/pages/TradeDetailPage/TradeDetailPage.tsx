@@ -404,7 +404,10 @@ const TradeDetailPage = () => {
                   {formatNumberWithCommas(
                     propertyDetails.property_dto.price_difference
                   )}
-                  원 ({propertyDetails.property_dto.price_difference.toFixed(2)}
+                  원 (
+                  {propertyDetails.property_dto.price_difference_rate.toFixed(
+                    2
+                  )}
                   %)
                 </span>
               ) : propertyDetails.property_dto.price_difference > 0 ? (
@@ -413,7 +416,10 @@ const TradeDetailPage = () => {
                   {formatNumberWithCommas(
                     propertyDetails.property_dto.price_difference
                   )}
-                  원 ({propertyDetails.property_dto.price_difference.toFixed(2)}
+                  원 (
+                  {propertyDetails.property_dto.price_difference_rate.toFixed(
+                    2
+                  )}
                   %)
                 </span>
               ) : (

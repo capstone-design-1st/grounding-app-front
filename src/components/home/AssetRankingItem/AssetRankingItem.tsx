@@ -36,11 +36,11 @@ const AssetRankingItem: React.FC<AssetRankingItemProps> = ({
         <div className="change">
           {changePrice >= 0 ? (
             <span style={{ color: "var(--red)" }}>
-              +{changePrice.toLocaleString()}원 ({changeRatio}%)
+              +{changePrice.toLocaleString()}원 ({changeRatio.toFixed(2)}%)
             </span>
           ) : (
             <span style={{ color: "var(--blue)" }}>
-              {changePrice.toLocaleString()}원 ({changeRatio}%)
+              {changePrice.toLocaleString()}원 ({changeRatio.toFixed(2)}%)
             </span>
           )}
         </div>
