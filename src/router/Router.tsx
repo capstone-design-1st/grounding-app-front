@@ -10,6 +10,7 @@ import MorePage from "../pages/MorePage/MorePage";
 import RecruitPage from "../pages/RecruitPage/RecruitPage";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
+import OnRecruitPage from "../pages/OnRecruitPage/OnRecruitPage";
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/recruit/:id" element={<RecruitPage />} />
+      <Route path="/recruit/:id/invest" element={<OnRecruitPage />} />
       <Route path="/trade" element={<TradePage />} />
       <Route path="/trade/:id" element={<TradeDetailPage />} />
       <Route path="/trade/:name/quote" element={<QuotePage />} />

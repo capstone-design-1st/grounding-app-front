@@ -154,7 +154,9 @@ const RecruitPage = () => {
           width="100%"
           fontSize="16px"
           onClick={() => {
-            alert("준비중입니다.");
+            navigate(`/recruit/${propertyId}/invest`, {
+              state: { name: propertyDetails.property_dto.name },
+            });
           }}
         />
       </div>

@@ -1,4 +1,5 @@
 /**common */
+
 export { default as Header } from "./common/Header/Header";
 export { default as Tab } from "./common/Tab/Tab";
 export { default as Button } from "./common/Button/Button";
@@ -13,7 +14,7 @@ export { default as Badge } from "./common/Badge/Badge";
 export { default as InvestPoint } from "./common/InvestPoint/InvestPoint";
 export { default as Checkbox } from "./common/Checkbox/Checkbox";
 export { default as PasswordInput } from "./common/PasswordInput/PasswordInput";
-
+export { default as Keypad } from "./common/Keypad/Keypad";
 /*trade */
 export { default as SalesListItem } from "./trade/SaleListItem/SalesListItem";
 export { default as SearchBar } from "./trade/SearchBar/SearchBar";
@@ -25,7 +26,7 @@ export { default as OrderModal } from "./trade/OrderModal/OrderModal";
 export { default as NewsListItem } from "./trade/NewsListItem/NewsListItem";
 export { default as DocumentListItem } from "./trade/DocumentListItem/DocumentListItem";
 export { default as ChartTable } from "./trade/ChartTable/chartTable";
-
+export { default as AlertModal } from "./common/AlertModal/AlertModal";
 /*home*/
 export { default as AssetListItem } from "./home/AssetListItem/AssetListItem";
 export { default as AssetRankingItem } from "./home/AssetRankingItem/AssetRankingItem";

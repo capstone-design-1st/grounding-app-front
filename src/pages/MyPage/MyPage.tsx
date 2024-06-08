@@ -20,6 +20,8 @@ import "./styles.css";
 import spinner from "../../assets/imgs/spinner.gif";
 import arrow from "../../assets/icons/arrow.svg";
 import deposit from "../../assets/icons/deposit.svg";
+import useAssetStore from "../../store/myAssetStore";
+import { useEffect } from "react";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -28,6 +30,14 @@ const MyPage = () => {
   const { data: myInvestment } = useQuery("myInvestment", () =>
     getMyInvestment()
   );
+
+  const { updateCashBalance } = useAssetStore();
+
+  useEffect(() => {
+    if (myInvestment && myInvestment.deposit !== undefined) {
+      updateCashBalance(myInvestment.deposit);
+    }
+  }, [myInvestment]);
 
   //보유 자산 조회
   const { data: assetList } = useQuery("assetHome", () =>
@@ -46,8 +56,6 @@ const MyPage = () => {
   ];
 
   const { data: transactions } = useQuery(queryKey, getTransactions);
-
-  console.log(transactions);
 
   if (!myInvestment) {
     return (
@@ -198,7 +206,7 @@ const MyPage = () => {
       content: (
         <div>
           {transactions?.content.length !== 0 ? (
-            <TransactionList transactions={transactions} />
+            <TransactionList transactions={transactions.content} />
           ) : (
             <div
               style={{

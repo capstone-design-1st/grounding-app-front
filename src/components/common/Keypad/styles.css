@@ -1,0 +1,79 @@
+.keypadcontainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.keypadcontainer .infoSection {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.keypadcontainer .infoSection .price {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #3b3b3b;
+}
+
+.keypadcontainer .infoSection .shares {
+  font-size: 22px;
+  font-weight: bold;
+  color: #9b99af;
+  margin-bottom: 10px;
+}
+
+.keypadcontainer .infoSection .available {
+  font-size: 14px;
+  color: #b0b0b0;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #b0b0b0;
+}
+
+.keypadSection {
+  flex: 0.4;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.key {
+  width: 120px;
+  height: 80px;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #3b3b3b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #ffff;
+}
+
+.key:active {
+  background-color: #d0d0d0;
+}
+
+.keyPadButton {
+  width: 100%;
+  padding: 15px 10px;
+  background-color: var(--main);
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  color: #ffffff;
+}
