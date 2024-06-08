@@ -14,7 +14,7 @@
   margin: 5px 0;
 }
 
-.price {
+.orderEntry .price {
   z-index: 2;
   width: 100px;
   text-align: center;
@@ -26,7 +26,7 @@
   font-weight: 400;
 }
 
-.bar {
+.orderEntry .bar {
   position: absolute;
   height: 100%;
   border-radius: 3px;
@@ -35,12 +35,12 @@
   transition: width 0.5s ease-in-out;
 }
 
-.leftBar {
+.orderEntry .leftBar {
   right: calc(50% + 30px);
   background-color: rgba(24, 111, 242, 0.2); /* Blue for sell */
 }
 
-.rightBar {
+.orderEntry .rightBar {
   left: calc(50% + 30px);
   background-color: rgba(255, 59, 59, 0.2); /* Red for buy */
 }
