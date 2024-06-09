@@ -14,8 +14,10 @@ import {
   getMyAccountInventory,
   getMyInvestment,
   getTransactions,
+  getAccountTransactions,
 } from "../../apis/Mypage";
 import { transactionQueryKey } from "../../types";
+import { formatDateAndTime } from "../../util/formatDateAndTime";
 import "./styles.css";
 import spinner from "../../assets/imgs/spinner.gif";
 import arrow from "../../assets/icons/arrow.svg";
@@ -25,6 +27,25 @@ import { useEffect } from "react";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
+  const page = 0;
+  const size = 15;
+  const startDate = "2020-01-01";
+  const endDate = "2100-12-31";
+  const type = "";
+
+  const accountQueryKey = [
+    "transactions",
+    { page, size, startDate, endDate, type },
+  ];
+
+  const { data: accountTransactions } = useQuery(
+    accountQueryKey,
+    () => getAccountTransactions({ page, size, startDate, endDate, type }),
+    {
+      keepPreviousData: true,
+    }
+  );
 
   //자산 현황 조회
   const { data: myInvestment } = useQuery("myInvestment", () =>
@@ -157,46 +178,25 @@ const MyPage = () => {
           </div>
 
           <div className="wrap">
-            <TransactionItem
-              type="입금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="출금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="입금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="입금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="출금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="입금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="입금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
-            <TransactionItem
-              type="출금"
-              amount="600,000"
-              date="2024.01.03 15:34"
-            />
+            {accountTransactions?.content.length !== 0 ? (
+              accountTransactions.content.map((transaction: any) => (
+                <TransactionItem
+                  key={transaction.id}
+                  type={transaction.type}
+                  amount={transaction.amount}
+                  date={formatDateAndTime(transaction.created_at)}
+                />
+              ))
+            ) : (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "20px",
+                }}
+              >
+                <div>입출금 내역이 없습니다.</div>
+              </div>
+            )}
           </div>
         </div>
       ),
