@@ -71,6 +71,16 @@ const SignUp: React.FC = () => {
     wallet: `${process.env.REACT_APP_WALLET_ADDRESS}`,
   });
 
+  const [showAmount, setShowAmount] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAmount(true);
+    }, 500); // 1초 후에 금액 정보를 표시
+
+    return () => clearTimeout(timer);
+  }, []);
+
   /*회원가입 */
   const { mutate: signin } = useMutation(postSignin);
 
@@ -522,29 +532,36 @@ const SignUp: React.FC = () => {
               <div
                 className="subTitle"
                 style={{
+                  fontFamily: "HSSanTokki20-Regular",
                   margin: "80px 0 20px 0",
-                  fontSize: "25px",
+                  fontSize: "40px",
                   fontWeight: "bold",
+                  animation: "slideIn 0.5s ease-out forwards",
                 }}
               >
-                그라운딩 가입을 축하드려요!
+                회원가입 완료!
               </div>
               <div
                 style={{
-                  margin: "0px 0 60px 0",
+                  margin: "0px 0 40px 0",
                   fontSize: "18px",
+                  animation: "slideIn 0.5s ease-out forwards",
                 }}
               >
                 원하는 매물에 투자해 보세요
               </div>
               <ConfettiExplosion force={0.7} duration={3000} />
               <img
+                className={`${showAmount ? "show" : ""}`}
                 src={welcomeLogo}
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignContent: "center",
                   width: "100%",
+                  animation: "slideIn 0.5s ease-out forwards",
+                  animationDelay: "0.5s",
+                  opacity: 0,
                 }}
                 alt="회원가입 완료"
               />
