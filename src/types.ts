@@ -5,7 +5,7 @@ export interface AccordionItem {
 
 export interface OrderBookEntry {
   price: number;
-  amount: number;
+  quantity: number;
   type: "buy" | "sell";
 }
 
