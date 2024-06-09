@@ -20,8 +20,8 @@ const CandleChart = () => {
     xaxis: {
       type: "datetime",
       labels: {
-        datetimeUTC: false, // UTC 시간 대신 로컬 시간을 사용
-        format: "HH:mm", // 시간 포맷을 24시간제로 변경
+        datetimeUTC: false,
+        format: "MM/dd",
       },
     },
     yaxis: {
