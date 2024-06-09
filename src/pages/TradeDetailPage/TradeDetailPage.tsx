@@ -330,16 +330,20 @@ const TradeDetailPage = () => {
     {
       label: "호가",
       content: (
-        <div className="sidePadding">
-          <OrderBook basePrice={5000} />
-          <Button
-            text="거래하기"
-            color="var(--main)"
-            background={"var(--white)"}
-            padding="10px 0px"
-            border="1px solid var(--main)"
-            onClick={() => setShowModal(true)}
-          />
+        <div className="orderBookTab">
+          <div className="sidePadding">
+            <OrderBook basePrice={propertyDetails.present_price} />
+          </div>
+          <div className="buttonWrapper">
+            <Button
+              text="거래하기"
+              color="var(--main)"
+              background={"var(--white)"}
+              padding="10px 0px"
+              border="1px solid var(--main)"
+              onClick={() => setShowModal(true)}
+            />
+          </div>
         </div>
       ),
     },
