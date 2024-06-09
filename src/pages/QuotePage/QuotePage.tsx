@@ -52,7 +52,6 @@ const QuotePage = () => {
         console.error("Error fetching each day's trading data:", error),
     }
   );
-  console.log("todayTradingData:", eachDayTradingData);
 
   const nowHeaders = ["체결 시각", "체결 가격", "등락률", "체결 수량"];
   const dayHeaders = [
