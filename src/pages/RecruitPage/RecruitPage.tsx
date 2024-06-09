@@ -129,13 +129,15 @@ const RecruitPage = () => {
               color="var(--main)"
               background="#E7F9F9"
               text={`${calculateDaysLeft(
-                propertyDetails.fundraise_dto.deadline
+                propertyDetails.fundraise_dto.subscription_end_date
               )}일 남음`}
             />
           </div>
           <div>
             <span>
-              {formatNumberWithCommas(propertyDetails.fundraise_dto.total_fund)}
+              {formatNumberWithCommas(
+                propertyDetails.fundraise_dto.progress_amount
+              )}
             </span>
             원 달성
             <Badge

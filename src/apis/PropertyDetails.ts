@@ -22,6 +22,7 @@ interface PropertyDTO {
 
 interface FundraiseDTO {
   progress_rate: number;
+  progress_amount: number;
   deadline: string;
   investor_count: number;
   security_type: string; //증권사
