@@ -54,3 +54,20 @@
   cursor: pointer;
   font-size: 16px;
 }
+
+@keyframes spinAndStop {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.successModal img {
+  animation: spinAndStop 0.5s ease-in-out infinite; /* 0.5초 동안 여러 번 반복 */
+  animation-iteration-count: 2; /* 2번 회전 */
+}

@@ -2,18 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import "./styles.css";
-import { Button, Header } from "../../components";
+import { AlertModal, Button, Header } from "../../components";
 import { useMutation } from "react-query";
 import { postDeposit } from "../../apis/Mypage";
 
 const DepositPage: React.FC = () => {
   const navigate = useNavigate();
-
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<string>("");
 
   const depositMutation = useMutation(postDeposit, {
     onSuccess: () => {
-      alert("입금이 성공적으로 처리되었습니다.");
+      setShowModal(true);
+      setInputValue("");
     },
     onError: (error: any) => {
       alert(`입금 중 오류가 발생했습니다: ${error.message}`);
@@ -22,6 +24,12 @@ const DepositPage: React.FC = () => {
 
   const handleDeposit = () => {
     depositMutation.mutate({ deposit_amount: amount });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setAmount(Number(value));
   };
 
   return (
@@ -41,10 +49,7 @@ const DepositPage: React.FC = () => {
           <div className="row">
             <div className="label">입금 금액(원)</div>
           </div>
-          <input
-            type="text"
-            onChange={(e) => setAmount(Number(e.target.value))}
-          />
+          <input type="tel" value={inputValue} onChange={handleInputChange} />
           <div className="noteTitle">입금 시 유의사항</div>
           <ul className="notes">
             <li>
@@ -68,6 +73,14 @@ const DepositPage: React.FC = () => {
           onClick={handleDeposit}
         />
       </div>
+
+      {showModal && (
+        <AlertModal
+          amount={amount}
+          type="deposit"
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 };

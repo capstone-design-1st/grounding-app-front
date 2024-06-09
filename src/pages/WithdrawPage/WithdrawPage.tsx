@@ -2,26 +2,34 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import arrow from "../../assets/icons/arrow.svg";
 import "./styles.css";
-import { Button, Header } from "../../components";
+import { AlertModal, Button, Header } from "../../components";
 import { useMutation } from "react-query";
 import { postWithdraw } from "../../apis/Mypage";
 
 const WithdrawPage: React.FC = () => {
   const navigate = useNavigate();
-
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<string>("");
 
-  const depositMutation = useMutation(postWithdraw, {
+  const withdrawMutation = useMutation(postWithdraw, {
     onSuccess: () => {
-      alert("출금이 성공적으로 처리되었습니다.");
+      setShowModal(true);
+      setInputValue(""); // 입력 필드를 비웁니다.
     },
     onError: (error: any) => {
       alert(`출금 중 오류가 발생했습니다: ${error.message}`);
     },
   });
 
-  const handleDeposit = () => {
-    depositMutation.mutate({ withdrawal_amount: amount + 1000 });
+  const handleWithdraw = () => {
+    withdrawMutation.mutate({ withdrawal_amount: amount + 1000 });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setAmount(Number(value));
   };
 
   return (
@@ -40,10 +48,7 @@ const WithdrawPage: React.FC = () => {
           </div>
           <div className="inputWrapper">
             <label className="label">출금 금액(원)</label>
-            <input
-              type="text"
-              onChange={(e) => setAmount(Number(e.target.value))}
-            />
+            <input type="tel" value={inputValue} onChange={handleInputChange} />
           </div>
           <div className="row note">
             <div className="label">수수료(부가세 포함)</div>
@@ -61,9 +66,16 @@ const WithdrawPage: React.FC = () => {
           color="#fff"
           background="var(--main)"
           padding="15px 10px"
-          onClick={handleDeposit}
+          onClick={handleWithdraw}
         />
       </div>
+      {showModal && (
+        <AlertModal
+          amount={amount}
+          type="withdraw"
+          onClose={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 };
