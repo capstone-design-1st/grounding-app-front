@@ -31,8 +31,10 @@ const OnRecruitPage = () => {
     (data: { propertyId: string; quantity: number }) =>
       fundraiseProperty(data.propertyId, { quantity: data.quantity }),
     {
-      onSuccess: () => {
-        alert("청약이 완료되었습니다.");
+      onSuccess: (variables) => {
+        navigate("/recruit-complete", {
+          state: { quantity: variables.quantity },
+        });
       },
       onError: (error: any) => {
         alert("매수 중 오류가 발생했습니다");

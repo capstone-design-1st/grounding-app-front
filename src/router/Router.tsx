@@ -11,6 +11,7 @@ import RecruitPage from "../pages/RecruitPage/RecruitPage";
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import OnRecruitPage from "../pages/OnRecruitPage/OnRecruitPage";
+import RecruitCompletePage from "../pages/RecruitCompletePage/RecruitCompletePage";
 
 const Router = () => {
   return (
@@ -19,6 +20,7 @@ const Router = () => {
       <Route path="/home" element={<HomePage />} />
       <Route path="/recruit/:id" element={<RecruitPage />} />
       <Route path="/recruit/:id/invest" element={<OnRecruitPage />} />
+      <Route path="/recruit-complete" element={<RecruitCompletePage />} />
       <Route path="/trade" element={<TradePage />} />
       <Route path="/trade/:id" element={<TradeDetailPage />} />
       <Route path="/trade/:name/quote" element={<QuotePage />} />
