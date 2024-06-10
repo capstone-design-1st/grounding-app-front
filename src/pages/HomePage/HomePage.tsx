@@ -172,7 +172,7 @@ const HomePage = () => {
                         className="overallChange"
                         style={{ color: "var(--red)" }}
                       >
-                        +{totalEarningRatio.toFixed(2)}%{" "}
+                        +{totalEarningRatio.toFixed(2)}%
                       </div>
                     ) : (
                       <div

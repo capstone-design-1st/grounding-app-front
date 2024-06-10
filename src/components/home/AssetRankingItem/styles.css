@@ -19,11 +19,11 @@
 .assetRankingItem .assetIcon {
   width: 30px;
   margin-right: 10px;
-  margin-left: -70px;
   text-align: right;
 }
 
 .assetRankingItem .assetName {
+  width: 180px;
   font-size: 18px;
   font-weight: 500;
 }
