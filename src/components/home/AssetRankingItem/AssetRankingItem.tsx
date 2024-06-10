@@ -2,12 +2,13 @@ import React from "react";
 import building from "../../../assets/icons/building.png";
 import farm from "../../../assets/icons/farm.png";
 import "./styles.css";
+import { formatNumberWithCommas } from "../../../util/formatNumber";
 
 interface AssetRankingItemProps {
   assetType: string;
   rank: number;
   assetName: string;
-  value: number;
+  value: string;
   changeRatio: number;
   changePrice: number;
 }
@@ -36,11 +37,13 @@ const AssetRankingItem: React.FC<AssetRankingItemProps> = ({
         <div className="change">
           {changePrice >= 0 ? (
             <span style={{ color: "var(--red)" }}>
-              +{changePrice.toLocaleString()}원 ({changeRatio.toFixed(2)}%)
+              +{formatNumberWithCommas(changePrice)}원 ({changeRatio.toFixed(2)}
+              %)
             </span>
           ) : (
             <span style={{ color: "var(--blue)" }}>
-              {changePrice.toLocaleString()}원 ({changeRatio.toFixed(2)}%)
+              {formatNumberWithCommas(changePrice)}원 ({changeRatio.toFixed(2)}
+              %)
             </span>
           )}
         </div>

@@ -1,16 +1,10 @@
-// import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "./styles.css";
 import "../../style/slick.css";
 import "../../style/slick-theme.css";
-import {
-  //   fetchListings,
-  fetchListingsByVolume,
-  getOnGoingList,
-  //   fetchAssetHome,
-} from "../../apis/Home";
+import { fetchListingsByVolume, getOnGoingList } from "../../apis/Home";
 import { getMyAccountInventory } from "../../apis/Mypage";
 import { getLikeList } from "../../apis/Likes";
 import {
@@ -26,6 +20,7 @@ import dotsIcon from "../../assets/icons/dots.svg";
 import banner1 from "../../assets/imgs/banner1.png";
 import banner2 from "../../assets/imgs/banner2.png";
 import logo from "../../assets/imgs/header-logo.png";
+import { formatNumberWithCommas } from "../../util/formatNumber";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -203,7 +198,7 @@ const HomePage = () => {
                         isMyAsset={true}
                         assetType={asset.type}
                         assetName={asset.property_name}
-                        value={asset.evaluation_price}
+                        value={formatNumberWithCommas(asset.present_price)}
                         count={asset.quantity}
                         unitPrice={asset.average_buying_price}
                         changeRatio={asset.fluctuation_rate}
@@ -257,7 +252,7 @@ const HomePage = () => {
                 isMyAsset={false}
                 assetType={asset.type}
                 assetName={asset.name}
-                value={asset.present_price}
+                value={formatNumberWithCommas(asset.present_price)}
                 changeRatio={asset.fluctuation_rate}
                 changePrice={asset.price_difference}
               />
@@ -286,7 +281,7 @@ const HomePage = () => {
                   rank={index + 1}
                   assetType={listing.type}
                   assetName={listing.name}
-                  value={listing.present_price}
+                  value={formatNumberWithCommas(listing.present_price)}
                   changeRatio={listing.fluctuation_rate}
                   changePrice={listing.price_difference}
                 />

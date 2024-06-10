@@ -3,12 +3,13 @@ import building from "../../../assets/icons/building.png";
 import farm from "../../../assets/icons/farm.png";
 import heartIcon from "../.././../assets/icons/heart-fill.png";
 import "./styles.css";
+import { formatNumberWithCommas } from "../../../util/formatNumber";
 
 interface AssetListItemProps {
   isMyAsset: boolean;
   assetType: string;
   assetName: string;
-  value: number; //평가금액
+  value: string; //평가금액
   changeRatio: number; //수익률
   changePrice: number; //수익 금액
   count?: number; //보유 주식 수
@@ -48,11 +49,13 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
             <div className="change">
               {changeRatio >= 0 ? (
                 <span style={{ color: "var(--red)" }}>
-                  +{changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
+                  +{formatNumberWithCommas(changePrice)}원(
+                  {changeRatio.toFixed(2)}%)
                 </span>
               ) : (
                 <span style={{ color: "var(--blue)" }}>
-                  {changePrice.toLocaleString()}원({changeRatio.toFixed(2)}%)
+                  {formatNumberWithCommas(changePrice)}원(
+                  {changeRatio.toFixed(2)}%)
                 </span>
               )}
             </div>
