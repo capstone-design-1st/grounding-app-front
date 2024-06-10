@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AccordionItem } from "../../types";
 import "./styles.css";
 import { fetchProperty, fetchPropertyLike } from "../../apis/PropertyDetails";
 import { addLike, deleteLike } from "../../apis/Likes";
@@ -9,13 +8,12 @@ import { formatNumberWithCommas } from "../../util/formatNumber";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import disclosure from "../../data/disclosure.json";
 import spinner from "../../assets/imgs/spinner.gif";
-
+import gpt from "../../assets/icons/gpt-logo.png";
 import {
   Header,
   Tab,
   CandleChart,
   Button,
-  Accordion,
   AssetIntro,
   AssetTable,
   Map,
@@ -182,21 +180,6 @@ const TradeDetailPage = () => {
     return <div>로딩중...</div>;
   }
 
-  const items: AccordionItem[] = [
-    {
-      title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
-      content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
-    },
-    {
-      title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
-      content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
-    },
-    {
-      title: "8호 부동산 '신도림 핀포인트타워 2호' 완판",
-      content: "신도림 핀포인트 타워가 완판됐다...200자 요약 gpt",
-    },
-  ];
-
   if (isError || !propertyDetails) {
     return (
       <div
@@ -239,14 +222,28 @@ const TradeDetailPage = () => {
           <div className="divideBox"></div>
           <div className="reputation wrap">
             <div className="title">종목 평판</div>
-            <Accordion items={items} />
-            <Button
-              text="거래하기"
-              color="white"
-              background={"var(--main)"}
-              padding="15px 0px"
-              onClick={() => setShowModal(true)}
-            />
+            <div className="summaryBox">
+              <div className="summaryTitle">
+                <img src={gpt} alt="GPT Logo" />
+                Chat GPT로 최근 평판을 요약했어요
+              </div>
+              <div className="summaryContent">
+                {propertyDetails.summary_dto.content ? (
+                  propertyDetails.summary_dto.content
+                ) : (
+                  <img src={spinner} alt="Spinner" />
+                )}
+              </div>
+            </div>
+            <div className="buttonWrapper">
+              <Button
+                text="거래하기"
+                color="white"
+                background={"var(--main)"}
+                padding="15px 0px"
+                onClick={() => setShowModal(true)}
+              />
+            </div>
           </div>
         </div>
       ),

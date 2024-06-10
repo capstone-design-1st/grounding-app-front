@@ -64,6 +64,10 @@ interface InvestmentPointDTO {
 }
 
 interface PropertyDetails {
+  summary_dto: {
+    content: string;
+  };
+  is_fundraising: boolean;
   present_price: number;
   property_dto: PropertyDTO;
   fundraise_dto: FundraiseDTO;

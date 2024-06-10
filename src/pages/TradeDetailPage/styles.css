@@ -135,3 +135,39 @@
   box-sizing: border-box;
   bottom: 10;
 }
+
+.reputation.wrap .buttonWrapper {
+  position: fixed;
+  width: calc(100% - 40px);
+  box-sizing: border-box;
+  bottom: 10px;
+  left: 20px;
+}
+
+.summaryBox {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.summaryTitle {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.summaryTitle img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.summaryContent {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  white-space: pre-line;
+}
