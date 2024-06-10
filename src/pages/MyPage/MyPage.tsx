@@ -87,7 +87,22 @@ const MyPage = () => {
           alignItems: "center",
         }}
       >
-        <img src={spinner} alt="loading" />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img
+            style={{
+              width: "100px",
+              height: "100px",
+            }}
+            src={spinner}
+            alt="loading"
+          />
+        </div>
       </div>
     );
   }
