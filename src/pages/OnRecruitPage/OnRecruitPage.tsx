@@ -25,7 +25,7 @@ const OnRecruitPage = () => {
     if (myInvestment && myInvestment.deposit !== undefined) {
       updateCashBalance(myInvestment.deposit);
     }
-  }, [myInvestment]);
+  }, [myInvestment, updateCashBalance]);
 
   const mutation = useMutation(
     (data: { propertyId: string; quantity: number }) =>

@@ -58,7 +58,7 @@ const MyPage = () => {
     if (myInvestment && myInvestment.deposit !== undefined) {
       updateCashBalance(myInvestment.deposit);
     }
-  }, [myInvestment]);
+  }, [myInvestment, updateCashBalance]);
 
   //보유 자산 조회
   const { data: assetList } = useQuery("assetHome", () =>
