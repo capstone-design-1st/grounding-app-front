@@ -9,6 +9,12 @@ export interface OrderBookEntry {
   type: "buy" | "sell";
 }
 
+export interface ChartTableProps {
+  headers: string[];
+  data: TodayTradingTableRow[] | EachDayTradingTableRow[];
+  type: "today" | "eachDay";
+}
+
 export interface table2RowsProps {
   label: string;
   value: string;
