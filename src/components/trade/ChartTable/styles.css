@@ -1,5 +1,5 @@
 .tableWrapper {
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .infoTable {
@@ -9,13 +9,15 @@
 
 .infoTable th,
 .infoTable td {
+  min-width: 50px;
   padding: 8px 12px;
   text-align: center;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .infoTable th {
+  white-space: normal;
   font-size: 13px;
   font-weight: 400;
 }

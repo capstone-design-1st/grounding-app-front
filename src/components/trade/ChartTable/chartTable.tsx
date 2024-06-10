@@ -1,14 +1,13 @@
 import React from "react";
 import "./styles.css";
-import { TodayTradingTableRow, EachDayTradingTableRow } from "../../../types";
+import {
+  ChartTableProps,
+  TodayTradingTableRow,
+  EachDayTradingTableRow,
+} from "../../../types";
+import { formatDate } from "../../../util/formatDate";
 
-interface TableProps {
-  headers: string[];
-  data: TodayTradingTableRow[] | EachDayTradingTableRow[];
-  type: "today" | "eachDay";
-}
-
-const ChartTable: React.FC<TableProps> = ({ headers, data, type }) => {
+const ChartTable: React.FC<ChartTableProps> = ({ headers, data, type }) => {
   return (
     <div className="tableWrapper">
       <table className="infoTable">
@@ -20,7 +19,7 @@ const ChartTable: React.FC<TableProps> = ({ headers, data, type }) => {
           </tr>
         </thead>
         <tbody>
-          {type === "today" &&
+          {type === "today" && data.length > 0 ? (
             (data as TodayTradingTableRow[]).map((row, index) => (
               <tr key={index}>
                 <td>{row.executed_at}</td>
@@ -28,11 +27,11 @@ const ChartTable: React.FC<TableProps> = ({ headers, data, type }) => {
                 <td className="change">{row.fluctuation_rate}%</td>
                 <td>{row.quantity.toLocaleString()}</td>
               </tr>
-            ))}
-          {type === "eachDay" &&
+            ))
+          ) : type === "eachDay" && data.length > 0 ? (
             (data as EachDayTradingTableRow[]).map((row, index) => (
               <tr key={index}>
-                <td>{row.date}</td>
+                <td>{formatDate(row.date)}</td>
                 <td>{row.opening_price.toLocaleString()}</td>
                 <td>{row.closing_price.toLocaleString()}</td>
                 <td>{row.max_price.toLocaleString()}</td>
@@ -40,7 +39,14 @@ const ChartTable: React.FC<TableProps> = ({ headers, data, type }) => {
                 <td>{row.volume_count.toLocaleString()}</td>
                 <td className="change">{row.fluctuation_rate}%</td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan={headers.length} style={{ textAlign: "center" }}>
+                거래 내역이 없습니다.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
