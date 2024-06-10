@@ -6,7 +6,7 @@ export interface AccordionItem {
 export interface OrderBookEntry {
   price: number;
   quantity: number;
-  type: "buy" | "sell";
+  type: "매도" | "매수";
 }
 
 export interface ChartTableProps {

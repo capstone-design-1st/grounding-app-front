@@ -21,7 +21,7 @@ const generateOrderBookData = (basePrice: number): OrderBookEntry[] => {
     orderBookData.push({
       price: basePrice + i * 50,
       quantity: amount,
-      type: "sell",
+      type: "매도",
     });
   }
 
@@ -30,7 +30,7 @@ const generateOrderBookData = (basePrice: number): OrderBookEntry[] => {
     orderBookData.push({
       price: basePrice - i * 50,
       quantity: amount,
-      type: "buy",
+      type: "매수",
     });
   }
   return orderBookData;
@@ -44,8 +44,7 @@ const updateOrderBookData = (
 
   content.forEach((item) => {
     const index = updatedData.findIndex(
-      (entry) => entry.price === item.price
-      //  && entry.type === item.type
+      (entry) => entry.price === item.price && entry.type === item.type
     );
     if (index !== -1) {
       updatedData[index].quantity = item.quantity;
@@ -70,14 +69,14 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ quantity, price, type }) => {
   };
 
   useEffect(() => {
-    if (type === "sell" && leftBarRef.current) {
+    if (type === "매도" && leftBarRef.current) {
       leftBarRef.current.style.width = "0%";
       setTimeout(() => {
         if (leftBarRef.current) {
           leftBarRef.current.style.width = `${percentage}%`;
         }
       }, 0);
-    } else if (type === "buy" && rightBarRef.current) {
+    } else if (type === "매수" && rightBarRef.current) {
       rightBarRef.current.style.width = "0%";
       setTimeout(() => {
         if (rightBarRef.current) {
@@ -89,14 +88,14 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ quantity, price, type }) => {
 
   return (
     <div className={`orderEntry ${type}`}>
-      <span className={`amount ${type === "sell" ? "left" : "right"}`}>
+      <span className={`amount ${type === "매도" ? "left" : "right"}`}>
         {quantity}개
       </span>
-      {type === "sell" && <div ref={leftBarRef} className="bar leftBar" />}
+      {type === "매도" && <div ref={leftBarRef} className="bar leftBar" />}
       <span className="price" onClick={handlePriceClick}>
         {price.toLocaleString()}원
       </span>
-      {type === "buy" && <div ref={rightBarRef} className="bar rightBar" />}
+      {type === "매수" && <div ref={rightBarRef} className="bar rightBar" />}
     </div>
   );
 };
@@ -121,14 +120,12 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
         direction: null,
       });
       socket.send(message);
-      console.log("Sent message:", message);
     };
 
     socket.onmessage = (event) => {
-      console.log("Message received from WebSocket");
       try {
         const data = JSON.parse(event.data);
-        console.log("Parsed data:", data);
+
         if (data.totalElements === 0) {
           setOrderBookData(initialData);
         } else {
