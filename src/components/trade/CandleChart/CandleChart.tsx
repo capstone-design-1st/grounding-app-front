@@ -10,9 +10,22 @@ const CandleChart = () => {
       type: "candlestick",
       height: 200,
       toolbar: {
-        show: false, // 툴바 비활성화
+        show: true, // 툴바 활성화
+        tools: {
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
+        },
+      },
+      zoom: {
+        enabled: true,
+        type: "x", // x축 기준으로 줌
+        autoScaleYaxis: true,
       },
     },
+
     title: {
       text: undefined,
       align: "left",
