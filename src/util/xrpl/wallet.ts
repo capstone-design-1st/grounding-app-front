@@ -10,12 +10,12 @@ async function createClient() {
 }
 
 // Function to disconnect a client
-async function disconnectClient(client) {
+async function disconnectClient(client: Client) {
   await client.disconnect();
 }
 
 // Function to generate and fund a wallet
-async function generateAndFundWallet(client) {
+async function generateAndFundWallet(client: Client) {
   // Generate a wallet
   const wallet = Wallet.generate();
 
@@ -26,4 +26,19 @@ async function generateAndFundWallet(client) {
   return wallet;
 }
 
-export { createClient, disconnectClient, generateAndFundWallet };
+// Function to get balances for an account
+async function getBalances(client: Client, account: string) {
+  try {
+    const response = await client.request({
+      command: 'account_lines',
+      account: account,
+    });
+
+    return response.result.lines;
+  } catch (error) {
+    console.error('Error fetching balances:', error);
+    throw error;
+  }
+}
+
+export { createClient, disconnectClient, generateAndFundWallet, getBalances };
