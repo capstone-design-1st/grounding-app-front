@@ -1,13 +1,17 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface PropertyStoreState {
   propertyId: string | null;
+  uploaderWalletKey: string | null;
   setPropertyId: (id: string | null) => void;
+  setUploaderWalletKey: (key: string | null) => void;
 }
 
 export const usePropertyStore = create<PropertyStoreState>((set) => ({
   propertyId: null,
+  uploaderWalletKey: null,
   setPropertyId: (id) => set({ propertyId: id }),
+  setUploaderWalletKey: (key) => set({ uploaderWalletKey: key }),
 }));
 
 type ModalStoreState = {
