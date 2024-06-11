@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, PasswordInput, Button } from "../../index";
+import { PasswordInput, Button } from "../../index";
 import "./styles.css";
 import { useMutation } from "react-query";
 import { login } from "../../../apis/Login";
@@ -24,9 +24,6 @@ const LoginForm = () => {
       alert("로그인에 실패했습니다.");
     },
   });
-
-  const [autoLoginChecked, setAutoLoginChecked] = useState(false);
-  const [saveIdChecked, setSaveIdChecked] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -70,21 +67,9 @@ const LoginForm = () => {
           className="login-input"
         />
       </div>
-
-      <div className="checkboxWrapper">
-        <Checkbox
-          id={"autoLogin"}
-          label="자동 로그인"
-          checked={autoLoginChecked}
-          setIsChecked={setAutoLoginChecked}
-        />
-        <Checkbox
-          id={"saveId"}
-          label="아이디 저장"
-          checked={saveIdChecked}
-          setIsChecked={setSaveIdChecked}
-        />
-      </div>
+      <button className="nonMember" onClick={() => navigate("/home")}>
+        비회원으로 둘러보기
+      </button>
 
       <Button
         width="100%"

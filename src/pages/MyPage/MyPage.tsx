@@ -25,9 +25,17 @@ import arrow from "../../assets/icons/arrow.svg";
 import deposit from "../../assets/icons/deposit.svg";
 import useAssetStore from "../../store/myAssetStore";
 import { useEffect } from "react";
+import { getToken } from "../../util/token";
 
 const MyPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!getToken()) {
+      alert("로그인이 필요한 서비스 입니다");
+      navigate("/");
+    }
+  }, [navigate]);
 
   const page = 0;
   const size = 15;

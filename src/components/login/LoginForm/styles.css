@@ -20,10 +20,16 @@
   border: 1px solid var(--main);
 }
 
-.checkboxWrapper {
+.nonMember {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  margin: 10px 0 50px 0;
-  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: -10px;
+  font-size: 14px;
+  color: var(--grey4);
+  text-decoration: underline;
+  background-color: var(--white);
+  border: none;
 }

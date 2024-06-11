@@ -6,6 +6,7 @@ import {
   usePropertyStore,
   useQuantityPriceStore,
 } from "../../../store/tradeStore";
+import { getToken } from "../../../util/token";
 
 interface OrderBookProps {
   basePrice: number;
@@ -64,8 +65,12 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ quantity, price, type }) => {
   const { setPrice } = useQuantityPriceStore();
 
   const handlePriceClick = () => {
-    setPrice(price);
-    setShowModal(true);
+    if (getToken()) {
+      setPrice(price);
+      setShowModal(true);
+    } else {
+      alert("로그인이 필요한 서비스입니다.");
+    }
   };
 
   useEffect(() => {

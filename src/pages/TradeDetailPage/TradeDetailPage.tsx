@@ -31,6 +31,7 @@ import smallArrow from "../../assets/icons/small-arrow.svg";
 import defaultImg from "../../assets/imgs/main.png";
 import locationIcon from "../../assets/icons/location.png";
 import { usePropertyStore, useModalStore } from "../../store/tradeStore";
+import { getToken } from "../../util/token";
 
 const TradeDetailPage = () => {
   const { id } = useParams();
@@ -101,12 +102,16 @@ const TradeDetailPage = () => {
   });
 
   const handleClickHeart = async () => {
-    if (liked) {
-      deleteLikeMutation.mutate();
+    if (!getToken()) {
+      alert("로그인이 필요한 서비스입니다.");
     } else {
-      addLikeMutation.mutate();
+      if (liked) {
+        deleteLikeMutation.mutate();
+      } else {
+        addLikeMutation.mutate();
+      }
+      setLiked(!liked);
     }
-    setLiked(!liked);
   };
 
   useEffect(() => {
@@ -241,7 +246,14 @@ const TradeDetailPage = () => {
                 color="white"
                 background={"var(--main)"}
                 padding="15px 0px"
-                onClick={() => setShowModal(true)}
+                onClick={() => {
+                  if (getToken()) {
+                    setShowModal(true);
+                  } else {
+                    alert("로그인이 필요한 서비스입니다.");
+                    navigate("/");
+                  }
+                }}
               />
             </div>
           </div>
@@ -338,7 +350,14 @@ const TradeDetailPage = () => {
               background={"var(--white)"}
               padding="10px 0px"
               border="1px solid var(--main)"
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                if (getToken()) {
+                  setShowModal(true);
+                } else {
+                  alert("로그인이 필요한 서비스입니다.");
+                  navigate("/");
+                }
+              }}
             />
           </div>
         </div>

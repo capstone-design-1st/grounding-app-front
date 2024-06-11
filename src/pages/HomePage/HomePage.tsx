@@ -21,9 +21,11 @@ import banner1 from "../../assets/imgs/banner1.png";
 import banner2 from "../../assets/imgs/banner2.png";
 import logo from "../../assets/imgs/header-logo.png";
 import { formatNumberWithCommas } from "../../util/formatNumber";
+import { getToken } from "../../util/token";
 
 const HomePage = () => {
   const navigate = useNavigate();
+
   //모집 중 매물 리스트 조회
   const { data: listings } = useQuery("listings", () => getOnGoingList());
 
@@ -218,7 +220,13 @@ const HomePage = () => {
                 className="assetTitle"
                 style={{ padding: "10px 20px", textAlign: "center" }}
               >
-                보유한 자산이 없습니다.
+                {getToken() ? (
+                  <div>보유하고 있는 자산이 없습니다.</div>
+                ) : (
+                  <div>
+                    <div>로그인 후 자산을 확인해보세요!</div>
+                  </div>
+                )}
               </div>
             </div>
           )
@@ -263,7 +271,13 @@ const HomePage = () => {
         <div className="titleWrapper">
           <div className="title">내가 찜한 매물</div>
           <div style={{ textAlign: "center", padding: "20px" }}>
-            찜한 매물이 없습니다.
+            {getToken() ? (
+              <div>보유하고 있는 자산이 없습니다.</div>
+            ) : (
+              <div>
+                <div>로그인 후 관심있는 매물에 찜을 해보세요!</div>
+              </div>
+            )}
           </div>
         </div>
       )}

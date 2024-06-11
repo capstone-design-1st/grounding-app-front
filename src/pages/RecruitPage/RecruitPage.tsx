@@ -143,7 +143,9 @@ const RecruitPage = () => {
             <Badge
               color="var(--grey5)"
               background="var(--grey2)"
-              text={`${propertyDetails.fundraise_dto.progress_rate}% 달성`}
+              text={`${propertyDetails.fundraise_dto.progress_rate.toFixed(
+                2
+              )}% 달성`}
             />
           </div>
         </div>
