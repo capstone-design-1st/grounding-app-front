@@ -113,7 +113,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
     const initialData = generateOrderBookData(basePrice);
     setOrderBookData(initialData);
 
-    const socket = new WebSocket("ws://3.39.108.39:8033/quotes");
+    const socket = new WebSocket("wss://3.39.108.39:8033/quotes");
 
     socket.onopen = () => {
       console.log("WebSocket connection established");
