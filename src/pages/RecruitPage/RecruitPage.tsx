@@ -71,7 +71,7 @@ const RecruitPage = () => {
   return (
     <div className="recruit">
       <Header
-        leftContent={<img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />}
+        leftContent={<img src={arrow} alt="Arrow Icon" onClick={() => navigate('/home')} />}
         centerContent={scrollY !== 0 ? <strong>{propertyDetails.property_dto.name}</strong> : ''}
       />
       <div className="recruitInfo">
@@ -103,9 +103,7 @@ const RecruitPage = () => {
             <Badge
               color="var(--grey5)"
               background="var(--grey2)"
-              text={`${propertyDetails.fundraise_dto.progress_rate.toFixed(
-                2
-              )}% 달성`}
+              text={`${propertyDetails.fundraise_dto.progress_rate.toFixed(2)}% 달성`}
             />
           </div>
         </div>
