@@ -1,25 +1,35 @@
 import fundraise from "../../assets/imgs/fundraise.png";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { useEffect, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
-import useAssetStore from "../../store/myAssetStore";
 
 const RecruitCompletePage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(5); // 5초 카운트다운 초기값 설정
   const { quantity } = location.state as { quantity: number };
 
   const [showAmount, setShowAmount] = useState(false);
-  //store에서 계좌 잔액 불러오기
-  const { cashBalance } = useAssetStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAmount(true);
-    }, 500); // 1초 후에 금액 정보를 표시
+    }, 500);
+    const countdownTimer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000); // 1초마다 카운트다운 감소
 
-    return () => clearTimeout(timer);
-  }, []);
+    const redirectTimer = setTimeout(() => {
+      navigate("/home"); // 3초 후에 홈으로 리디렉션
+    }, 5000); // 3초 후에 리디렉션
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(countdownTimer);
+      clearTimeout(redirectTimer);
+    };
+  }, [navigate]);
 
   const pastelColors = [
     "#1FCBD5",
@@ -35,24 +45,6 @@ const RecruitCompletePage = () => {
       <div className="title">청약 완료!</div>
       <ConfettiExplosion force={0.7} duration={3000} colors={pastelColors} />
       <img src={fundraise} alt="fundraise" />
-      <div
-        style={{
-          width: "80%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          border: "1px solid var(--grey3)",
-          color: "var(--grey4)",
-          fontSize: "14px",
-          padding: "5px 10px",
-          boxSizing: "border-box",
-          borderRadius: "15px",
-          animation: "slideIn 0.5s ease-out forwards",
-        }}
-      >
-        <div>내 지갑 잔액</div>
-        <div>{cashBalance}원</div>
-      </div>
 
       <div className={`amount ${showAmount ? "show" : ""}`}>
         <div className="row">
@@ -64,6 +56,17 @@ const RecruitCompletePage = () => {
           <div>{quantity}주</div>
         </div>
       </div>
+
+      <span
+        style={{
+          color: "var(--main)",
+          fontSize: "14px",
+          textAlign: "center",
+          animation: "slideIn 0.5s ease-out forwards",
+        }}
+      >
+        {countdown}초 후에 홈으로 이동합니다
+      </span>
     </div>
   );
 };
