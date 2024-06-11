@@ -15,6 +15,7 @@ import {
   getMyInvestment,
   getTransactions,
   getAccountTransactions,
+  getUserName,
 } from "../../apis/Mypage";
 import { transactionQueryKey } from "../../types";
 import { formatDateAndTime } from "../../util/formatDateAndTime";
@@ -46,6 +47,8 @@ const MyPage = () => {
       keepPreviousData: true,
     }
   );
+
+  const { data: userName } = useQuery("userName", () => getUserName());
 
   //자산 현황 조회
   const { data: myInvestment } = useQuery("myInvestment", () =>
@@ -163,7 +166,7 @@ const MyPage = () => {
     {
       label: "입출금",
       content: (
-        <div>
+        <div className="withdrawDepositContainer">
           <div className="summarySection">
             <TwoRow
               label="총 보유 자산"
@@ -244,7 +247,7 @@ const MyPage = () => {
         }
       />
       <div className="myPageTitle">
-        <strong>안정민</strong>님의 <br />
+        <strong>{userName.payload.name}</strong>님의 <br />
         투자현황입니다
       </div>
 

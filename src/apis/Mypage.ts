@@ -65,3 +65,9 @@ export const getAccountTransactions = async (
   );
   return response.data;
 };
+
+//내 정보 조회
+export const getUserName = async () => {
+  const response = await instanceWithToken.get("/users/name");
+  return response.data;
+};
