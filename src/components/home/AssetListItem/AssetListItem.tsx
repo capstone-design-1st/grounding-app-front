@@ -1,9 +1,9 @@
-import React from "react";
-import building from "../../../assets/icons/building.png";
-import farm from "../../../assets/icons/farm.png";
-import heartIcon from "../.././../assets/icons/heart-fill.png";
-import "./styles.css";
-import { formatNumberWithCommas } from "../../../util/formatNumber";
+import React from 'react';
+import building from '../../../assets/icons/building.png';
+import farm from '../../../assets/icons/farm.png';
+import heartIcon from '../.././../assets/icons/heart-fill.png';
+import './styles.css';
+import { formatNumberWithCommas } from '../../../util/formatNumber';
 
 interface AssetListItemProps {
   isMyAsset: boolean;
@@ -27,10 +27,10 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
   count,
   unitPrice,
 }) => {
-  let image = assetType === "building" ? building : farm;
+  let image = assetType === 'building' ? building : farm;
 
   return (
-    <div className={`assetSection ${isMyAsset ? "myAsset" : ""}`}>
+    <div className={`assetSection ${isMyAsset ? 'myAsset' : ''}`}>
       <div className="assetItem">
         <div className="assetInfo">
           <img className="assetIcon" src={image} alt={assetName} />
@@ -48,12 +48,12 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
           {isMyAsset && (
             <div className="change">
               {changeRatio >= 0 ? (
-                <span style={{ color: "var(--red)" }}>
+                <span style={{ color: 'var(--red)' }}>
                   +{formatNumberWithCommas(changePrice)}원(
                   {changeRatio.toFixed(2)}%)
                 </span>
               ) : (
-                <span style={{ color: "var(--blue)" }}>
+                <span style={{ color: 'var(--blue)' }}>
                   {formatNumberWithCommas(changePrice)}원(
                   {changeRatio.toFixed(2)}%)
                 </span>
@@ -61,9 +61,7 @@ const AssetListItem: React.FC<AssetListItemProps> = ({
             </div>
           )}
         </div>
-        {!isMyAsset && (
-          <img className="heartIcon" src={heartIcon} alt="heart" />
-        )}
+        {!isMyAsset && <img className="heartIcon" src={heartIcon} alt="heart" />}
       </div>
     </div>
   );

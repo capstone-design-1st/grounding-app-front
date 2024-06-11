@@ -1,10 +1,14 @@
-import { instanceWithToken, instanceWithoutToken } from "./index";
+import { instanceWithToken, instanceWithoutToken } from './index';
 
 interface LocationDTO {
   city: string;
   gu: string;
   dong: string;
   detail: string;
+}
+
+interface SummaryDTO {
+  content: string;
 }
 
 interface PropertyDTO {
@@ -67,8 +71,9 @@ interface PropertyDetails {
   summary_dto: {
     content: string;
   };
-  is_fundraising: boolean;
   present_price: number;
+  is_fundraising: boolean;
+  uploader_wallet_address: string;
   property_dto: PropertyDTO;
   fundraise_dto: FundraiseDTO;
   property_detail_dto: Record<string, any>;
@@ -80,15 +85,11 @@ interface PropertyDetails {
   document_dto: DocumentDTO[];
 }
 
-export const fetchProperty = async (
-  propertyId: string
-): Promise<PropertyDetails> => {
-  const response = await instanceWithoutToken.get<PropertyDetails>(
-    `/properties/${propertyId}`
-  );
+export const fetchProperty = async (propertyId: string): Promise<PropertyDetails> => {
+  const response = await instanceWithoutToken.get<PropertyDetails>(`/properties/${propertyId}`);
 
   if (response.status !== 200) {
-    throw new Error("Network response was not ok");
+    throw new Error('Network response was not ok');
   }
   return response.data;
 };
@@ -98,14 +99,10 @@ interface LikeData {
   is_like: boolean;
 }
 
-export const fetchPropertyLike = async (
-  propertyId: string
-): Promise<LikeData> => {
-  const response = await instanceWithToken.get(
-    `/properties/${propertyId}/users/like`
-  );
+export const fetchPropertyLike = async (propertyId: string): Promise<LikeData> => {
+  const response = await instanceWithToken.get(`/properties/${propertyId}/users/like`);
   if (response.status !== 200) {
-    throw new Error("Network response was not ok");
+    throw new Error('Network response was not ok');
   }
   return await response.data;
 };

@@ -15,12 +15,12 @@ async function disconnectClient(client: Client) {
 }
 
 // Function to generate and fund a wallet
-async function generateAndFundWallet(client: Client) {
+async function generateAndFundWallet(client: Client | null) {
   // Generate a wallet
   const wallet = Wallet.generate();
 
   // Fund the wallet using the Testnet faucet
-  await client.fundWallet(wallet);
+  await client?.fundWallet(wallet);
 
   // Return the wallet
   return wallet;

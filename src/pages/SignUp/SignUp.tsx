@@ -13,8 +13,8 @@ import spinner from '../../assets/imgs/spinner.gif';
 import { useMutation } from 'react-query';
 import { sendValidateEmailCode, checkEmailCode, postSignin } from '../../apis/Signin';
 import ConfettiExplosion from 'react-confetti-explosion';
-import { createClient, generateAndFundWallet } from '../../util/xrpl/wallet';
-import { Client } from 'xrpl';
+import { generateAndFundWallet } from '../../util/xrpl/wallet';
+import { useXrplClientStore } from '../../store/xrplStore';
 
 interface FormData {
   name: string;
@@ -29,7 +29,7 @@ interface FormData {
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
-  const [client, setClient] = useState<Client | null>(null); // xrpl 클라이언트
+  const { xrplClient } = useXrplClientStore();
   const [isSignUpLoading, setIsSignUpLoading] = useState(false); // 회원가입 중 지갑 생성 로딩
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -69,14 +69,6 @@ const SignUp: React.FC = () => {
 
   const [showAmount, setShowAmount] = useState(false);
 
-  // xrpl 클라이언트 생성
-  useEffect(() => {
-    (async () => {
-      const client = await createClient();
-      setClient(client);
-    })();
-  }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAmount(true);
@@ -91,7 +83,7 @@ const SignUp: React.FC = () => {
   const postSignup = async () => {
     try {
       setIsSignUpLoading(true);
-      const wallet = await generateAndFundWallet(client);
+      const wallet = await generateAndFundWallet(xrplClient);
 
       console.log({
         name: formData.name,
