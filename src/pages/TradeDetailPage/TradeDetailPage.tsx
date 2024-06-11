@@ -252,9 +252,9 @@ const TradeDetailPage = () => {
           <AssetIntro
             image={propertyDetails?.thumbnail_url_dto.s3_url ? propertyDetails?.thumbnail_url_dto.s3_url : defaultImg}
             details={{
-              발행가: `${formatNumberWithCommas(propertyDetails?.fundraise_dto.issue_price)}원 / DAS`,
-              발행수량: `${formatNumberWithCommas(propertyDetails?.fundraise_dto.security_count)} DAS`,
-              DAS상장일: `${propertyDetails?.fundraise_dto.subscription_end_date}`,
+              발행가: `${formatNumberWithCommas(propertyDetails?.fundraise_dto.issue_price)}원 / GRD`,
+              발행수량: `${formatNumberWithCommas(propertyDetails?.fundraise_dto.security_count)} GRD`,
+              GRD상장일: `${propertyDetails?.fundraise_dto.subscription_end_date}`,
               배당주기: '1개월',
             }}
           />
