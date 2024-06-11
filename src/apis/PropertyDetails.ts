@@ -7,10 +7,6 @@ interface LocationDTO {
   detail: string;
 }
 
-interface SummaryDTO {
-  content: string;
-}
-
 interface PropertyDTO {
   id: string;
   name: string;

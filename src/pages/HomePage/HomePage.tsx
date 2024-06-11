@@ -65,7 +65,7 @@ const HomePage = () => {
 
       console.log('client', client);
     })();
-  }, []);
+  });
 
   return (
     <div>
