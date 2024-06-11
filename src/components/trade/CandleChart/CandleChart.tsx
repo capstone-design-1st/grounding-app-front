@@ -59,7 +59,7 @@ const CandleChart = () => {
   const propertyId = usePropertyStore((state) => state.propertyId);
 
   const { data: eachDayTradingData } = useQuery(
-    ["eachDayTrading", propertyId, 0, 15],
+    ["eachDayTrading", propertyId, 0, 100],
     fetchEachDayTrading,
     {
       enabled: !!propertyId,
