@@ -7,6 +7,7 @@ export interface OrderBookEntry {
   price: number;
   quantity: number;
   type: "매도" | "매수";
+  isPriceDecreased?: boolean;
 }
 
 export interface ChartTableProps {
