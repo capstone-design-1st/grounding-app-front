@@ -8,12 +8,13 @@ export interface OrderBookEntry {
   quantity: number;
   type: "매도" | "매수";
   isPriceDecreased?: boolean;
+
 }
 
 export interface ChartTableProps {
   headers: string[];
   data: TodayTradingTableRow[] | EachDayTradingTableRow[];
-  type: "today" | "eachDay";
+  type: 'today' | 'eachDay';
 }
 
 export interface table2RowsProps {
@@ -39,7 +40,7 @@ export interface Property {
   name: string;
   one_line: string;
   fluctuation_rate: number;
-  type: "building" | "land";
+  type: 'building' | 'land';
 }
 
 // API 응답 타입 정의

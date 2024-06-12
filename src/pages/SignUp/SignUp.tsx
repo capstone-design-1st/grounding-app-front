@@ -22,6 +22,8 @@ import {
   postSignin,
 } from "../../apis/Signin";
 import ConfettiExplosion from "react-confetti-explosion";
+import { generateAndFundWallet } from "../../util/xrpl/wallet";
+import { useXrplClientStore } from "../../store/xrplStore";
 
 interface FormData {
   name: string;
@@ -35,6 +37,9 @@ interface FormData {
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
+
+  const { xrplClient } = useXrplClientStore();
+  const [isSignUpLoading, setIsSignUpLoading] = useState(false); // 회원가입 중 지갑 생성 로딩
 
   const [activeIndex, setActiveIndex] = useState(0);
   //아이디, 비밀번호, 이메일 유효성, 핸드폰 번호 유효성 확인
@@ -68,7 +73,7 @@ const SignUp: React.FC = () => {
     password: "",
     confirmPassword: "",
     phoneNumber: "",
-    wallet: `${process.env.REACT_APP_WALLET_ADDRESS}`,
+    wallet: "",
   });
 
   const [showAmount, setShowAmount] = useState(false);
@@ -84,22 +89,31 @@ const SignUp: React.FC = () => {
   /*회원가입 */
   const { mutate: signin } = useMutation(postSignin);
 
-  const postSignup = () => {
-    console.log({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-      wallet: formData.wallet,
-      phoneNumber: formData.phoneNumber,
-    });
+  const postSignup = async () => {
+    try {
+      setIsSignUpLoading(true);
+      const wallet = await generateAndFundWallet(xrplClient);
 
-    signin({
-      email: formData.email,
-      password: formData.password,
-      name: formData.name,
-      phoneNumber: formData.phoneNumber,
-      wallet: formData.wallet,
-    });
+      console.log({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        wallet: wallet.seed,
+        phoneNumber: formData.phoneNumber,
+      });
+
+      signin({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        phoneNumber: formData.phoneNumber,
+        wallet: wallet.seed!,
+      });
+    } catch (error) {
+      console.error("Failed to signup:", error);
+    } finally {
+      setIsSignUpLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -526,7 +540,45 @@ const SignUp: React.FC = () => {
           </div>
         );
       case 2: //회원가입 완료
-        return (
+        return isSignUpLoading ? (
+          <div className="SignInCompleteWrapper signInContainer">
+            <div
+              className="subTitle"
+              style={{
+                fontFamily: "HSSanTokki20-Regular",
+                margin: "80px 0 20px 0",
+                fontSize: "40px",
+                fontWeight: "bold",
+                animation: "slideIn 0.5s ease-out forwards",
+              }}
+            >
+              회원가입 중
+            </div>
+            <div
+              style={{
+                margin: "0px 0 40px 0",
+                fontSize: "18px",
+                animation: "slideIn 0.5s ease-out forwards",
+              }}
+            >
+              잠시만 기다려주세요
+            </div>
+            <img
+              className={`${showAmount ? "show" : ""}`}
+              src={welcomeLogo}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                width: "100%",
+                animation: "slideIn 0.5s ease-out forwards",
+                animationDelay: "0.5s",
+                opacity: 0,
+              }}
+              alt="회원가입 완료"
+            />
+          </div>
+        ) : (
           <>
             <div className="SignInCompleteWrapper signInContainer">
               <div
@@ -595,7 +647,6 @@ const SignUp: React.FC = () => {
       {/*TAB */}
       {activeIndex < 2 && (
         <>
-          {" "}
           <Header
             leftContent={
               <img src={arrow} alt="btn-back" onClick={goToPreviousTab} />

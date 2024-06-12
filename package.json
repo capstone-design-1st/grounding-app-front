@@ -40,6 +40,7 @@
     "workbox-routing": "^7.1.0",
     "workbox-strategies": "^7.1.0",
     "workbox-streams": "^7.1.0",
+    "xrpl": "^3.1.0",
     "zustand": "^4.5.2"
   },
   "scripts": {
