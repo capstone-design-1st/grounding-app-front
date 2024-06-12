@@ -14,6 +14,7 @@ import {
   useQuantityPriceStore,
 } from "../../../store/tradeStore";
 import AlertModal from "../../common/AlertModal/AlertModal";
+import { fetchProperty } from "../../../apis/PropertyDetails";
 
 interface OrderModalProps {
   onClose: () => void;
@@ -33,10 +34,10 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState("매수");
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // const handleMarketPrice = async () => {
-  //   const marketPrice = await getMarketPrice();
-  //   setPrice(marketPrice); // 시장가를 input 필드에 설정
-  // };
+  const handleMarketPrice = async () => {
+    const marketPrice = propertyDetails?.present_price;
+    setPrice(marketPrice!);
+  };
 
   const { propertyId } = usePropertyStore();
 
@@ -70,6 +71,17 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
     fetchQuantity,
     {
       enabled: !!propertyId,
+    }
+  );
+
+  const { data: propertyDetails } = useQuery(
+    ["propertyDetails", propertyId!],
+    () => fetchProperty(propertyId!),
+    {
+      enabled: !!propertyId,
+      refetchOnWindowFocus: false,
+      onError: (error) =>
+        console.error("Error fetching property details:", error),
     }
   );
 
@@ -160,7 +172,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             <button onClick={() => setPrice(price + 50)}>+</button>
           </div>
           <div className="quickButtons">
-            <button onClick={() => setPrice(1 / 2)}>시장가</button>
+            <button onClick={() => handleMarketPrice()}>시장가</button>
             <button>지정가</button>
           </div>
 
@@ -213,7 +225,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
           </div>
 
           <div className="quickButtons">
-            <button onClick={() => setPrice(1 / 2)}>시장가</button>
+            <button onClick={() => handleMarketPrice()}>시장가</button>
             <button>지정가</button>
           </div>
 
