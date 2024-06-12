@@ -12,7 +12,7 @@ const AlertModal: React.FC<AlertModalProps> = ({ amount, onClose, type }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 3000);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, [onClose]);

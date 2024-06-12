@@ -39,7 +39,8 @@ const generateOrderBookData = (basePrice: number): OrderBookEntry[] => {
 
 const updateOrderBookData = (
   initialData: OrderBookEntry[],
-  content: OrderBookEntry[]
+  content: OrderBookEntry[],
+  previousData: OrderBookEntry[]
 ): OrderBookEntry[] => {
   const updatedData = [...initialData];
 
@@ -49,14 +50,22 @@ const updateOrderBookData = (
     );
     if (index !== -1) {
       updatedData[index].quantity = item.quantity;
+      updatedData[index].isPriceDecreased =
+        item.quantity < previousData[index].quantity;
     }
   });
 
   return updatedData;
 };
 
-const OrderEntry: React.FC<OrderBookEntry> = ({ quantity, price, type }) => {
-  const maxAmount = 300;
+const OrderEntry: React.FC<OrderBookEntry & { isCurrent: boolean }> = ({
+  quantity,
+  price,
+  type,
+  isPriceDecreased,
+  isCurrent,
+}) => {
+  const maxAmount = 1000;
   const percentage = (quantity / maxAmount) * 100;
   const leftBarRef = useRef<HTMLDivElement>(null);
   const rightBarRef = useRef<HTMLDivElement>(null);
@@ -92,7 +101,11 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ quantity, price, type }) => {
   }, [percentage, type]);
 
   return (
-    <div className={`orderEntry ${type}`}>
+    <div
+      className={`orderEntry ${type} ${isPriceDecreased ? "decreased" : ""} ${
+        isCurrent ? "current" : ""
+      }`}
+    >
       <span className={`amount ${type === "매도" ? "left" : "right"}`}>
         {quantity}개
       </span>
@@ -107,11 +120,15 @@ const OrderEntry: React.FC<OrderBookEntry> = ({ quantity, price, type }) => {
 
 const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
   const [orderBookData, setOrderBookData] = useState<OrderBookEntry[]>([]);
+  const [previousData, setPreviousData] = useState<OrderBookEntry[]>([]);
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
   const { propertyId } = usePropertyStore((state) => state);
 
   useEffect(() => {
     const initialData = generateOrderBookData(basePrice);
     setOrderBookData(initialData);
+    setPreviousData(initialData);
+    setCurrentPrice(basePrice);
 
     const socket = new WebSocket("wss://app-server.grounding.site/quotes");
 
@@ -134,7 +151,12 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
         if (data.totalElements === 0) {
           setOrderBookData(initialData);
         } else {
-          const updatedData = updateOrderBookData(initialData, data.content);
+          setPreviousData(orderBookData);
+          const updatedData = updateOrderBookData(
+            initialData,
+            data.content,
+            previousData
+          );
           setOrderBookData(updatedData);
         }
       } catch (error) {
@@ -162,7 +184,11 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
   return (
     <div className="orderBook">
       {orderBookData.map((entry, index) => (
-        <OrderEntry key={index} {...entry} />
+        <OrderEntry
+          key={index}
+          {...entry}
+          isCurrent={entry.price === currentPrice}
+        />
       ))}
     </div>
   );

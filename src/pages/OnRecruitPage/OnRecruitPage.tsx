@@ -12,6 +12,7 @@ import { useXrplClientStore } from '../../store/xrplStore';
 import { Wallet } from 'xrpl';
 import { sendToken, setTrustLine } from '../../util/xrpl/token';
 
+
 const OnRecruitPage = () => {
   const navigate = useNavigate();
 
@@ -22,6 +23,13 @@ const OnRecruitPage = () => {
 
   const { cashBalance, updateCashBalance } = useAssetStore();
   const { id: propertyId } = useParams<{ id: string }>();
+
+
+  const { data: propertyDetails } = useQuery("propertyDetails", () =>
+    fetchProperty(propertyId!)
+  );
+
+  const presentPrice = propertyDetails?.present_price;
 
   // 내 지갑 정보 조회
   const { data: myWalletKey } = useQuery('myWallet', () => getMyWallet());
@@ -97,7 +105,11 @@ const OnRecruitPage = () => {
         }
       />
 
-      <Keypad asset={cashBalance} handleBuy={handleBuy} />
+      <Keypad
+        asset={cashBalance}
+        handleBuy={handleBuy}
+        presentPrice={presentPrice!}
+      />
     </div>
   );
 };

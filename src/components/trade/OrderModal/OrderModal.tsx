@@ -8,6 +8,7 @@ import {
   postBuyProperty,
   postSellProperty,
 } from '../../../apis/Trading';
+import { fetchProperty } from "../../../apis/PropertyDetails";
 import { useMutation, useQuery } from 'react-query';
 import { usePropertyStore, useQuantityPriceStore } from '../../../store/tradeStore';
 import AlertModal from '../../common/AlertModal/AlertModal';
@@ -15,6 +16,7 @@ import { getMyWallet } from '../../../apis/Users';
 import { Wallet } from 'xrpl';
 import { sendToken, setTrustLine } from '../../../util/xrpl/token';
 import { useXrplClientStore } from '../../../store/xrplStore';
+        
 
 interface OrderModalProps {
   onClose: () => void;
@@ -60,10 +62,10 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState('매수');
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // const handleMarketPrice = async () => {
-  //   const marketPrice = await getMarketPrice();
-  //   setPrice(marketPrice); // 시장가를 input 필드에 설정
-  // };
+  const handleMarketPrice = async () => {
+    const marketPrice = propertyDetails?.present_price;
+    setPrice(marketPrice!);
+  };
 
   const { xrplClient } = useXrplClientStore();
   const { data: myWalletKey } = useQuery('myWallet', () => getMyWallet());
@@ -98,7 +100,19 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
     enabled: !!propertyId,
   });
 
-  const buyMutation = useMutation<PostBuyPropertyResponse, Error, TradeDetails>(
+
+  const { data: propertyDetails } = useQuery(
+    ["propertyDetails", propertyId!],
+    () => fetchProperty(propertyId!),
+    {
+      enabled: !!propertyId,
+      refetchOnWindowFocus: false,
+      onError: (error) =>
+        console.error("Error fetching property details:", error),
+    }
+  );
+
+  const buyMutation = useMutation<void, Error, TradeDetails>(
     ({ quantity, price }) => postBuyProperty(propertyId, quantity, price),
     {
       onSuccess: async (variables) => {
@@ -255,7 +269,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             <button onClick={() => setPrice(price + 50)}>+</button>
           </div>
           <div className="quickButtons">
-            <button onClick={() => setPrice(1 / 2)}>시장가</button>
+            <button onClick={() => handleMarketPrice()}>시장가</button>
             <button>지정가</button>
           </div>
 
@@ -301,7 +315,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
           </div>
 
           <div className="quickButtons">
-            <button onClick={() => setPrice(1 / 2)}>시장가</button>
+            <button onClick={() => handleMarketPrice()}>시장가</button>
             <button>지정가</button>
           </div>
 

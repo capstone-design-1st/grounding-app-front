@@ -60,3 +60,11 @@
 .amount.right {
   right: 0;
 }
+
+.orderEntry.decreased .price {
+  border: 1px solid var(--red);
+}
+
+.orderEntry.current .price {
+  border: 1px solid var(--red);
+}
