@@ -24,6 +24,7 @@
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
+  padding: 3px 0;
 }
 
 .orderEntry .bar {
@@ -36,12 +37,12 @@
 }
 
 .orderEntry .leftBar {
-  right: calc(50% + 30px);
+  right: calc(50% + 50px);
   background-color: rgba(24, 111, 242, 0.2); /* Blue for sell */
 }
 
 .orderEntry .rightBar {
-  left: calc(50% + 30px);
+  left: calc(50% + 50px);
   background-color: rgba(255, 59, 59, 0.2); /* Red for buy */
 }
 
@@ -59,10 +60,6 @@
 
 .amount.right {
   right: 0;
-}
-
-.orderEntry.decreased .price {
-  border: 1px solid var(--red);
 }
 
 .orderEntry.current .price {
