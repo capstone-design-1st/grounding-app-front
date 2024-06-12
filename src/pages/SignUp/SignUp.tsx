@@ -427,7 +427,7 @@ const SignUp: React.FC = () => {
                     onChange={handleInputChange}
                   />
                   {isLoading ? (
-                    <div className="modalOverlay">
+                    <div>
                       <img
                         src={spinner}
                         alt="Loading..."
@@ -544,12 +544,16 @@ const SignUp: React.FC = () => {
               <div
                 style={{
                   margin: "0px 0 40px 0",
-                  fontSize: "18px",
+                  fontSize: "16px",
+                  textAlign: "center",
                   animation: "slideIn 0.5s ease-out forwards",
                 }}
               >
-                원하는 매물에 투자해 보세요
+                조각 투자를 위한 지갑 생성이 완료되었어요.
+                <br />
+                원하는 매물에 투자해보세요!
               </div>
+
               <ConfettiExplosion force={0.7} duration={3000} />
               <img
                 className={`${showAmount ? "show" : ""}`}
@@ -562,6 +566,7 @@ const SignUp: React.FC = () => {
                   animation: "slideIn 0.5s ease-out forwards",
                   animationDelay: "0.5s",
                   opacity: 0,
+                  marginTop: "-18%",
                 }}
                 alt="회원가입 완료"
               />
