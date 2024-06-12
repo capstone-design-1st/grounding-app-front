@@ -1,19 +1,13 @@
 import { Client, Transaction, Wallet } from 'xrpl';
 
 // 트러스트라인 설정 함수
-async function setTrustLine(
-  client: Client | null,
-  wallet: Wallet,
-  currency: string,
-  value: string,
-  issuerAddress: string
-) {
+async function setTrustLine(client: Client | null, wallet: Wallet, currency: string, issuerAddress: string) {
   const trust_set_tx: Transaction = {
     TransactionType: 'TrustSet',
     Account: wallet.classicAddress,
     LimitAmount: {
       currency: currency,
-      value: value,
+      value: '1000000000000',
       issuer: issuerAddress,
     },
   };

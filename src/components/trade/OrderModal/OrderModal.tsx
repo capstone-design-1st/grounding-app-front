@@ -131,13 +131,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             const sellerWalletKey = variables.purchased_sell_quotes_info_list[i]?.seller_wallet_address;
             const sellerWallet = Wallet.fromSeed(sellerWalletKey);
             // 판매자 -> 발행자 -> 구매자(myWallet)로 토큰 이동
-            await setTrustLine(
-              xrplClient,
-              myWallet!,
-              'GRD',
-              executedQuantity.toString(),
-              uploaderWallet!.classicAddress
-            );
+            await setTrustLine(xrplClient, myWallet!, 'GRD', uploaderWallet!.classicAddress);
             await sendToken(
               xrplClient,
               sellerWallet,
@@ -180,13 +174,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             const buyerWalletKey = variables.sold_buyer_quotes_info_list[i]?.buyer_wallet_address;
             const buyerWallet = Wallet.fromSeed(buyerWalletKey);
             // 판매자(myWallet) -> 발행자 -> 구매자로 토큰 이동
-            await setTrustLine(
-              xrplClient,
-              buyerWallet,
-              'GRD',
-              executedQuantity.toString(),
-              uploaderWallet!.classicAddress
-            );
+            await setTrustLine(xrplClient, buyerWallet, 'GRD', uploaderWallet!.classicAddress);
             await sendToken(
               xrplClient,
               myWallet!,
