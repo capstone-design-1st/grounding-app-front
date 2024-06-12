@@ -4,9 +4,10 @@ import { formatNumberWithCommas } from "../../../util/formatNumber";
 
 interface KeypadProps {
   asset: number;
+  presentPrice: number;
   handleBuy: (buyAmount: number) => void;
 }
-const Keypad: React.FC<KeypadProps> = ({ asset, handleBuy }) => {
+const Keypad: React.FC<KeypadProps> = ({ asset, handleBuy, presentPrice }) => {
   const [price, setPrice] = useState(0);
   const [shares, setShares] = useState(0);
 
@@ -23,7 +24,7 @@ const Keypad: React.FC<KeypadProps> = ({ asset, handleBuy }) => {
   };
 
   const countPossibleShares = (price: number) => {
-    setShares(Math.floor(price / 5000));
+    setShares(Math.floor(price / presentPrice));
   };
 
   useEffect(() => {

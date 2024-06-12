@@ -7,6 +7,8 @@ import { useMutation, useQuery } from "react-query";
 import { useEffect } from "react";
 import { fundraiseProperty } from "../../apis/fundraise";
 import "./styles.css";
+import { fetchProperty } from "../../apis/PropertyDetails";
+
 const OnRecruitPage = () => {
   const navigate = useNavigate();
 
@@ -16,6 +18,11 @@ const OnRecruitPage = () => {
   const { cashBalance, updateCashBalance } = useAssetStore();
   const { id: propertyId } = useParams<{ id: string }>();
 
+  const { data: propertyDetails } = useQuery("propertyDetails", () =>
+    fetchProperty(propertyId!)
+  );
+
+  const presentPrice = propertyDetails?.present_price;
   //자산 현황 조회
   const { data: myInvestment } = useQuery("myInvestment", () =>
     getMyInvestment()
@@ -70,7 +77,11 @@ const OnRecruitPage = () => {
         }
       />
 
-      <Keypad asset={cashBalance} handleBuy={handleBuy} />
+      <Keypad
+        asset={cashBalance}
+        handleBuy={handleBuy}
+        presentPrice={presentPrice!}
+      />
     </div>
   );
 };
