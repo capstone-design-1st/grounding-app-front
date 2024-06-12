@@ -179,7 +179,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
       socket.close();
       console.log("WebSocket connection closed on cleanup");
     };
-  }, [basePrice, propertyId]);
+  }, [basePrice, propertyId, orderBookData, previousData]);
 
   return (
     <div className="orderBook">

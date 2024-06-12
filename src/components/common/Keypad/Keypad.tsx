@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./styles.css";
 import { formatNumberWithCommas } from "../../../util/formatNumber";
 
@@ -23,9 +23,16 @@ const Keypad: React.FC<KeypadProps> = ({ asset, handleBuy, presentPrice }) => {
     setPrice(0);
   };
 
-  const countPossibleShares = (price: number) => {
-    setShares(Math.floor(price / presentPrice));
-  };
+  const countPossibleShares = useCallback(
+    (price: number) => {
+      setShares(Math.floor(price / presentPrice));
+    },
+    [presentPrice]
+  );
+
+  useEffect(() => {
+    countPossibleShares(1000);
+  }, [countPossibleShares]);
 
   useEffect(() => {
     if (asset < price) {
@@ -33,7 +40,7 @@ const Keypad: React.FC<KeypadProps> = ({ asset, handleBuy, presentPrice }) => {
       setPrice(asset);
     }
     countPossibleShares(price);
-  }, [price, asset]);
+  }, [price, asset, countPossibleShares]);
 
   return (
     <div className="keypadcontainer">
