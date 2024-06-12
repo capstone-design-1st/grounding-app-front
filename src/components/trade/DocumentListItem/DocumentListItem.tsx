@@ -21,7 +21,7 @@ const DocumentListItem: React.FC<DocumentListProps> = ({ documents }) => {
         <div key={index} className="documentItem">
           <img src={pdfIcon} alt="PDF Icon" className="pdfIcon" />
           <a
-            href={doc.s3_url}
+            href={`https://${doc.cloudfront_url}`}
             className="documentTitle"
             target="_blank"
             rel="noopener noreferrer"
@@ -29,7 +29,7 @@ const DocumentListItem: React.FC<DocumentListProps> = ({ documents }) => {
             {doc.title}
           </a>
           <a
-            href={doc.s3_url}
+            href={`https://${doc.cloudfront_url}`}
             className="downloadIcon"
             target="_blank"
             rel="noopener noreferrer"
