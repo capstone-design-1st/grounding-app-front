@@ -8,7 +8,7 @@ import {
   postBuyProperty,
   postSellProperty,
 } from '../../../apis/Trading';
-import { fetchProperty } from "../../../apis/PropertyDetails";
+import { fetchProperty } from '../../../apis/PropertyDetails';
 import { useMutation, useQuery } from 'react-query';
 import { usePropertyStore, useQuantityPriceStore } from '../../../store/tradeStore';
 import AlertModal from '../../common/AlertModal/AlertModal';
@@ -16,7 +16,6 @@ import { getMyWallet } from '../../../apis/Users';
 import { Wallet } from 'xrpl';
 import { sendToken, setTrustLine } from '../../../util/xrpl/token';
 import { useXrplClientStore } from '../../../store/xrplStore';
-        
 
 interface OrderModalProps {
   onClose: () => void;
@@ -100,19 +99,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
     enabled: !!propertyId,
   });
 
+  const { data: propertyDetails } = useQuery(['propertyDetails', propertyId!], () => fetchProperty(propertyId!), {
+    enabled: !!propertyId,
+    refetchOnWindowFocus: false,
+    onError: (error) => console.error('Error fetching property details:', error),
+  });
 
-  const { data: propertyDetails } = useQuery(
-    ["propertyDetails", propertyId!],
-    () => fetchProperty(propertyId!),
-    {
-      enabled: !!propertyId,
-      refetchOnWindowFocus: false,
-      onError: (error) =>
-        console.error("Error fetching property details:", error),
-    }
-  );
-
-  const buyMutation = useMutation<void, Error, TradeDetails>(
+  const buyMutation = useMutation<PostBuyPropertyResponse, Error, TradeDetails>(
     ({ quantity, price }) => postBuyProperty(propertyId, quantity, price),
     {
       onSuccess: async (variables) => {

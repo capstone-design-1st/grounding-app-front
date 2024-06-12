@@ -23,7 +23,7 @@ import { useEffect } from 'react';
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const { setXrplClient } = useXrplClientStore();
+  const { xrplClient, setXrplClient } = useXrplClientStore();
 
   //모집 중 매물 리스트 조회
   const { data: listings } = useQuery('listings', () => getOnGoingList());
@@ -59,12 +59,14 @@ const HomePage = () => {
 
   // xrpl 클라이언트 생성
   useEffect(() => {
-    (async () => {
-      const client = await createClient();
-      setXrplClient(client);
+    if (!xrplClient) {
+      (async () => {
+        const client = await createClient();
+        setXrplClient(client);
 
-      console.log('client', client);
-    })();
+        console.log('client', client);
+      })();
+    }
   }, [setXrplClient]);
 
   return (
