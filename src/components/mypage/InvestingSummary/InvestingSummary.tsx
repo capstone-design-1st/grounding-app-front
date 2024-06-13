@@ -30,7 +30,7 @@ const InvestmentSummary: React.FC<InvestmentSummaryProps> = ({
       </div>
       <div className="assetsList">
         {items.map((asset, index) => (
-          <TwoRow key={index} label={asset.label} value={asset.value} />
+          <TwoRow key={index} label={asset.label} value={`${asset.value}원`} />
         ))}
       </div>
     </div>
