@@ -1,14 +1,21 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import './styles.css';
-import { useQuery } from 'react-query';
-import { fetchProperty } from '../../apis/PropertyDetails';
-import { formatDate, calculateDaysLeft } from '../../util/formatDate';
-import { formatNumberWithCommas } from '../../util/formatNumber';
-import { Header, Badge, Button, InvestPoint, Map, AssetTable, TimeLine } from '../../components';
-import arrow from '../../assets/icons/arrow.svg';
-import locationIcon from '../../assets/icons/location.png';
-import defaultImg from '../../assets/imgs/main.png';
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./styles.css";
+import { useQuery } from "react-query";
+import { fetchProperty } from "../../apis/PropertyDetails";
+import { formatDate, calculateDaysLeft } from "../../util/formatDate";
+import { formatNumberWithCommas } from "../../util/formatNumber";
+import {
+  Header,
+  Badge,
+  Button,
+  InvestPoint,
+  Map,
+  AssetTable,
+  TimeLine,
+} from "../../components";
+import arrow from "../../assets/icons/arrow.svg";
+import locationIcon from "../../assets/icons/location.png";
 
 const RecruitPage = () => {
   const { id } = useParams();
@@ -18,12 +25,13 @@ const RecruitPage = () => {
   const propertyId = id as string;
 
   const { data: propertyDetails, isError } = useQuery(
-    ['propertyDetails', propertyId],
+    ["propertyDetails", propertyId],
     () => fetchProperty(propertyId),
     {
       enabled: !!propertyId,
       refetchOnWindowFocus: false,
-      onError: (error) => console.error('Error fetching property details:', error),
+      onError: (error) =>
+        console.error("Error fetching property details:", error),
     }
   );
 
@@ -32,9 +40,9 @@ const RecruitPage = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -51,41 +59,70 @@ const RecruitPage = () => {
   const assetDataDetails = {
     층수: propertyDetails.property_detail_dto.floor_count,
     용도지역: propertyDetails.property_detail_dto.main_use,
-    대지면적: `${formatNumberWithCommas(propertyDetails.property_detail_dto.land_area)}m²`,
-    연면적: `${formatNumberWithCommas(propertyDetails.property_detail_dto.total_floor_area)}m²`,
-    준공일: propertyDetails.property_detail_dto.completion_date.replace(/-/g, '.'),
+    대지면적: `${formatNumberWithCommas(
+      propertyDetails.property_detail_dto.land_area
+    )}m²`,
+    연면적: `${formatNumberWithCommas(
+      propertyDetails.property_detail_dto.total_floor_area
+    )}m²`,
+    준공일: propertyDetails.property_detail_dto.completion_date.replace(
+      /-/g,
+      "."
+    ),
   };
 
   const publishDataDetails = {
-    공모자산: `${formatNumberWithCommas(propertyDetails.fundraise_dto.total_fund)}원`,
-    증권종류: '수익증권',
+    공모자산: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.total_fund
+    )}원`,
+    증권종류: "수익증권",
     발행인: propertyDetails.fundraise_dto.security_type,
-    발행증권수: `${formatNumberWithCommas(propertyDetails.fundraise_dto.security_count)}주`,
-    발행가액: `${formatNumberWithCommas(propertyDetails.fundraise_dto.issue_price)}원`,
-    총모집액: `${formatNumberWithCommas(propertyDetails.fundraise_dto.total_fund)}원`,
-    모집기간: `${formatDate(propertyDetails.fundraise_dto.subscription_start_date)} ~${formatDate(
-      propertyDetails.fundraise_dto.subscription_end_date
-    )}`,
+    발행증권수: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.security_count
+    )}주`,
+    발행가액: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.issue_price
+    )}원`,
+    총모집액: `${formatNumberWithCommas(
+      propertyDetails.fundraise_dto.total_fund
+    )}원`,
+    모집기간: `${formatDate(
+      propertyDetails.fundraise_dto.subscription_start_date
+    )} ~${formatDate(propertyDetails.fundraise_dto.subscription_end_date)}`,
   };
 
   return (
     <div className="recruit">
       <Header
-        leftContent={<img src={arrow} alt="Arrow Icon" onClick={() => navigate('/home')} />}
-        centerContent={scrollY !== 0 ? <strong>{propertyDetails.property_dto.name}</strong> : ''}
+        leftContent={
+          <img src={arrow} alt="Arrow Icon" onClick={() => navigate("/home")} />
+        }
+        centerContent={
+          scrollY !== 0 ? (
+            <strong>{propertyDetails.property_dto.name}</strong>
+          ) : (
+            ""
+          )
+        }
       />
       <div className="recruitInfo">
         <div className="title">{propertyDetails.property_dto.name}</div>
         <div className="flexWrap">
-          <div className="row recruitDesc">{propertyDetails?.property_dto.oneline}</div>
+          <div className="row recruitDesc">
+            {propertyDetails?.property_dto.oneline}
+          </div>
           <div className="row recruitDate">
-            {formatDate(propertyDetails.fundraise_dto.subscription_start_date)} ~{' '}
-            {formatDate(propertyDetails.fundraise_dto.subscription_end_date)}{' '}
+            {formatDate(propertyDetails.fundraise_dto.subscription_start_date)}{" "}
+            ~ {formatDate(propertyDetails.fundraise_dto.subscription_end_date)}{" "}
           </div>
         </div>
       </div>
 
-      <img src={defaultImg} alt="Main" className="mainImg" />
+      <img
+        src={`https://${propertyDetails.thumbnail_url_dto.cloudfront_url}`}
+        alt="Main"
+        className="mainImg"
+      />
 
       <div className="recruitButtonWrap">
         <div className="recruitText flexWrap">
@@ -94,16 +131,24 @@ const RecruitPage = () => {
             <Badge
               color="var(--main)"
               background="#E7F9F9"
-              text={`${calculateDaysLeft(propertyDetails.fundraise_dto.subscription_end_date)}일 남음`}
+              text={`${calculateDaysLeft(
+                propertyDetails.fundraise_dto.subscription_end_date
+              )}일 남음`}
             />
           </div>
           <div>
-            <span>{formatNumberWithCommas(propertyDetails.fundraise_dto.progress_amount)}</span>
+            <span>
+              {formatNumberWithCommas(
+                propertyDetails.fundraise_dto.progress_amount
+              )}
+            </span>
             원 달성
             <Badge
               color="var(--grey5)"
               background="var(--grey2)"
-              text={`${propertyDetails.fundraise_dto.progress_rate.toFixed(2)}% 달성`}
+              text={`${propertyDetails.fundraise_dto.progress_rate.toFixed(
+                2
+              )}% 달성`}
             />
           </div>
         </div>
@@ -151,11 +196,11 @@ const RecruitPage = () => {
           <img src={locationIcon} alt="Location Icon" />
           <p>
             {propertyDetails?.location_dto?.city +
-              ' ' +
+              " " +
               propertyDetails?.location_dto?.gu +
-              ' ' +
+              " " +
               propertyDetails?.location_dto?.dong +
-              ' ' +
+              " " +
               propertyDetails?.location_dto?.detail}
           </p>
         </div>
@@ -184,7 +229,9 @@ const RecruitPage = () => {
         <div className="title">공간 운영사 정보</div>
         <div>{propertyDetails.fundraise_dto.operator_name}</div>
         <p>회사 소개</p>
-        <span className="companyDescription">{propertyDetails.fundraise_dto.operator_introduction}</span>
+        <span className="companyDescription">
+          {propertyDetails.fundraise_dto.operator_introduction}
+        </span>
       </div>
     </div>
   );

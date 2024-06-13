@@ -5,6 +5,7 @@ import {
   useModalStore,
   usePropertyStore,
   useQuantityPriceStore,
+  usePriceStore,
 } from "../../../store/tradeStore";
 import { getToken } from "../../../util/token";
 
@@ -17,21 +18,38 @@ const generateOrderBookData = (basePrice: number): OrderBookEntry[] => {
   const orderBookData: OrderBookEntry[] = [];
   const amount = 0;
 
+  const addNumber = basePrice >= 1000000 ? 5000 : 50;
   // 매도 부분: basePrice부터 시작
   for (let i = 8; i >= 0; i--) {
     orderBookData.push({
-      price: basePrice + i * 50,
-      quantity: amount,
-      type: "매도",
+      fluctuation_rate: 0,
+      present_price: basePrice,
+      quotes: {
+        content: [
+          {
+            price: basePrice + i * addNumber,
+            quantity: amount,
+            type: "매도",
+          },
+        ],
+      },
     });
   }
 
   // 매수 부분: basePrice보다 낮은 가격부터 시작
   for (let i = 1; i < 8; i++) {
     orderBookData.push({
-      price: basePrice - i * 50,
-      quantity: amount,
-      type: "매수",
+      fluctuation_rate: 0,
+      present_price: basePrice,
+      quotes: {
+        content: [
+          {
+            price: basePrice - i * addNumber,
+            quantity: amount,
+            type: "매수",
+          },
+        ],
+      },
     });
   }
   return orderBookData;
@@ -39,28 +57,28 @@ const generateOrderBookData = (basePrice: number): OrderBookEntry[] => {
 
 const updateOrderBookData = (
   initialData: OrderBookEntry[],
-  content: OrderBookEntry[]
+  content: OrderBookEntry["quotes"]["content"]
 ): OrderBookEntry[] => {
   const updatedData = [...initialData];
 
   content.forEach((item) => {
-    const index = updatedData.findIndex(
-      (entry) => entry.price === item.price && entry.type === item.type
-    );
-    if (index !== -1) {
-      updatedData[index].quantity = item.quantity;
-    }
+    updatedData.forEach((entry) => {
+      const quote = entry.quotes.content.find(
+        (q) => q.price === item.price && q.type === item.type
+      );
+      if (quote) {
+        quote.quantity = item.quantity;
+        quote.isPriceDecreased = item.isPriceDecreased;
+      }
+    });
   });
 
   return updatedData;
 };
 
-const OrderEntry: React.FC<OrderBookEntry> = ({
-  quantity,
-  price,
-  type,
-  currentPrice,
-}) => {
+const OrderEntry: React.FC<
+  OrderBookEntry["quotes"]["content"][0] & { currentPrice: number }
+> = ({ quantity, price, type, currentPrice, isPriceDecreased }) => {
   const maxAmount = 3000;
   const percentage = (quantity / maxAmount) * 100;
   const leftBarRef = useRef<HTMLDivElement>(null);
@@ -100,7 +118,7 @@ const OrderEntry: React.FC<OrderBookEntry> = ({
     <div
       className={`orderEntry ${type} ${
         price === currentPrice ? "current" : ""
-      }`}
+      } ${isPriceDecreased ? "price-decreased" : ""}`}
     >
       <span className={`amount ${type === "매도" ? "left" : "right"}`}>
         {quantity}개
@@ -116,10 +134,14 @@ const OrderEntry: React.FC<OrderBookEntry> = ({
 
 const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
   const [orderBookData, setOrderBookData] = useState<OrderBookEntry[]>([]);
+  const [currentBasePrice, setCurrentBasePrice] = useState(basePrice); // 현재 basePrice 상태 추가
   const { propertyId } = usePropertyStore((state) => state);
+  const setCurrentPrice = usePriceStore((state) => state.setCurrentPrice);
+  const setFluctuationRate = usePriceStore((state) => state.setFluctuationRate);
+  const orderBookRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const initialData = generateOrderBookData(basePrice);
+    const initialData = generateOrderBookData(currentBasePrice);
     setOrderBookData(initialData);
 
     const socket = new WebSocket("wss://app-server.grounding.site/quotes");
@@ -128,7 +150,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
       console.log("WebSocket connection established");
       const message = JSON.stringify({
         propertyId: propertyId,
-        basePrice: basePrice,
+        basePrice: currentBasePrice,
         page: 0,
         size: 10,
         direction: null,
@@ -143,7 +165,14 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
         if (data.totalElements === 0) {
           setOrderBookData(initialData);
         } else {
-          const updatedData = updateOrderBookData(initialData, data.content);
+          setCurrentPrice(data.present_price);
+          setFluctuationRate(data.fluctuation_rate);
+
+          setCurrentBasePrice(data.present_price); // 현재가 업데이트
+          const updatedData = updateOrderBookData(
+            initialData,
+            data.quotes.content
+          );
           setOrderBookData(updatedData);
         }
       } catch (error) {
@@ -166,12 +195,28 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
       socket.close();
       console.log("WebSocket connection closed on cleanup");
     };
-  }, [basePrice, propertyId]);
+  }, [currentBasePrice, propertyId, setCurrentPrice]);
+
+  useEffect(() => {
+    // 현재 basePrice 위치로 스크롤
+    if (orderBookRef.current) {
+      const currentEntry = orderBookRef.current.querySelector(
+        ".orderEntry.current"
+      );
+      if (currentEntry) {
+        currentEntry.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [currentBasePrice]);
 
   return (
-    <div className="orderBook">
+    <div className="orderBook" ref={orderBookRef}>
       {orderBookData.map((entry, index) => (
-        <OrderEntry key={index} {...entry} currentPrice={basePrice} />
+        <OrderEntry
+          key={index}
+          {...entry.quotes.content[0]}
+          currentPrice={currentBasePrice}
+        />
       ))}
     </div>
   );

@@ -63,5 +63,5 @@
 }
 
 .orderEntry.current .price {
-  border: 1px solid var(--red);
+  border: 1px solid #000;
 }

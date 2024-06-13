@@ -73,8 +73,6 @@ const HomePage = () => {
       (async () => {
         const client = await createClient();
         setXrplClient(client);
-
-        console.log("client", client);
       })();
     }
   }, [setXrplClient, xrplClient]);
@@ -119,6 +117,7 @@ const HomePage = () => {
           </div>
         )}
       </div>
+      {console.log(listings)}
       <div>
         {listings ? (
           listings.content.length > 1 ? (
@@ -133,7 +132,7 @@ const HomePage = () => {
                     src={
                       listing.thumbnail_url === null
                         ? mainImg
-                        : listing.thumbnail_url
+                        : `https://${listing.thumbnail_url}`
                     }
                     alt={`main ${index}`}
                   />
@@ -153,7 +152,7 @@ const HomePage = () => {
                   src={
                     listing.thumbnail_url === null
                       ? mainImg
-                      : listing.thumbnail_url
+                      : `https://${listing.thumbnail_url}`
                   }
                   alt={`main ${index}`}
                 />
