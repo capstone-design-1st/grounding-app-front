@@ -195,7 +195,7 @@ const OrderBook: React.FC<OrderBookProps> = ({ basePrice }) => {
       socket.close();
       console.log("WebSocket connection closed on cleanup");
     };
-  }, [currentBasePrice, propertyId, setCurrentPrice]);
+  }, [currentBasePrice, propertyId, setCurrentPrice, setFluctuationRate]);
 
   useEffect(() => {
     // 현재 basePrice 위치로 스크롤
