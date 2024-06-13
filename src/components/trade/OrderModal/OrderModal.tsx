@@ -122,6 +122,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
     }
   );
 
+  const [addNumber, setAddNumber] = useState(50);
+
+  useEffect(() => {
+    console.log(propertyDetails?.present_price);
+    setAddNumber(propertyDetails?.present_price! >= 10000 ? 5000 : 50);
+  }, [propertyDetails]);
+
   const buyMutation = useMutation<PostBuyPropertyResponse, Error, TradeDetails>(
     ({ quantity, price }) => postBuyProperty(propertyId, quantity, price),
     {
@@ -285,14 +292,14 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             <button>최대</button>
           </div>
           <div className="inputGroup">
-            <button onClick={() => setPrice(price - 50)}>-</button>
+            <button onClick={() => setPrice(price - addNumber)}>-</button>
             <input
               type="number"
               value={price}
               onChange={(e) => setPrice(parseInt(e.target.value))}
             />
             <span>원</span>
-            <button onClick={() => setPrice(price + 50)}>+</button>
+            <button onClick={() => setPrice(price + addNumber)}>+</button>
           </div>
           <div className="quickButtons">
             <button onClick={() => handleMarketPrice()}>시장가</button>
@@ -337,14 +344,14 @@ const OrderModal: React.FC<OrderModalProps> = ({ onClose }) => {
             ))}
           </div>
           <div className="inputGroup">
-            <button onClick={() => setPrice(price - 50)}>-</button>
+            <button onClick={() => setPrice(price - addNumber)}>-</button>
             <input
               type="number"
               value={price}
               onChange={(e) => setPrice(parseInt(e.target.value))}
             />
             <span>원</span>
-            <button onClick={() => setPrice(price + 50)}>+</button>
+            <button onClick={() => setPrice(price + addNumber)}>+</button>
           </div>
 
           <div className="quickButtons">

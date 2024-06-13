@@ -4,11 +4,16 @@ export interface AccordionItem {
 }
 
 export interface OrderBookEntry {
-  price: number;
-  quantity: number;
-  type: "매도" | "매수";
-  isPriceDecreased?: boolean;
-  currentPrice?: number;
+  fluctuation_rate: number;
+  present_price: number;
+  quotes: {
+    content: {
+      price: number;
+      quantity: number;
+      type: "매도" | "매수";
+      isPriceDecreased?: boolean;
+    }[];
+  };
 }
 
 export interface ChartTableProps {

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface PropertyStoreState {
   propertyId: string | null;
@@ -36,4 +36,18 @@ export const useQuantityPriceStore = create<QuantityPriceStoreState>((set) => ({
   setQuantity: (quantity: number) => set({ quantity }),
   price: 0,
   setPrice: (price: number) => set({ price }),
+}));
+
+interface TradeStoreState {
+  currentPrice: number;
+  fluctuationRate: number;
+  setCurrentPrice: (price: number) => void;
+  setFluctuationRate: (rate: number) => void;
+}
+
+export const usePriceStore = create<TradeStoreState>((set) => ({
+  currentPrice: 0,
+  fluctuationRate: 0,
+  setCurrentPrice: (price) => set({ currentPrice: price }),
+  setFluctuationRate: (rate) => set({ fluctuationRate: rate }),
 }));
