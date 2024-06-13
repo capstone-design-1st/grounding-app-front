@@ -5,50 +5,82 @@ import { formatNumberWithCommas } from "../../../util/formatNumber";
 interface KeypadProps {
   asset: number;
   presentPrice: number;
+  availableShares: number;
   handleBuy: (buyAmount: number) => void;
 }
-const Keypad: React.FC<KeypadProps> = ({ asset, handleBuy, presentPrice }) => {
-  const [price, setPrice] = useState(0);
+
+const Keypad: React.FC<KeypadProps> = ({
+  asset,
+  handleBuy,
+  presentPrice,
+  availableShares,
+}) => {
   const [shares, setShares] = useState(0);
+  const [price, setPrice] = useState(0);
 
   const handleKeyPress = (number: number) => {
-    setPrice((prev) => parseInt(`${prev}${number}`));
+    setShares((prev) => parseInt(`${prev}${number}`));
   };
 
   const handleBackspace = () => {
-    setPrice((prev) => Math.floor(prev / 10));
+    setShares((prev) => Math.floor(prev / 10));
   };
 
   const handleClear = () => {
-    setPrice(0);
+    setShares(0);
   };
 
-  const countPossibleShares = useCallback(
-    (price: number) => {
-      setShares(Math.floor(price / presentPrice));
+  const calculatePrice = useCallback(
+    (shares: number) => {
+      setPrice(shares * presentPrice);
     },
     [presentPrice]
   );
 
   useEffect(() => {
-    countPossibleShares(1000);
-  }, [countPossibleShares]);
+    calculatePrice(shares);
+  }, [shares, calculatePrice]);
 
   useEffect(() => {
     if (asset < price) {
       alert("청약 가능 금액을 초과하였습니다.");
-      setPrice(asset);
+      setShares(Math.floor(asset / presentPrice));
     }
-    countPossibleShares(price);
-  }, [price, asset, countPossibleShares]);
+    if (shares > availableShares) {
+      alert("청약 가능 주식 수량을 초과하였습니다.");
+      setShares(availableShares);
+    }
+  }, [price, asset, presentPrice, availableShares, shares]);
 
   return (
     <div className="keypadcontainer">
       <div className="infoSection">
-        <div className="price">{formatNumberWithCommas(price)} 원</div>
-        <div className="shares">{shares}주</div>
         <div className="available">
-          {formatNumberWithCommas(asset)}원 청약 가능
+          청약할 수 있는 조각이
+          <span
+            style={{
+              fontWeight: "bold",
+              fontSize: "16px",
+              color: "var(--main)",
+            }}
+          >
+            {" "}
+            {formatNumberWithCommas(availableShares)}
+          </span>
+          주 남았어요
+        </div>
+        <div className="price">{formatNumberWithCommas(shares)}주</div>
+        <div className="shares">{formatNumberWithCommas(price)} 원</div>
+        <div
+          style={{
+            fontSize: "14px",
+            color: "#b0b0b0",
+            padding: "5px 10px",
+            borderRadius: " 20px",
+            border: "1px solid #b0b0b0",
+          }}
+        >
+          잔고 {formatNumberWithCommas(asset)} 원
         </div>
       </div>
       <div className="keypadSection">

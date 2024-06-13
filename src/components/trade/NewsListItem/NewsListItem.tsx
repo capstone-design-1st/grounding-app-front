@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import newsImg1 from "../../../assets/imgs/news1.png";
+import newsImg2 from "../../../assets/imgs/news2.png";
 
 interface NewsItem {
   id: string;
@@ -15,19 +16,30 @@ interface NewsItem {
 
 interface NewsProps {
   items: NewsItem[];
+  type: string;
 }
 
-const NewsListItem: React.FC<NewsProps> = ({ items }) => {
+const NewsListItem: React.FC<NewsProps> = ({ items, type }) => {
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  const viewMore = () => {
+    setVisibleCount((prevCount) => prevCount + 3);
+  };
+
   return (
     <div className="news">
-      {items.map((item, index) => (
+      {items.slice(0, visibleCount).map((item, index) => (
         <a
           key={index}
-          href={item.url}
+          href={
+            type === "land"
+              ? "https://www.breaknews.com/1037620"
+              : "https://www.mk.co.kr/news/it/10890778"
+          }
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div key={index} className="newsItem">
+          <div className="newsItem">
             <div className="newsText">
               <div className="newsTitle">{item.title}</div>
               <div className="newsInfo">
@@ -35,14 +47,18 @@ const NewsListItem: React.FC<NewsProps> = ({ items }) => {
               </div>
             </div>
             <img
-              src={item.s3_url ? item.s3_url : newsImg1}
+              src={type === "land" ? newsImg2 : newsImg1}
               alt={item.title}
               className="newsImage"
             />
           </div>
         </a>
       ))}
-      <div className="viewMore">더 보기</div>
+      {visibleCount < items.length && (
+        <div className="viewMore" onClick={viewMore}>
+          더 보기
+        </div>
+      )}
     </div>
   );
 };

@@ -38,7 +38,7 @@ const MyAssetListItem: React.FC<AssetListProps> = ({
       <AssetHeader
         icon={type === "building" ? building : land}
         name={property_name}
-        profit={`${difference_amount}(${fluctuation_rate})`}
+        profit={`${difference_amount}원(${fluctuation_rate}%)`}
       />
       <div className="detailsGrid">
         {Object.entries(details).map(([label, value], index) => (

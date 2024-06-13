@@ -1,6 +1,9 @@
 .myPageTitle {
-  padding: 20px;
   font-size: 20px;
+}
+
+.walletButton:active {
+  transform: scale(0.9);
 }
 
 /*입출금 내역*/

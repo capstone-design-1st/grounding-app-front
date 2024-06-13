@@ -17,6 +17,7 @@ import {
   getAccountTransactions,
   getUserName,
 } from "../../apis/Mypage";
+import { getMyWallet } from "../../apis/Users";
 import { transactionQueryKey } from "../../types";
 import { formatDateAndTime } from "../../util/formatDateAndTime";
 import "./styles.css";
@@ -26,6 +27,7 @@ import deposit from "../../assets/icons/deposit.svg";
 import useAssetStore from "../../store/myAssetStore";
 import { useEffect } from "react";
 import { getToken } from "../../util/token";
+import wallet from "../../assets/icons/wallet.png";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -57,6 +59,17 @@ const MyPage = () => {
   );
 
   const { data: userName } = useQuery("userName", () => getUserName());
+  const { data: myWalletKey } = useQuery("myWallet", () => getMyWallet());
+
+  //  지갑주소 복사
+  const copyWalletKey = () => {
+    if (myWalletKey) {
+      navigator.clipboard
+        .writeText(myWalletKey)
+        .then(() => alert("지갑 주소가 복사되었습니다!"))
+        .catch((err) => console.error("지갑주소 복사 실패:", err));
+    }
+  };
 
   //자산 현황 조회
   const { data: myInvestment } = useQuery("myInvestment", () =>
@@ -254,13 +267,34 @@ const MyPage = () => {
           <img src={arrow} alt="Arrow Icon" onClick={() => navigate(-1)} />
         }
       />
-      <div className="myPageTitle">
-        <strong>{userName.payload.name}</strong>님의 <br />
-        투자현황입니다
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          padding: "20px",
+          boxSizing: "border-box",
+        }}
+      >
+        <div className="myPageTitle">
+          <strong>{userName.payload.name}</strong>님의 <br />
+          투자현황입니다
+        </div>
+
+        <img
+          src={wallet}
+          alt="wallet"
+          style={{
+            width: "35px",
+            marginTop: "-15px",
+            cursor: "pointer",
+          }}
+          className="walletButton"
+          onClick={copyWalletKey}
+        />
       </div>
-
       <Tab tabs={tabs} />
-
       <Navbar selected="mypage" />
     </div>
   );
