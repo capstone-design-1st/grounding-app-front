@@ -29,7 +29,8 @@ const QuotePage = () => {
 
   const location = useLocation();
   const { state } = location;
-  const { priceDifference, presentPrice, propertyId } = state || {};
+  const { priceDifference, presentPrice, propertyId, fluctuationRate } =
+    state || {};
 
   const { data: todayTradingData } = useQuery(
     ["todayTrading", propertyId, 0, 20],
@@ -125,11 +126,12 @@ const QuotePage = () => {
               ) : priceDifference < 0 ? (
                 <span style={{ color: "var(--blue)" }}>
                   ▼{formatNumberWithCommas(priceDifference)}원 (
-                  {priceDifference}%)
+                  {fluctuationRate.toFixed(2)}%)
                 </span>
               ) : (
                 <span style={{ color: "#000" }}>
-                  {formatNumberWithCommas(priceDifference)}원 ({priceDifference}
+                  {formatNumberWithCommas(priceDifference)}원 (
+                  {fluctuationRate.toFixed(2)}
                   %)
                 </span>
               )}

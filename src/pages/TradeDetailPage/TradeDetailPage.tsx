@@ -224,6 +224,8 @@ const TradeDetailPage = () => {
                     propertyId: propertyDetails.property_dto.id,
                     priceDifference:
                       propertyDetails.property_dto.price_difference,
+                    fluctuationRate:
+                      propertyDetails.property_dto.price_difference_rate,
                     presentPrice: propertyDetails.present_price,
                   },
                 });
@@ -444,12 +446,14 @@ const TradeDetailPage = () => {
                 </span>
               ) : propertyDetails.property_dto.price_difference > 0 ? (
                 <span style={{ color: "var(--red)" }}>
-                  ▲ ({fluctuationRate.toFixed(2)}
+                  ▲ {propertyDetails.property_dto.price_difference}원(
+                  {fluctuationRate.toFixed(2)}
                   %)
                 </span>
               ) : (
                 <span style={{ color: "var(--blue)" }}>
-                  ▼ ({fluctuationRate.toFixed(2)}
+                  ▼ {propertyDetails.property_dto.price_difference}원(
+                  {fluctuationRate.toFixed(2)}
                   %)
                 </span>
               )}
