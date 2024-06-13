@@ -28,9 +28,12 @@ import arrow from "../../assets/icons/arrow.svg";
 import heart from "../../assets/icons/heart.png";
 import heartFill from "../../assets/icons/heart-fill.png";
 import smallArrow from "../../assets/icons/small-arrow.svg";
-import defaultImg from "../../assets/imgs/main.png";
 import locationIcon from "../../assets/icons/location.png";
-import { usePropertyStore, useModalStore } from "../../store/tradeStore";
+import {
+  usePropertyStore,
+  useModalStore,
+  usePriceStore,
+} from "../../store/tradeStore";
 import { getToken } from "../../util/token";
 
 const TradeDetailPage = () => {
@@ -41,6 +44,9 @@ const TradeDetailPage = () => {
   const [property, setProperty] = useState({});
 
   const propertyId = id as string;
+
+  const currentPrice = usePriceStore((state) => state.currentPrice);
+  const fluctuationRate = usePriceStore((state) => state.fluctuationRate);
 
   const { setPropertyId, setUploaderWalletKey } = usePropertyStore();
   useEffect(() => {
@@ -268,11 +274,7 @@ const TradeDetailPage = () => {
       content: (
         <div>
           <AssetIntro
-            image={
-              propertyDetails?.thumbnail_url_dto.s3_url
-                ? propertyDetails?.thumbnail_url_dto.s3_url
-                : defaultImg
-            }
+            image={`https://${propertyDetails.thumbnail_url_dto.cloudfront_url}`}
             details={{
               발행가: `${formatNumberWithCommas(
                 propertyDetails?.fundraise_dto.issue_price
@@ -426,15 +428,15 @@ const TradeDetailPage = () => {
           </div>
           <div className="col col2">
             <div className="row">
-              {formatNumberWithCommas(propertyDetails.present_price)}
+              {currentPrice === 0
+                ? propertyDetails.present_price
+                : formatNumberWithCommas(currentPrice)}
+              원
             </div>
             <div className="row">
               {propertyDetails.property_dto.price_difference === 0 ? (
                 <span style={{ color: "#000" }}>
-                  {formatNumberWithCommas(
-                    propertyDetails.property_dto.price_difference
-                  )}
-                  원 (
+                  (
                   {propertyDetails.property_dto.price_difference_rate.toFixed(
                     2
                   )}
@@ -442,23 +444,12 @@ const TradeDetailPage = () => {
                 </span>
               ) : propertyDetails.property_dto.price_difference > 0 ? (
                 <span style={{ color: "var(--red)" }}>
-                  ▲
-                  {formatNumberWithCommas(
-                    propertyDetails.property_dto.price_difference
-                  )}
-                  원 (
-                  {propertyDetails.property_dto.price_difference_rate.toFixed(
-                    2
-                  )}
+                  ▲ ({fluctuationRate.toFixed(2)}
                   %)
                 </span>
               ) : (
                 <span style={{ color: "var(--blue)" }}>
-                  ▼
-                  {formatNumberWithCommas(
-                    propertyDetails.property_dto.price_difference
-                  )}
-                  원 ({propertyDetails.property_dto.price_difference.toFixed(2)}
+                  ▼ ({fluctuationRate.toFixed(2)}
                   %)
                 </span>
               )}
